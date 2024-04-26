@@ -165,7 +165,7 @@ AOS.refresh();
 </div>  
           </div>
         </footer>
-        <div className="flex justify-center bg-black text-white p-3">
+        <div className="flex justify-center bg-black text-green-600 p-3">
           Copyright will be resolved 2024
         </div>
       </div>

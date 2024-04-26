@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-import About from "./Components/About/About";
-// import Contact from "./Components/Contact/Contact";
-// import Courses from "./Components/Courses/Courses";
+import About from "./Components/About/About.jsx";
+import Contact from "./Components/Contact/Contact.jsx";
+import Courses from "./Components/Courses/Courses.jsx";
 import Footer from "./Components/Footer/Footer.jsx";
 import Home from "./Components/Home/Home.jsx";
 import Navbar from "./Components/Navbar/Navbar.jsx";
@@ -18,8 +18,8 @@ function App() {
         <Routes>
         <Route path="/" element={<Navbar />} />
         <Route path="/About" element={<Navbar />} />
-        {/* <Route path="/Contact" element={<Navbar />} /> */}
-        {/* <Route path="/Courses" element={<Navbar />} /> */}
+        <Route path="/Contact" element={<Navbar />} />
+        <Route path="/Courses" element={<Navbar />} />
         {/* <Route path="/Signup" element={<Navbar />} /> */}
         {/* <Route path="/Signin" element={<Navbar />} /> */}
 
@@ -33,8 +33,8 @@ function App() {
           {/* <Route path="/Signup" element={<Signup />} /> */}
           <Route path="/" element={<Home />} />
           <Route path="/About" element={<About />} />
-          {/* <Route path="/Courses" element={<Courses />} /> */}
-          {/* <Route path="/Contact" element={<Contact />} /> */}
+          <Route path="/Courses" element={<Courses />} />
+          <Route path="/Contact" element={<Contact />} />
         </Routes>
 
         <Routes>

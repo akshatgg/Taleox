@@ -1,3 +1,4 @@
+// eslint-disable-next-line react/prop-types
 function Carouserslide({ title, description, image }) {
   return (
     <div className="text-white">
