@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-// import About from "./Components/About/About";
+import About from "./Components/About/About";
 // import Contact from "./Components/Contact/Contact";
 // import Courses from "./Components/Courses/Courses";
 import Footer from "./Components/Footer/Footer.jsx";
@@ -17,7 +17,7 @@ function App() {
       <div>
         <Routes>
         <Route path="/" element={<Navbar />} />
-        {/* <Route path="/About" element={<Navbar />} /> */}
+        <Route path="/About" element={<Navbar />} />
         {/* <Route path="/Contact" element={<Navbar />} /> */}
         {/* <Route path="/Courses" element={<Navbar />} /> */}
         {/* <Route path="/Signup" element={<Navbar />} /> */}
@@ -32,15 +32,14 @@ function App() {
           {/* <Route path="/Signin" element={<Signin />} /> */}
           {/* <Route path="/Signup" element={<Signup />} /> */}
           <Route path="/" element={<Home />} />
-          {/* <Route path="/About" element={<About />} /> */}
+          <Route path="/About" element={<About />} />
           {/* <Route path="/Courses" element={<Courses />} /> */}
           {/* <Route path="/Contact" element={<Contact />} /> */}
         </Routes>
 
         <Routes>
           <Route path="/" element={<Footer />} />
-          {/* <Route path="/About" element={<Footer />} /> */}
-          {/* <Route path="/Contact" element={<Footer />} /> */}
+        
         </Routes>
       </div>
       </Router>

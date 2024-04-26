@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { BsInstagram } from "react-icons/bs";
 import { FaFacebook } from "react-icons/fa";
 import { FiTwitter } from "react-icons/fi";
-import { Link } from "react-router-dom";
 
 import Logo from "../../assets/351264.svg";
 import tree from "../../assets/aboutMainImage.png";
@@ -99,6 +98,10 @@ AOS.refresh();
             </div>
           </div>
         </div>
+
+
+
+
 
         {/* Footer */}
         <footer className="bg-[#383737] text-white mt-[100px] p-4">
