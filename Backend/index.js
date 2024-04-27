@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import userRoutes from "./routes/user.routes.js";
 import { config } from 'dotenv';
 import path from 'path';
+import { fileURLToPath } from "url";
 import cloudinary from 'cloudinary';
 import database from "./config/db.js";
 config();
@@ -35,19 +36,30 @@ app.use('/ping', (req, res) => {
     res.send('/pong');
 });
 
+
+
+
+
+
+
+
 //-------------------------------------Deployment------------------------------------//
 
-const __dirname1 = path.resolve()
-if (process.env.NODE_ENV == 'production') {
-    app.use(express.static(path.join(__dirname1, "/frontend/dist")))
-    app.get('*', (req, res) => {
-        res.sendFile(path.resolve(__dirname1, "frontend" ,"dist", "index.html"));
-    });
-} else {
-    app.use("/", (req, res) => {
-        res.send("running successfull");
-    });
-}
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
+app.use(express.static(path.join(__dirname, '/Backend/frontend/dist')))
+
+
+
+
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname1, "/Backend/frontend/dist/index.html"));
+});
+
+
 
 
 //-------------------------------------Deployment------------------------------------//
