@@ -50,7 +50,7 @@ const Signup = () => {
         name: name,
       };
   
-      const response = await Axios.post('http://localhost:5000/api/auth/user/register', userdata);
+      const response = await Axios.post('/api/auth/user/register', userdata);
   
       if (response.status === 201) {
         alert("Sign up successful");
@@ -80,7 +80,7 @@ const Signup = () => {
 
     <div className="bg-[#000000]">
       <div className="h-screen flex justify-center item-center">
-        <div className="flex justify-center">/home/akshatgupta/LMS/BAckend/server.js
+        <div className="flex justify-center">
           <Lottie
             animationData={animation}
             loop
