@@ -49,14 +49,14 @@ app.use('/ping', (req, res) => {
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-app.use(express.static(path.join(__dirname, '/Backend/frontend/dist')))
+app.use(express.static(path.join(__dirname, '/frontend/dist')))
 
 
 
 
 
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname1, "/Backend/frontend/dist/index.html"));
+    res.sendFile(path.join(__dirname1, "/frontend/dist/index.html"));
 });
 
 
