@@ -1,0 +1,24 @@
+/* Style for the list items */
+.des {
+  position: relative;
+  list-style: none; /* Remove default list bullet */
+  
+}
+
+/* Create the small block */
+.des::before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;    
+  bottom: 0;
+  left: 0;
+  background-color: #f4f0f6; /* Color of the block */
+  transition: width 0.4s ease-in-out;
+  transform-origin: left; /* Make the block expand from the left */
+}
+
+/* Show the block when hovering over the list item */
+.des:hover::before {
+  width: 100%; /* Expand to 100% width on hover */
+}
