@@ -29,7 +29,9 @@ app.use(morgan('dev'));
 
 app.use('/api/auth/user', userRoutes);
 
-
+app.use("/", (req, res) => {
+    res.send("api running successfull");
+});
 app.use('/ping', (req, res) => {
     res.send('/pong');
 });
