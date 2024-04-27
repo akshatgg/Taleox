@@ -4,6 +4,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import userRoutes from "./routes/user.routes.js";
 import { config } from 'dotenv';
+import path from 'path';
 import cloudinary from 'cloudinary';
 import database from "./config/db.js";
 config();
@@ -17,33 +18,48 @@ database()
 app.use(express.json());
 app.use(cors({
     origin: [process.env.CLIENT_URL],
-    methods:["GET","POST","PUT","DELETE"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
 }));
 app.use(cookieParser());
 
-app.get("/", (req, res) => {
-    res.send("Express on Vercel");
-  });
+
 app.use(morgan('dev'));
 
 app.use('/api/auth/user', userRoutes);
 
+app.use("/", (req, res) => {
+    res.send("api running successfull");
+});
 app.use('/ping', (req, res) => {
     res.send('/pong');
 });
 
+//-------------------------------------Deployment------------------------------------//
 
+const __dirname1 = path.resolve()
+if (process.env.NODE_ENV == 'production') {
+    app.use(express.static(path.join(__dirname1, "/frontend/dist")))
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname1, "frontend" ,"dist", "index.html"));
+    });
+} else {
+    app.use("/", (req, res) => {
+        res.send("running successfull");
+    });
+}
+
+
+//-------------------------------------Deployment------------------------------------//
 
 app.listen(PORT, () => {
     console.log(`App is running on PORT:${PORT}`);
 });
 
 
-
 cloudinary.v2.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key:process.env.CLOUDINARY_API_KEY,
-    api_secret:process.env.CLOUDINARY_API_SECRET,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
