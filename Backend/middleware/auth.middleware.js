@@ -10,6 +10,7 @@ if(!token){
     return next(new apperror('Unauthenticated',401))
 }
 
+
 const userdetails=await jwt.verify('token', process.env.jwt_SECRET);
  
 req.user=userdetails;
