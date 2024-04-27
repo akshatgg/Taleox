@@ -50,8 +50,15 @@ const Signup = () => {
         name: name,
       };
   
-      const response = await Axios.post('http://localhost:5000/api/auth/user/register', userdata);
-  
+     const response = fetch('/api/auth/user/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userdata),
+      })
+      
+
       if (response.status === 201) {
         alert("Sign up successful");
         console.log("Sign up successful");
