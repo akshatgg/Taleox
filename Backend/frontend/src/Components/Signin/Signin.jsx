@@ -26,7 +26,7 @@ const Signin = () => {
           password: password,
         };
 
-        const response = await Axios.post("api/auth/user/login", userdata);
+        const response = await Axios.post("http://localhost:5000/api/auth/user/login", userdata);
          
         if (response) {
           alert("Signin succcessfully");
