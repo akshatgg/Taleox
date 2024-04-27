@@ -9,6 +9,8 @@ import { fileURLToPath } from "url";
 import cloudinary from 'cloudinary';
 import database from "./config/db.js";
 config();
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 const app = express();
 const PORT = process.env.PORT;
@@ -19,7 +21,6 @@ database()
 app.use(express.json());
 app.use(cors({
     origin: [process.env.CLIENT_URL],
-    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
 }));
 app.use(cookieParser());
@@ -29,12 +30,10 @@ app.use(morgan('dev'));
 
 app.use('/api/auth/user', userRoutes);
 
-app.use("/", (req, res) => {
-    res.send("api running successfull");
-});
-app.use('/ping', (req, res) => {
-    res.send('/pong');
-});
+
+// app.use('/ping', (req, res) => {
+//     res.send('/pong');
+// });
 
 
 
@@ -46,8 +45,6 @@ app.use('/ping', (req, res) => {
 //-------------------------------------Deployment------------------------------------//
 
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
 
 app.use(express.static(path.join(__dirname, '/frontend/dist')))
 
