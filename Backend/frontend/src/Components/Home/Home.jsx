@@ -97,6 +97,7 @@ function Home() {
 
 
 
+
   <div className="flex justify-center items-center min-h-[700px]">
         <div data-aos="fade-right">
           <p className="text-5xl font-bold text-white font-serif ">
