@@ -9,7 +9,13 @@ import Signin from "./Components/Signin/Signin.jsx";
 import Signup from "./Components/Signup/Signup.jsx";
 
 function App() {
+
+
+
+
+
   return (
+    <div>
     <Router>
       <div>
         {/* Navbar */}
@@ -38,6 +44,7 @@ function App() {
         </Routes>
       </div>
     </Router>
+    </div>
   );
 }
 

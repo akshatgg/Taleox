@@ -9,7 +9,7 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      'http://localhost:5000/api/auth/user' : {
+      'api/auth/user' : {
         target: "http://localhost:5000",
         changeOrigin: true
       }
