@@ -11,6 +11,7 @@
   width: 0;
   height: 2px;
   bottom: 0;
+  
   left: 0;
   background-color: #f4f0f6; /* Color of the block */
   transition: width 0.4s ease-in-out;
