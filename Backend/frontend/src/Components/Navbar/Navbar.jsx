@@ -59,7 +59,7 @@ function Navbar() {
     
   }
   return (
-    <nav className="bg-[#000000] min-h-[110px]">
+    <nav className="colr min-h-[110px]">
       <div className="flex justify-between item">
         <div>
           <img

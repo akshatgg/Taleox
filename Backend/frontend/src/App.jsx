@@ -2,11 +2,11 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import About from "./Components/About/About.jsx";
 import Contact from "./Components/Contact/Contact.jsx";
 import Courses from "./Components/Courses/Courses.jsx";
-import Footer from "./Components/Footer/Footer.jsx";
-import Home from "./Components/Home/Home.jsx";
+
 import Navbar from "./Components/Navbar/Navbar.jsx";
 import Signin from "./Components/Signin/Signin.jsx";
 import Signup from "./Components/Signup/Signup.jsx";
+import Execute from "./Components/Home/Execute.jsx";
 
 function App() {
 
@@ -32,7 +32,7 @@ function App() {
         <Routes>
           <Route path="/Signin" element={<Signin />} />
           <Route path="/Signup" element={<Signup />} />
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Execute />} />
           <Route path="/About" element={<About />} />
           <Route path="/Courses" element={<Courses />} />
           <Route path="/Contact" element={<Contact />} />
