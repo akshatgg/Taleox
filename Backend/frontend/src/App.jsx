@@ -40,7 +40,7 @@ function App() {
 
         {/* Footer */}
         <Routes>
-          <Route path="/" element={<Footer />} />
+          {/* <Route path="/" element={<Footer />} /> */}
         </Routes>
       </div>
     </Router>
