@@ -39,7 +39,6 @@ const register = async (req, res, next) => {
         });
 
         if (!user) {
-
             return next(new apperror('Failed to create user', 400));
         }
 
@@ -59,7 +58,7 @@ if(req.file){
 
 
     //    remove the file from server aftyer uplaoding in the clloudinary
-    //    fs.rm(`uploads/${req.file.filename}`)
+       fs.rm(`uploads/${req.file.filename}`)
     }
    }
 
@@ -113,7 +112,7 @@ const login = async(req, res,next) => {
     if(!user || !user.comparePassword(password)){
         return next(new apperror('Email or password does not match',400))
     }
-    user.password=undefined;
+    // user.password=undefined;
 
     const token=await user.generateJWTToken();
     res.cookie('token',token,cookieOptions);
@@ -157,7 +156,29 @@ const getProfile = async (req, res,next) => {
   }
 }
 
-export { register, login, logout, getProfile };
+
+const forgotPassword=async ()=>{
+
+const {email}=req.body;
+if(!email){
+    return next(new apperror('Please enter a email',400))
+
+}
+
+const user=await User.findOne({email});
+
+if(!user){
+    return next(new apperror('email does not exist',400))
+}
+
+const resetToken=await User.generatePasswordResetToken()
+}
+
+const resetPassword=()=>{
+
+}
+
+export { register, login, logout, getProfile, forgotPassword , resetPassword};
 
 
 

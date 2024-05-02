@@ -83,6 +83,10 @@ userSchema.methods = {
     comparePassword: async function (plainTextPassword) {
         return await bcrypt.compare(plainTextPassword, this.password);
     }
+
+    generatePasswordResetToken: async function(){
+        return
+    }
 };
 const User = model('User', userSchema);
 export default User;
