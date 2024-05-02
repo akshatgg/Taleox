@@ -2,6 +2,7 @@ import apperror from "../utils/error.util.js";
 import User from "../models/user.model.js";
 import emailvalidator from "email-validator";
 import cloudinary from 'cloudinary';
+import fs from "fs/promises";
 const cookieOptions = {
     maxAge: 7 * 24 * 60 * 60 * 1000,
     httpOnly: true,
@@ -34,7 +35,7 @@ const register = async (req, res, next) => {
             number,
             confirmpass,
             username,
-            avatar: { public_id: email, secure_url: '' }
+            avatar: { public_id: "olympic_flag" , secure_url: 'https://upload.wikimedia.org/wikipedia/commons/a/ae/Olympic_flag.jpg' }
         });
 
         if (!user) {
@@ -42,8 +43,8 @@ const register = async (req, res, next) => {
             return next(new apperror('Failed to create user', 400));
         }
 
+        console.log("File Details=>"+JSON.stringify(req.file));
 if(req.file){
-    console.log(req.file);
    try{
     const result = await cloudinary.v2.uploader.upload(req.file.path,{
        folder:'LMS',
@@ -57,8 +58,8 @@ if(req.file){
        user.avatar.secure_url=result.secure_url;
 
 
-       //remove the file from server aftyer uplaoding in the clloudinary
-       fs.rm(`uploads/${req.file.filename}`)
+    //    remove the file from server aftyer uplaoding in the clloudinary
+    //    fs.rm(`uploads/${req.file.filename}`)
     }
    }
 
@@ -79,7 +80,7 @@ if(req.file){
 
         await user.save();
         console.log(name,password,email,username);
-        user.password=undefined;
+        // user.password=undefined;
 
         const token = await user.generateJWTToken();
         res.cookie('token', token, cookieOptions);
@@ -94,6 +95,8 @@ if(req.file){
         return next(new apperror('User registration failed',500));
     }
 };
+
+
 
 const login = async(req, res,next) => {
                  
