@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import About from "./Components/About/About.jsx";
 import Contact from "./Components/Contact/Contact.jsx";
 import Courses from "./Components/Courses/Courses.jsx";
+import Navbar2 from "./Components/Navbar/Navbar2.jsx";
 
 import Navbar from "./Components/Navbar/Navbar.jsx";
 import Signin from "./Components/Signin/Signin.jsx";
@@ -21,11 +22,11 @@ function App() {
         {/* Navbar */}
         <Routes>
           <Route path="/" element={<Navbar />} />
-          <Route path="/About" element={<Navbar />} />
-          <Route path="/Contact" element={<Navbar />} />
-          <Route path="/Courses" element={<Navbar />} />
-          <Route path="/Signup" element={<Navbar />} />
-          <Route path="/Signin" element={<Navbar />} />
+          <Route path="/About" element={<Navbar2 />} />
+          <Route path="/Contact" element={<Navbar2/>} />
+          <Route path="/Courses" element={<Navbar2 />} />
+          <Route path="/Signup" element={<Navbar2 />} />
+          <Route path="/Signin" element={<Navbar2 />} />
         </Routes>
         
         {/* Routes */}
