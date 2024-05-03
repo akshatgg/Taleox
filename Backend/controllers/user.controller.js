@@ -157,7 +157,9 @@ const getProfile = async (req, res,next) => {
 }
 
 
-const forgotPassword=async ()=>{
+
+
+const forgotPassword=async (req,res,next)=>{
 
 const {email}=req.body;
 if(!email){
@@ -172,6 +174,8 @@ if(!user){
 }
 
 const resetToken=await User.generatePasswordResetToken()
+
+await user.save();
 }
 
 const resetPassword=()=>{
