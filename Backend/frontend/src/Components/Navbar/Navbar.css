@@ -22,4 +22,6 @@
 .des:hover::before {
   width: 100%; /* Expand to 100% width on hover */
 }
-
+.colr {
+  background: linear-gradient(200deg, #191970, #050529);
+}

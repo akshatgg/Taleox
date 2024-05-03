@@ -90,8 +90,9 @@ userSchema.methods = {
         this.forgotPasswordToken= crypto
         .createHash('sha256')
         .update(resetToken)
-        .digest('hex')
         
+        .digest('hex')
+
         this.forgotPasswordExpiry=Date.now() +15*60*1000; //15min from now
    
    return resetToken;
