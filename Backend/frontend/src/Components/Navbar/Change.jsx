@@ -1,4 +1,4 @@
-import "./Navbar.css";
+import "./Changes.css";
 
 import Logout from "@mui/icons-material/Logout";
 import PersonAdd from "@mui/icons-material/PersonAdd";
@@ -26,6 +26,7 @@ function Navbar() {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
+    
     setAnchorEl(null);
   };
 
@@ -59,8 +60,8 @@ function Navbar() {
     
   }
   return (
-    <nav className="colr min-h-[110px] bg-black">
-      <div className="flex justify-between item">
+    <nav className="min-h-[110px] bg-black ">
+      <div className="flex justify-between item ">
         <div>
           <img
             src={OpenLMSLogo}
