@@ -11,7 +11,7 @@ if(!token){
 }
 
 
-const userdetails=await jwt.verify('token', process.env.jwt_SECRET);
+const userdetails=await jwt.verify(token, process.env.jwt_SECRET);
  
 req.user=userdetails;
  

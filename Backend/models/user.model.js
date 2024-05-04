@@ -45,6 +45,10 @@ const userSchema = new Schema({
             type: String,
         }
     },
+    subscription: {
+        id: String,
+        status: String,
+      },
     number: {
       type: Number,
     },
@@ -95,7 +99,7 @@ userSchema.methods = {
         
         .digest('hex')
 
-        this.forgotPasswordExpiry=Date.now() +15*60*1000; //15min from now
+        this.forgotPasswordExpiryDate=Date.now() +15*60*1000; //15min from now
    
    return resetToken;
     }

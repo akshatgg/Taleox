@@ -190,7 +190,7 @@ try{
     })
 }
 catch(e){
-    user.forgotPasswordExpiry=undefined;
+    user.forgotPasswordExpiryDate=undefined;
     user.forgotPasswordToken=undefined;
     
     await user.save();
@@ -200,19 +200,19 @@ catch(e){
 
 }
 
-const resetPassword=async()=>{
+const resetPassword=async(req, res, next)=>{
     const {resetToken} =req.params;
 
     const {password}=req.body;
 
     const forgotPasswordToken=crypto
-    .create('sha256')
+    .createHash('sha256')
     .update(resetToken) 
     .digest('hex')
 
     const user=await User.findOne({
         forgotPasswordToken,
-        forgotPasswordExpiry:{sqt:Date.now()}
+        forgotPasswordExpiryDate:{ $gt : Date.now() }
     });
 
     if(!user){
@@ -220,17 +220,101 @@ const resetPassword=async()=>{
     }
     user.password=password;
     user.forgotPasswordToken=undefined;
-    user.forgotPasswordExpiry=undefined;
+    user.forgotPasswordExpiryDate=undefined;
     user.save();
 
 
     res.status(200).json({
         success:true,
-        message:"your password is been successfully"
+        message:"your password is been changed successfully"
     })
 }
 
-export { register, login, logout, getProfile, forgotPassword , resetPassword};
+
+
+
+const changePassword=async(req,res,next)=>{
+  const { oldPassword , newpassword}= req.body;
+  const {id} =req.user;
+  
+  if(!oldPassword && !newpassword){
+    return next(new apperror("fill every fields" ,400))
+  }
+  
+const user=await User.findById(id).select('+password');
+  if(!user){
+    return next(new apperror("Token expiry time reached",400));
+
+  }
+  const isPasswordValid =await user.comparePassword(oldPassword);
+  
+  if(!isPasswordValid){
+    return next(new apperror("Password does not match",400));
+
+  }
+user.password=newpassword;
+await user.save();
+user.password=undefined;
+
+res.status(200).json({
+    success:true,
+    message:"your password is been changed successfully"
+})
+
+}
+
+
+
+
+const updateuser =async (req,res,next)=>{
+const {fullName}=req.body;
+const {id}=req.user.id;
+
+const user= await User.findById(id);
+if(!user){
+    return next(new apperror("Token expiry time reached",400));
+
+}
+if(req.fullName){
+    user.fullName=fullName;
+}
+if(req.file){
+    await cloudinary.v2.uploader.destroy(user.avatar.public_id);
+
+    try{
+        const result = await cloudinary.v2.uploader.upload(req.file.path,{
+           folder:'LMS',
+           width:250,
+           height:250,
+           gravity:'faces',
+           crop:'fill'
+        });
+        if(result){
+           user.avatar.public_id =result.public_id;
+           user.avatar.secure_url=result.secure_url;
+    
+    
+        //    remove the file from server aftyer uplaoding in the clloudinary
+           fs.rm(`uploads/${req.file.filename}`)
+        }
+       }
+    
+    
+       catch(e){
+        console.log(e.message);
+        return next(new apperror(error || 'File not uploaded ,please try again'));
+       }
+}
+await user.save();
+
+res.status(200).json({
+    success:true,
+    message:"Profile updated successfully"
+})
+
+}
+
+export { register, login, logout, getProfile, forgotPassword , resetPassword, changePassword, updateuser};
 
 
 
