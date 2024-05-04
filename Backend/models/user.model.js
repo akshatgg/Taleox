@@ -27,7 +27,9 @@ const userSchema = new Schema({
         type: String,
         minlength: [6, 'Password should be at least 6 characters long'],
         maxlength: [50, 'Password cannot exceed 50 characters'],
-        trim: true
+        trim: true,
+        select: false
+
     },
     username:{
         type: String,
@@ -97,6 +99,8 @@ userSchema.methods = {
    
    return resetToken;
     }
+
+    
 };
 const User = model('User', userSchema);
 export default User;

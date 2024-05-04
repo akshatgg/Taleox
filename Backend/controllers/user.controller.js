@@ -1,8 +1,11 @@
 import apperror from "../utils/error.util.js";
 import User from "../models/user.model.js";
-import emailvalidator from "email-validator";
+// import emailvalidator from "email-validator";
 import cloudinary from 'cloudinary';
 import fs from "fs/promises";
+import sendEmail from "../utils/sendemail.js";
+import crypto from 'crypto';
+import { log } from "console";
 const cookieOptions = {
     maxAge: 7 * 24 * 60 * 60 * 1000,
     httpOnly: true,
@@ -23,11 +26,7 @@ const register = async (req, res, next) => {
         if (userExist) {
             return next(new apperror('Email already exists', 400));
         }
-        const validemail = emailvalidator.validate(email);
-        if (!validemail) {
-            return next(new apperror('Email is not in perfect format' ,400));
-        }
-        
+    
         const user = await User.create({
             name,
             email,
@@ -166,20 +165,69 @@ if(!email){
     return next(new apperror('Please enter a email',400))
 
 }
+console.log(req.body);
 
 const user=await User.findOne({email});
 
 if(!user){
     return next(new apperror('email does not exist',400))
 }
-
-const resetToken=await User.generatePasswordResetToken()
+console.log(user);
+const resetToken=await user.generatePasswordResetToken()
 
 await user.save();
+
+
+const resetPasswordurl= `${process.env.CLIENT_URL}/reset-password/${resetToken}`
+console.log(resetPasswordurl);
+const subject="Reset Password"
+const message=`You can reset your password by clicking on <a href=${resetPasswordurl} target="_blank">Reset Your Password</a>\n If the above link is not working then copy the link and paste on your new tab ${resetPasswordurl} `;
+try{
+    await sendEmail(email,subject,message);
+    res.status(200).json({
+        success:true,
+        message:`Reset password token has been sent to ${email} successfully`
+    })
+}
+catch(e){
+    user.forgotPasswordExpiry=undefined;
+    user.forgotPasswordToken=undefined;
+    
+    await user.save();
+    return next(new apperror(e.message,500));
 }
 
-const resetPassword=()=>{
 
+}
+
+const resetPassword=async()=>{
+    const {resetToken} =req.params;
+
+    const {password}=req.body;
+
+    const forgotPasswordToken=crypto
+    .create('sha256')
+    .update(resetToken) 
+    .digest('hex')
+
+    const user=await User.findOne({
+        forgotPasswordToken,
+        forgotPasswordExpiry:{sqt:Date.now()}
+    });
+
+    if(!user){
+        return next(new apperror("Token expiry time reached",400));
+    }
+    user.password=password;
+    user.forgotPasswordToken=undefined;
+    user.forgotPasswordExpiry=undefined;
+    user.save();
+
+
+    res.status(200).json({
+        success:true,
+        message:"your password is been successfully"
+    })
 }
 
 export { register, login, logout, getProfile, forgotPassword , resetPassword};

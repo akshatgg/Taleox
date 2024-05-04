@@ -17,7 +17,7 @@ const PORT = process.env.PORT;
 console.log(PORT)
 database()
 
-
+app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 // app.use(cors({
 //     origin: [process.env.CLIENT_URL],

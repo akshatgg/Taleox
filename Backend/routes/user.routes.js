@@ -8,6 +8,6 @@ router.post('/register',upload.single("avatar"), register);
 router.post('/login', login);
 router.get('/logout', logout);
 router.get('/me', isloggedIn , getProfile);
-router.post('/forgot-password' , forgotPassword);
-router.post('/reset-password',resetPassword);
+router.post('/reset-password' , forgotPassword);
+router.post('/reset-password/:resetToken',resetPassword);
 export default router;
