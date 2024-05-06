@@ -1,5 +1,5 @@
 import { Schema,model } from "mongoose";
-const userSchema= new Schema({
+const courseSchema= new Schema({
  title:{
     type:String,
     required:[true,'Title is required'],
@@ -64,3 +64,5 @@ const userSchema= new Schema({
     timestamps:true
 })
 
+const Course=model('Course',courseSchema);
+export default Course;
