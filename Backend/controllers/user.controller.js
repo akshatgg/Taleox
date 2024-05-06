@@ -49,7 +49,6 @@ if(req.file){
        width:250,
        height:250,
        gravity:'faces',
-       
        crop:'fill'
     });
     if(result){
