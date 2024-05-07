@@ -8,6 +8,7 @@ import path from 'path';
 import { fileURLToPath } from "url";
 import cloudinary from 'cloudinary';
 import database from "./config/db.js";
+import courseRoutes from "./routes/course.routes.js"
 config();
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -29,6 +30,7 @@ app.use(cookieParser());
 app.use(morgan('dev'));
 
 app.use('/api/auth/user', userRoutes);
+app.use('/api/auth/courses', courseRoutes);
 
 
 // app.use('/ping', (req, res) => {
