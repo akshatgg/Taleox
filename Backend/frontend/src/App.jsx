@@ -20,6 +20,7 @@ function App() {
     <Router>
       <div>
         {/* Navbar */}
+        <div className="z-1000">
         <Routes>
           <Route path="/" element={<Navbar />} />
           <Route path="/About" element={<Change />} />
@@ -28,6 +29,7 @@ function App() {
           <Route path="/Signup" element={<Change />} />
           <Route path="/Signin" element={<Change />} />
         </Routes>
+        </div>
         
         {/* Routes */}
         <Routes>

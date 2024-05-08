@@ -2,14 +2,25 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap");
 
-html,
-body {
+.space {
+  position: absolute;
+  top: 20%; /* Leaves 20% of the screen from the top */
+
   width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
+  height: calc(
+    80% 
+  ); /* Takes remaining space after leaving 20% from the top */
+  /* Other styling properties */
   /* background: linear-gradient(to bottom, #000000, #050505); */
 
+  /* background: linear-gradient(to bottom, #000000, #050505); */
+}
+.spaces {
+  z-index: 0;
+  /* width: 100%; */
+  height: 100vh;
+
+  /* background: linear-gradient(to bottom, #000000, #050505); */
 }
 
 .slides,
@@ -22,5 +33,3 @@ body > .dg {
   position: relative;
   top: -10%;
 }
-
-
