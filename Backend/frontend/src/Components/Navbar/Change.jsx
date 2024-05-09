@@ -70,7 +70,7 @@ function Navbar() {
           />
         </div>
         <div>
-          <div className="flex justify-between text-white text-[23px] items-center mr-7 mt-2">
+          <div className="flex justify-between text-white  items-center mr-7 mt-2">
             <Link to="/" className="des mx-6">
               Home
             </Link>
@@ -207,3 +207,52 @@ function Navbar() {
 }
 
 export default Navbar;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const form = useRef();
+
+// //   const sendEmail = (e) => {
+// //     e.preventDefault();
+
+// //     emailjs.sendForm('service_o3t5lxg', 'template_fgorclf', form.current, 'gpGpva79IfwwFH4Ql')
+// //     .then((result) => {
+// //       console.log('SUCCESS!',result.text);
+
+// //       form.current.reset();
+
+// //     })
+// //     .catch((error) => {
+// //       console.error('Error sending message:', error);
+// //       // Add code to display an error popup or message
+// //     });
+// //   };
+
+// useEffect(() => {
+//   AOS.init({ duration: 1000 });
+
+//   AOS.refresh();
+// }, []);

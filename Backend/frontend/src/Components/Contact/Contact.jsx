@@ -122,6 +122,10 @@ function Contact() {
         </div>
       </div>
 
+
+
+
+
       <footer className="bg-[#383737] text-white mt-[100px] p-4">
         <div className="flex justify-around items-center h-full px-4 max-w-[1440px] mx-auto">
           <div className="flex flex-col">

@@ -305,8 +305,8 @@ if(req.file){
         return next(new apperror(error || 'File not uploaded ,please try again'));
        }
 }
-await user.save();
 
+await user.save();
 res.status(200).json({
     success:true,
     message:"Profile updated successfully"
