@@ -11,12 +11,12 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Tooltip from "@mui/material/Tooltip";
-import  Axios  from "axios";
+import Axios from "axios";
 import * as React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-
+import { BsFillArrowDownCircleFill } from "react-icons/bs";
 import OpenLMSLogo from "../../assets/351264.svg";
 
 function Navbar() {
@@ -42,22 +42,19 @@ function Navbar() {
 
     if (!loginstate) {
       profile.style.display = "none";
-    }
-    else{
+    } else {
       profile.style.display = "block";
-
     }
   }, [loginstate]);
 
-
-  const handle=async()=>{
-    const response = await Axios.get('http://localhost:5000/api/auth/user/logout');
+  const handle = async () => {
+    const response = await Axios.get(
+      "http://localhost:5000/api/auth/user/logout"
+    );
     sessionStorage.setItem("login", JSON.stringify(false));
 
     window.location.reload();
-
-    
-  }
+  };
   return (
     <nav className="colr min-h-[110px] -z-50">
       <div className="flex justify-between item">
@@ -69,7 +66,7 @@ function Navbar() {
           />
         </div>
         <div>
-          <div className="flex justify-between text-white text-[23px] items-center mr-7 mt-2">
+          <div className="flex justify-between text-white items-center mr-7 mt-2">
             <Link to="/" className="des mx-6">
               Home
             </Link>
@@ -159,7 +156,12 @@ function Navbar() {
                     </ListItemIcon>
                     Settings
                   </MenuItem>
-                  <MenuItem onClick={() => { handleClose(); handle(); }}>
+                  <MenuItem
+                    onClick={() => {
+                      handleClose();
+                      handle();
+                    }}
+                  >
                     <ListItemIcon>
                       <Logout fontSize="small" />
                     </ListItemIcon>

@@ -11,7 +11,7 @@
   width: 0;
   height: 2px;
   bottom: 0;
-  
+
   left: 0;
   background-color: #f4f0f6; /* Color of the block */
   transition: width 0.4s ease-in-out;
@@ -24,4 +24,7 @@
 }
 .colr {
   background: linear-gradient(200deg, #191970, #050529);
+}
+.des {
+  font-size: larger;
 }

@@ -7,9 +7,7 @@
   top: 20%; /* Leaves 20% of the screen from the top */
 
   width: 100%;
-  height: calc(
-    80% 
-  ); /* Takes remaining space after leaving 20% from the top */
+  height: calc(70%); /* Takes remaining space after leaving 20% from the top */
   /* Other styling properties */
   /* background: linear-gradient(to bottom, #000000, #050505); */
 
@@ -32,4 +30,30 @@ body > .dg {
 .draw {
   position: relative;
   top: -10%;
+}
+
+.arrow-icon {
+  display: flex;
+  justify-content: center;
+  color: rgb(247, 246, 246);
+  animation: shake 0.4s infinite alternate; /* Add shake animation */
+  cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+@keyframes shake {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-5px); } /* Adjust the distance of shake */
+}
+
+.arrow {
+  font-size: 40px;
+  width: 20px;
+  border-radius: 50% / 70%; /* Make it oval-shaped */
+  border: 1px solid white; /* White border */
+  padding: 4px; /* Add space between border and arrow */
+}
+
+/* Add smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
 }
