@@ -2,8 +2,6 @@ import apperror from "../utils/error.util.js";
 import Course from "../models/course.model.js";
 
 
-
-
 const getAllCourses=async(req,res,next)=>{
 
     try{
@@ -48,4 +46,22 @@ catch(e){
 
 }
 
-export  {getAllCourses,getLecturesByCourseId};
+const createCourse=(req,res,next)=>{
+const {title, description, category, createdBy} =req.body;
+if(!title && !description && !category && !createdBy){
+    return next(new apperror("give every field",400))
+}
+    
+}
+
+const updateCourse=(req,res,next)=>{
+
+
+}
+
+const removeCourse=(req,res,next)=>{
+
+
+}
+
+export  {getAllCourses,getLecturesByCourseId,createCourse,updateCourse,removeCourse};

@@ -1,17 +1,18 @@
 import * as dat from "dat.gui";
 import "aos/dist/aos.css";
 import "./particle.css";
+import { Link } from 'react-scroll';
 import { useEffect } from "react";
 import { FaArrowDown } from "react-icons/fa";
 function Particle() {
 
 
-  const scrollDown=()=> {
-    window.scrollBy({
-        top: window.innerHeight,
-        behavior: 'smooth'
-    });
-}
+//   const scrollDown=()=> {
+//     window.scrollBy({
+//         top: window.innerHeight,
+//         behavior: 'smooth'
+//     });
+// }
 
   useEffect(() => {
     const init = () => {
@@ -96,8 +97,12 @@ function Particle() {
 
       
       <canvas className="draw"></canvas>
-   <div className="arrow-icon" onClick={scrollDown}>
+   <div className="arrow-icon" >
+    <Link to="Home" spy={true} 
+      smooth={true} 
+      duration={500} >
     <FaArrowDown  className="arrow" />
+    </Link>
     </div>
     </div>
     </div>
