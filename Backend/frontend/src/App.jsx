@@ -8,6 +8,7 @@ import Navbar from "./Components/Navbar/Navbar.jsx";
 import Signin from "./Components/Signin/Signin.jsx";
 import Signup from "./Components/Signup/Signup.jsx";
 import Execute from "./Components/Home/Execute.jsx";
+import Footer from "./Components/Footer/Footer.jsx";
 
 function App() {
 
@@ -43,7 +44,9 @@ function App() {
 
         {/* Footer */}
         <Routes>
-          {/* <Route path="/" element={<Footer />} /> */}
+          <Route path="/About" element={<Footer/>} />
+          <Route path="/Contact" element={<Footer/>} />
+          <Route path="/Courses" element={<Footer/>} />
         </Routes>
       </div>
     </Router>
