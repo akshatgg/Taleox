@@ -311,10 +311,26 @@ res.status(200).json({
     success:true,
     message:"Profile updated successfully"
 })
-
 }
 
-export { register, login, logout, getProfile, forgotPassword , resetPassword, changePassword, updateuser};
+
+
+
+const getAllIds= async (req,res,next)=>{
+    try{
+        const IDs = await User.find({}).select('-password -confirmpass');        res.status(200).json({
+            success:true,
+            message:"All IDS",
+            IDs,
+        });
+    }
+    catch(e){
+        return next(new apperror(e.message,500));
+    }
+    
+}
+
+export { register, login, logout, getProfile, forgotPassword , resetPassword, changePassword, updateuser, getAllIds};
 
 
 

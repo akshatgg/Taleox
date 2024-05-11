@@ -19,6 +19,7 @@ const getAllCourses=async(req,res,next)=>{
     catch(e){
         return next(new apperror(e.message,500));
     }
+    
  
 
 
@@ -96,15 +97,60 @@ res.status(200).json({
     course,
 });
 
-}
-
-const updateCourse=(req,res,next)=>{
-
 
 }
 
-const removeCourse=(req,res,next)=>{
+const updateCourse=async(req,res,next)=>{
+try{
+      const {id}=req.params;
 
+       const course= await Course.findByIdAndUpdate(
+        id,
+        {
+            $set: req.body
+        },
+        {
+            runValidators:true
+        }
+       )
+
+if(!course){
+    return next(new apperror(e.message,500));
+}
+
+res.status(200).json({
+    success: true,
+    message: "course updated successfully",
+    course,
+});
+
+}
+   catch(e){
+        return next(new apperror(e.message,500));
+    }
+}
+
+const removeCourse=async(req,res,next)=>{
+    try{
+       const {id}=req.params;
+       const course= await Course.findById(id);
+
+       if(!course){
+        return next(new apperror(e.message,500));
+    }
+
+
+    await course.deleteOne();
+    res.status(200).json({
+        success: true,
+        message: "course deleted successfully",
+        course,
+    });
+       
+    }
+    catch(e){
+        return next(new apperror(e.message,500));
+    }  
 
 }
 
