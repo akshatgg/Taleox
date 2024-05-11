@@ -14,7 +14,7 @@ const cookieOptions = {
 
 const register = async (req, res, next) => {
     try {
-        const { name, email, password, confirmpass,username,number } = req.body;
+        const { name, email, password, confirmpass,username,number ,role} = req.body;
 
         if (!name || !email || !password || !confirmpass || !username || !number) {
             return next(new apperror('All fields are required', 400));
@@ -34,7 +34,8 @@ const register = async (req, res, next) => {
             number,
             confirmpass,
             username,
-            avatar: { public_id: "olympic_flag" , secure_url: 'https://upload.wikimedia.org/wikipedia/commons/a/ae/Olympic_flag.jpg' }
+            avatar: { public_id: "olympic_flag" , secure_url: 'https://upload.wikimedia.org/wikipedia/commons/a/ae/Olympic_flag.jpg' },
+            role
         });
 
         if (!user) {
@@ -287,7 +288,8 @@ if(req.file){
            width:250,
            height:250,
            gravity:'faces',
-           crop:'fill'
+           crop:'fill',
+           role: ADMIN || role,
         });
         if(result){
            user.avatar.public_id =result.public_id;
