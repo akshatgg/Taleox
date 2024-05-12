@@ -12,7 +12,7 @@ import courseRoutes from "./routes/course.routes.js"
 config();
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
-
+import Razorpay from 'razorpay';
 const app = express();
 const PORT = process.env.PORT;
 console.log(PORT)
@@ -73,4 +73,12 @@ cloudinary.v2.config({
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET,
 });
+
+
+
+
+export const razorpay = new razorpay=() =>{
+key_id=process.env.RAZORPAY_PLAN_ID   ,
+key_secret=process.env.RAZORPAY_SECRET
+}
 

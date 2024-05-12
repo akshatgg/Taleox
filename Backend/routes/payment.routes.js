@@ -1,22 +1,24 @@
 import {Router} from 'express';
 const router = Router();
-
+import { getpaymentAPIKey,buySubscription,verifySubscription,cancelSubscription,allPayments } from '../controllers/payment.controller'
+import { isloggedIn,authorizedRoles } from "../middleware/auth.middleware.js";
 
 router.route('/payment-key')
 .get(getpaymentAPIKey);
 
 
 router.route('/subscribe')
-.post(buySubscription)
+.post(isloggedIn,buySubscription)
 
 router.route('/verify')
-.post(verifySubscription)
+.post(isloggedIn,verifySubscription)
 
 router.route('/unsubscribe')
-.post(cancelSubscription)
+.post(isloggedIn,cancelSubscription)
 
 router.route('/')
-.get(allPayments);
+.get(isloggedIn,    authorizedRoles('ADMIN'),
+allPayments);
 
 
 export default router;
