@@ -34,7 +34,7 @@ const Signin = () => {
           console.log(userdata);
           console.log("login successfully");
           sessionStorage.setItem("login",JSON.stringify(true));
-
+          window.location.reload();
 
 
         } else {

@@ -16,7 +16,6 @@ import * as React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { BsFillArrowDownCircleFill } from "react-icons/bs";
 import OpenLMSLogo from "../../assets/351264.svg";
 
 function Navbar() {
@@ -35,22 +34,28 @@ function Navbar() {
 
   const toggleButtons = () => {
     setShowButtons(!showButtons);
+    
   };
 
   useEffect(() => {
+    if(loginstate){
+      document.getElementById('down-arrow').style.display="none";
+
+    }
     const profile = document.getElementById("profile");
 
     if (!loginstate) {
       profile.style.display = "none";
     } else {
       profile.style.display = "block";
-    }
+    }  
   }, [loginstate]);
 
   const handle = async () => {
     const response = await Axios.get(
       "http://localhost:5000/api/auth/user/logout"
     );
+    console.log(response);
     sessionStorage.setItem("login", JSON.stringify(false));
 
     window.location.reload();
@@ -184,7 +189,7 @@ function Navbar() {
             )}
           </div>
           <div className="flex justify-center item-center">
-            <button onClick={toggleButtons}>
+            <button onClick={toggleButtons} id="down-arrow">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6 text-white"

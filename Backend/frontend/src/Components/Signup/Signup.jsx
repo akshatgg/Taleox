@@ -24,10 +24,8 @@ const Signup = () => {
  
   
   
-  const loginstate = JSON.parse(sessionStorage.getItem("login"));
-  const changelogin = () => {
-    sessionStorage.setItem("login", JSON.stringify(!loginstate));
-  };
+  // const loginstate = JSON.parse(sessionStorage.getItem("login"));
+
   
   const handle = async () => {
     if (!email || !password || !confirmpass || !username || !number) {
@@ -57,7 +55,7 @@ const Signup = () => {
         console.log("Sign up successful");
         console.log(response);
         console.log(userdata);
-        changelogin();
+       
         setdivert(true);
        
       } else {
