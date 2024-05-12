@@ -5,7 +5,6 @@ import cloudinary from 'cloudinary';
 import fs from "fs/promises";
 import sendEmail from "../utils/sendemail.js";
 import crypto from 'crypto';
-import { log } from "console";
 const cookieOptions = {
     maxAge: 7 * 24 * 60 * 60 * 1000,
     httpOnly: true,
@@ -331,6 +330,8 @@ const getAllIds= async (req,res,next)=>{
     }
     
 }
+
+
 
 export { register, login, logout, getProfile, forgotPassword , resetPassword, changePassword, updateuser, getAllIds};
 

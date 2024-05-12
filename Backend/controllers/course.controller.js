@@ -211,11 +211,53 @@ const addLecturesToCourse = async (req, res, next) => {
     }
 };
 
+
+
+const removeLecture = async (req, res, next) => {
+    try {
+        const { courseId, lectureId } = req.params;
+        const course = await Course.findById(courseId);
+
+        if (!course) {
+            return next(new apperror("Course not found", 404));
+        }
+
+        console.log('Course:', course); // Log the course object for debugging
+
+        // Find the index of the lecture in the array
+        const lectureIndex = course.lectures.findIndex(lecture => lecture._id === lectureId);
+
+        console.log('Lecture Index:', lectureIndex); // Log the lecture index for debugging
+
+        // If the lecture is not found, return an error
+        if (lectureIndex === -1) {
+            return next(new apperror("Lecture not found", 404));
+        }
+
+        // Remove the lecture from the array
+        course.lectures.splice(lectureIndex, 1);
+
+        // Save the updated course
+        await course.save();
+
+        res.status(200).json({
+            success: true,
+            message: "Lecture removed successfully",
+        });
+
+    } catch (error) {
+        return next(new apperror(error.message, 500));
+    }
+};
+
+
+
 export {
     getAllCourses,
     getLecturesByCourseId,
     createCourse,
     updateCourse,
     removeCourse,
-    addLecturesToCourse
+    addLecturesToCourse,
+    removeLecture
 };
