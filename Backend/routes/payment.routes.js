@@ -10,6 +10,7 @@ router.route('/payment-key')
 router.route('/subscribe')
 .post(isloggedIn,buySubscription)
 
+
 router.route('/verify')
 .post(isloggedIn,verifySubscription)
 

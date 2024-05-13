@@ -21,7 +21,6 @@ next();
 
 
 
-
 const authorizedRoles=(...roles)=>async (req,res,next)=>{
     const currentUserRoles =req.user.role;
 

@@ -214,40 +214,59 @@ const addLecturesToCourse = async (req, res, next) => {
 
 
 const removeLecture = async (req, res, next) => {
-    try {
-        const { courseId, lectureId } = req.params;
-        const course = await Course.findById(courseId);
+    const { courseId, lectureId } = req.query;
 
-        if (!course) {
-            return next(new apperror("Course not found", 404));
-        }
-
-        console.log('Course:', course); // Log the course object for debugging
-
-        // Find the index of the lecture in the array
-        const lectureIndex = course.lectures.findIndex(lecture => lecture._id === lectureId);
-
-        console.log('Lecture Index:', lectureIndex); // Log the lecture index for debugging
-
-        // If the lecture is not found, return an error
-        if (lectureIndex === -1) {
-            return next(new apperror("Lecture not found", 404));
-        }
-
-        // Remove the lecture from the array
-        course.lectures.splice(lectureIndex, 1);
-
-        // Save the updated course
-        await course.save();
-
-        res.status(200).json({
-            success: true,
-            message: "Lecture removed successfully",
-        });
-
-    } catch (error) {
-        return next(new apperror(error.message, 500));
+    console.log(courseId);
+  
+    // Checking if both courseId and lectureId are present
+    if (!courseId) {
+      return next(new apperror('Course ID is required', 400));
     }
+  
+    if (!lectureId) {
+      return next(new apperror('Lecture ID is required', 400));
+    }
+  
+    // Find the course uding the courseId
+    const course = await Course.findById(courseId);
+  
+    // If no course send custom message
+    if (!course) {
+      return next(new apperror('Invalid ID or Course does not exist.', 404));
+    }
+  
+    // Find the index of the lecture using the lectureId
+    const lectureIndex = course.lectures.findIndex(
+      (lecture) => lecture._id.toString() === lectureId.toString()
+    );
+  
+    // If returned index is -1 then send error as mentioned below
+    if (lectureIndex === -1) {
+      return next(new apperror('Lecture does not exist.', 404));
+    }
+  
+    // Delete the lecture from cloudinary
+    await cloudinary.v2.uploader.destroy(
+      course.lectures[lectureIndex].lecture.public_id,
+      {
+        resource_type: 'video',
+      }
+    );
+  
+    // Remove the lecture from the array
+    course.lectures.splice(lectureIndex, 1);
+  
+    // update the number of lectures based on lectres array length
+    course.numbersOfLectures = course.lectures.length;
+  
+    // Save the course object
+    await course.save();
+  
+    // Return response
+    res.status(200).json({
+      success: true,
+      message: 'Course lecture removed successfully',
+    });
 };
 
 
