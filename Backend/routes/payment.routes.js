@@ -1,6 +1,6 @@
 import {Router} from 'express';
 const router = Router();
-import { getpaymentAPIKey,buySubscription,verifySubscription,cancelSubscription,allPayments } from '../controllers/payment.controller'
+import { getpaymentAPIKey,buySubscription,verifySubscription,cancelSubscription,allPayments } from '../controllers/payment.controller.js'
 import { isloggedIn,authorizedRoles } from "../middleware/auth.middleware.js";
 
 router.route('/payment-key')

@@ -1,7 +1,7 @@
 import apperror from "../utils/error.util.js";
 import Payment from "../models/payment.model.js";
 import User from "../models/user.model.js";
-// import Razorpay from 'razorpay';
+import razorpay from '../index.js';
 
 
 const getpaymentAPIKey=async(req,res,next)=>{
@@ -28,8 +28,8 @@ const buySubscription=async(req,res,next)=>{
 
     if(user.role == 'ADMIN'){
         return next(new apperror('ADMIN cannot purchase a subscription', 400));
-
     }
+    
 
     const subscription =await razorpay.subscription.create({
 
@@ -54,6 +54,11 @@ const buySubscription=async(req,res,next)=>{
 }
 
 
+
+
+
+
+
 const verifySubscription=async(req,res,next)=>{
   const {id}= req.user;
   const{payment_id ,PushSubscription_id, signature_id} =req.body;
@@ -73,18 +78,84 @@ const generateSignature= crypto
 .digest('hex');
 
 if(generateSignature !== signature_id){
-    return next(new apperror('payment not happend verifr agauin', 400));
+    return next(new apperror('payment not happend verified agauin', 400));
 
 }
+await Payment.create({
+    payment_id,
+    signature_id,
+    PushSubscription_id
+
+})
+user.subscription.status='active';
+await user.save();
+
+
+
+res.status(200).json({
+    success: true,
+    message: "payment verify sucessfully",
+    
+  
+});
+}
+
+
 
 
 const cancelSubscription=async(req,res,next)=>{
+const {id} = req.user;
+
+const user = await User.findById(id);
+if(user.role == 'ADMIN'){
+    return next(new apperror('ADMIN cannot purchase a subscription', 400));
+}
+
+
+if(!user){
+    return next(new apperror('Unauthorized, please login', 400));
 
 }
+
+
+    const subscriptionId= user.subscription.id;
+
+    const subscription= await razorpay.subscription.cancel(
+
+        subscriptionId
+    )
+
+    user.subscription.status=subscription.status
+    await user.save();
+
+}
+
+
+
+
 
 const allPayments=async(req,res,next)=>{
 
-}
+    try{
+
+        const {count} =req.query;
+       
+        const subscriptions =await razorpay.subscriptions.all({
+          count: count || 10,
+        })
+       
+        res.status(200).json({
+           success: true,
+           message: "All payments",
+           subscriptions
+       
+       });
+       }
+       catch(e){
+        return next(new apperror(e.message, 500));
+
+       }
+    }
 
 
 

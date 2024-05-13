@@ -3,6 +3,7 @@ import morgan from "morgan";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import userRoutes from "./routes/user.routes.js";
+import userpayment from "./routes/payment.routes.js"
 import { config } from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from "url";
@@ -31,6 +32,8 @@ app.use(morgan('dev'));
 
 app.use('/api/auth/user', userRoutes);
 app.use('/api/auth/courses', courseRoutes);
+app.use('/api/auth/Payment', userpayment);
+
 
 
 // app.use('/ping', (req, res) => {
@@ -76,9 +79,9 @@ cloudinary.v2.config({
 
 
 
+const razorpay = new Razorpay({
+    key_id: process.env.RAZORPAY_PLAN_ID,
+    key_secret: process.env.RAZORPAY_SECRET
+});
 
-export const razorpay = new razorpay=() =>{
-key_id=process.env.RAZORPAY_PLAN_ID   ,
-key_secret=process.env.RAZORPAY_SECRET
-}
-
+export default razorpay;
