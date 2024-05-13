@@ -46,6 +46,7 @@ app.use('/api/auth/Payment', userpayment);
         key_secret: process.env.RAZORPAY_SECRET
     });
     
+    export default razorpay;
     
 
 
@@ -84,5 +85,3 @@ cloudinary.v2.config({
 });
 
 
-
-export default razorpay;
