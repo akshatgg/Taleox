@@ -37,10 +37,16 @@ app.use('/api/auth/Payment', userpayment);
 
 
 // app.use('/ping', (req, res) => {
-//     res.send('/pong');
-// });
-
-
+    //     res.send('/pong');
+    // });
+    
+    
+    const razorpay = new Razorpay({
+        key_id: process.env.RAZORPAY_PLAN_ID,
+        key_secret: process.env.RAZORPAY_SECRET
+    });
+    
+    
 
 
 
@@ -78,10 +84,5 @@ cloudinary.v2.config({
 });
 
 
-
-const razorpay = new Razorpay({
-    key_id: process.env.RAZORPAY_PLAN_ID,
-    key_secret: process.env.RAZORPAY_SECRET
-});
 
 export default razorpay;

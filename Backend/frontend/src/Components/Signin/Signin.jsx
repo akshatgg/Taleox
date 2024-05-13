@@ -14,7 +14,6 @@ const Signin = () => {
   const [password, setpassword] = useState("");
 
 
-
   const handle = async () => {
     if (!email && !password) {
       seterror("please fill every fields");
@@ -29,13 +28,13 @@ const Signin = () => {
         const response = await Axios.post("http://localhost:5000/api/auth/user/login", userdata);
          
         if (response) {
+
           alert("Signin succcessfully");
           console.log(response);
           console.log(userdata);
           console.log("login successfully");
           sessionStorage.setItem("login",JSON.stringify(true));
           window.location.reload();
-
 
         } else {
           console.log("login unsuccessfull");
@@ -140,7 +139,6 @@ const Signin = () => {
                 <div className="flex justify-center">
                   <button
                     className="bg-[#4CB5F9] px-[120px] py-3 rounded-xl text-white font-semibold mt-3 hover:bg-[#4c97f9]"
-          
                   >
                     Sign in
                   </button>

@@ -14,8 +14,9 @@ router.route('/')
     authorizedRoles('ADMIN'),
     createCourse
     )
-
-
+   
+   
+   
 router.route('/:courseId/lectures/:lectureId')
         .delete(
         isloggedIn,
@@ -24,11 +25,13 @@ router.route('/:courseId/lectures/:lectureId')
     );
 
 
+
 router.route('/:id')
 .get(isloggedIn,authorizedSubscriber, getLecturesByCourseId)
 .put(isloggedIn,authorizedRoles('ADMIN'), updateCourse)
 .delete(isloggedIn,authorizedRoles('ADMIN'), removeCourse)
 .post(isloggedIn,authorizedRoles('ADMIN'),upload.single('lecture'), addLecturesToCourse)
+
 
 
 export default router;

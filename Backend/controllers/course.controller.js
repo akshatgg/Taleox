@@ -19,12 +19,9 @@ const getAllCourses=async(req,res,next)=>{
     catch(e){
         return next(new apperror(e.message,500));
     }
-    
- 
-
-
 
 }
+
 
 const getLecturesByCourseId=async(req,res,next)=>{
 try{
@@ -182,6 +179,7 @@ const addLecturesToCourse = async (req, res, next) => {
                     gravity: 'faces',
                     crop: 'fill'
                 });
+
                 if (result) {
                     lectureData.lecture = {
                         public_id: result.public_id,
@@ -195,6 +193,7 @@ const addLecturesToCourse = async (req, res, next) => {
                 return next(new apperror(e.message, 500));
             }
         }
+
 
         course.lectures.push(lectureData);
         course.numbersOfLectures = course.lectures.length;
@@ -210,6 +209,8 @@ const addLecturesToCourse = async (req, res, next) => {
         return next(new apperror(e.message, 500));
     }
 };
+
+
 
 
 

@@ -11,6 +11,8 @@ const cookieOptions = {
     secure: true
 };
 
+
+
 const register = async (req, res, next) => {
     try {
         const { name, email, password, confirmpass,username,number ,role} = req.body;
@@ -69,13 +71,6 @@ if(req.file){
 }
 
 
-
-
-
-
-
-
-
         await user.save();
         console.log(name,password,email,username);
         // user.password=undefined;
@@ -93,6 +88,8 @@ if(req.file){
         return next(new apperror('User registration failed',500));
     }
 };
+
+
 
 
 
@@ -139,10 +136,13 @@ const logout = (req, res,next) => {
 });
 };
 
+
+
 const getProfile = async (req, res,next) => {
     try{
      const userId=req.user.id;
-     const user=await User.findById(userId)
+     const user=await User.findById(userId);
+
      res.status(200).json({
         success: true,
         message: "user details",
@@ -150,10 +150,14 @@ const getProfile = async (req, res,next) => {
     });
 
 }
+
   catch(e){
       return next(new apperror('Failed to fetch data',500))
   }
 }
+
+
+
 
 
 
@@ -196,9 +200,11 @@ catch(e){
     await user.save();
     return next(new apperror(e.message,500));
 }
-
-
 }
+
+
+
+
 
 const resetPassword=async(req, res, next)=>{
     const {resetToken} =req.params;
@@ -233,6 +239,8 @@ const resetPassword=async(req, res, next)=>{
 
 
 
+
+
 const changePassword=async(req,res,next)=>{
   const { oldPassword , newpassword}= req.body;
   const {id} =req.user;
@@ -262,6 +270,8 @@ res.status(200).json({
 })
 
 }
+
+
 
 
 
@@ -313,6 +323,10 @@ res.status(200).json({
     message:"Profile updated successfully"
 })
 }
+
+
+
+
 
 
 
