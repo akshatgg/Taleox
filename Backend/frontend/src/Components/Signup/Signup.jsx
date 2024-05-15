@@ -20,8 +20,8 @@ const Signup = () => {
   const [previewimage, setpreviewimage] = useState("");
   const [avatar,setAvatar] =useState("")
   sessionStorage.setItem("login", JSON.stringify(false));
+ 
 
-  // const loginstate = JSON.parse(sessionStorage.getItem("login"));
 
   const handleAvatarChange = (e) => {
     // Update the state with the selected avatar file
@@ -29,18 +29,15 @@ const Signup = () => {
     // Preview the selected image
     setpreviewimage(URL.createObjectURL(e.target.files[0]));
   };
-  
+
   const handle = async () => {
     if (!email || !password || !confirmpass || !username || !number) {
       alert("Please fill every field");
       seterror("Please fill every field");
       return;
     }
-    //  const userExist=await User.findOne{{email}};
-    //  if(userExist){
-      //   alert("User already exist");
-      //   return ;
-      //  }
+
+
       try {
         const formData = new FormData();
         formData.append('email', email);
@@ -61,8 +58,7 @@ const Signup = () => {
           }
         );
   
-      
-      
+        
 
       if (response.status === 201) {
         alert("Sign up successful");
@@ -71,10 +67,13 @@ const Signup = () => {
         console.log(formData);
 
         setdivert(true);
-      } else {
+
+      } 
+      else {
         alert("Sign up failed");
         console.log("Sign up failed");
       }
+
     } catch (error) {
       console.error("Error:", error);
       seterror("Error during sign up");
@@ -82,7 +81,6 @@ const Signup = () => {
     }
   };
 
-  // {divert && <Redirect to="/" />}
 
   return (
     <div className="bg-[#000000] h-screen">

@@ -18,6 +18,8 @@ router.post('/reset-password/:resetToken',resetPassword);
 router.post('/change-password',isloggedIn, changePassword);
 router.put('/update',isloggedIn,upload.single("avatar"), updateuser);
 
+
+ 
 export default router;
 
 
