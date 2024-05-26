@@ -2,12 +2,14 @@ import { Checkbox, FormControlLabel } from "@mui/material";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Axios from "axios";
+import { isEmail, isValidPassword } from '../Helpers/regexMatcher';
 import Lottie from "lottie-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BsPersonCircle } from "react-icons/bs"; // import { Redirect } from "react-router-dom";
 import animation from "../../assets/Animation - 1712774736687.json";
-import { useDispatch } from 'react-redux';
+import { useDispatch } from "react-redux";
+import {toast} from "react-toast";
 const Signup = () => {
   // const [error, seterror] = useState("");
   // const [email, setemail] = useState("");
@@ -20,8 +22,6 @@ const Signup = () => {
   // const [previewimage, setpreviewimage] = useState("");
   // const [avatar,setAvatar] =useState("")
   // sessionStorage.setItem("login", JSON.stringify(false));
- 
-
 
   // const handleAvatarChange = (e) => {
   //   // Update the state with the selected avatar file
@@ -37,7 +37,6 @@ const Signup = () => {
   //     return;
   //   }
 
-
   //     try {
   //       const formData = new FormData();
   //       formData.append('email', email);
@@ -47,7 +46,7 @@ const Signup = () => {
   //       formData.append('number', number);
   //       formData.append('name', name);
   //       formData.append('avatar', avatar);
-  
+
   //       const response = await Axios.post(
   //         "http://localhost:5000/api/auth/user/register",
   //         formData,
@@ -57,8 +56,6 @@ const Signup = () => {
   //           }
   //         }
   //       );
-  
-        
 
   //     if (response.status === 201) {
   //       alert("Sign up successful");
@@ -68,7 +65,7 @@ const Signup = () => {
 
   //       setdivert(true);
 
-  //     } 
+  //     }
   //     else {
   //       alert("Sign up failed");
   //       console.log("Sign up failed");
@@ -81,34 +78,98 @@ const Signup = () => {
   //   }
   // };
 
+  // const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-
-
-
- const dispatch =useDispatch();
- const navigate =useNavigate();
-
-
-  const {previewimage , setpreviewimage}=useState("");
-  const [signupData , setsignupData]=useState({
-    name:"",
-    username:"",
-    email:"",
-    password:"",
-    confirmpass:"",
-    number:"",
-    avatar:""
-
+  const { previewimage, setpreviewimage } = useState("");
+  const [signupData, setsignupData] = useState({
+    name: "",
+    username: "",
+    email: "",
+    password: "",
+    confirmpass: "",
+    number: "",
+    avatar: "",
   });
 
-  function handleuserInput(e){
-    const {name,value}=e.target;
+  function handleuserInput(e) {
+    const { name, value } = e.target;
     setsignupData({
       ...signupData,
-      [name]:value
+      [name]: value,
+    });
+  }
+
+  function handleimage(event) {
+    event.preventDefault();
+
+    const uploadImage = event.target.files[0];
+
+    if (uploadImage) {
+      setsignupData({
+        ...signupData,
+        avatar: uploadImage,
+      });
+    }
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(uploadImage);
+    fileReader.addEventListener("load", function(){
+      // console.log(this.result);
+      setpreviewimage(this.result);
     })
   }
 
+  function createnewAccount= async(event)=>{
+    event.preventDefault();
+    if(!signupData.email && !signupData.username && !signupData.number &&!signupData.name){
+      toast.error("Please fill every field");
+      return;
+    }
+
+    if(signupData.name.length<5){
+      toast.error("Name length should be greater than 5");
+      return;
+    }
+
+    if(!isEmail(signupData.email.match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/))){
+      toast.error("Email format is not valid");
+      return;
+    }
+
+    if(!isValidPassword(signupData.password.match("^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$"))){
+      toast.error("password should be minimum eight characters, at least one letter, one number and one special character");
+      return;
+    }
+  
+    const formData=new FormData();
+         formData.append('email', signupData.email);
+        formData.append('password', signupData.password);
+        formData.append('confirmpass', signupData.confirmpass);
+        formData.append('username', signupData.username);
+        formData.append('number', signupData.number);
+        formData.append('name', signupData.name);
+        formData.append('avatar', signupData.avatar);
+
+
+
+
+        navigate("/");
+
+        setsignupData({
+          name:"",
+          email:"",
+          number:"",
+          avatar:"",
+          username:"",
+          password:"",
+          confirmpass:""
+        });
+        setpreviewimage("");
+
+
+
+    
+  }
 
   return (
     <div className="bg-[#000000] h-screen">
@@ -129,7 +190,7 @@ const Signup = () => {
             component="form"
             onSubmit={(e) => {
               e.preventDefault(); // Prevent default form submission behavior
-              handle(); // Call your handle function for signup
+              // Call your handle function for signup
             }}
             sx={{
               "& .MuiTextField-root": {
@@ -185,7 +246,9 @@ const Signup = () => {
                     type="file"
                     id="image_uploads"
                     accept=".jpg,.png,.jpeg,svg"
-                    // onChange={handleAvatarChange} 
+                    // onChange={handleAvatarChange}
+                    onChange={handleimage}
+                    name="avatar"
                   />
 
                   <TextField
