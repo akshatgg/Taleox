@@ -5,6 +5,7 @@ import Axios from "axios";
 import Lottie from "lottie-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { BsPersonCircle } from "react-icons/bs"; // import { Redirect } from "react-router-dom";
 
 import animation from "../../assets/Animation - 1712774736687.json";
 
@@ -12,7 +13,6 @@ const Signin = () => {
   const [error, seterror] = useState("");
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
-
 
   const handle = async () => {
     if (!email && !password) {
@@ -25,17 +25,18 @@ const Signin = () => {
           password: password,
         };
 
-        const response = await Axios.post("http://localhost:5000/api/auth/user/login", userdata);
-         
-        if (response) {
+        const response = await Axios.post(
+          "http://localhost:5000/api/auth/user/login",
+          userdata
+        );
 
+        if (response) {
           alert("Signin succcessfully");
           console.log(response);
           console.log(userdata);
           console.log("login successfully");
-          sessionStorage.setItem("login",JSON.stringify(true));
+          sessionStorage.setItem("login", JSON.stringify(true));
           window.location.reload();
-
         } else {
           console.log("login unsuccessfull");
         }
@@ -46,19 +47,22 @@ const Signin = () => {
     }
   };
   return (
-    <div className="bg-[#000000]">
-      <div className="h-screen flex justify-center item-center">
-        <div className="flex justify-center mb-[100px]">
+    <div className="bg-[#000000] h-screen">
+      <h1 className="flex justify-center text-3xl font-bold text-white mb-10">
+        Sign in
+      </h1>
+      <div className=" flex justify-center item-center  ">
+        <div className="flex justify-center min-w-[30%]">
           <Lottie
             animationData={animation}
             loop
             autoplay
-            style={{ maxWidth: "650px" }} // Make sure animation fills its container
+            style={{ maxWidth: "100%" }} // Make sure animation fills its container
           />
         </div>
-        <div className="flex justify-center items-center min-w-[800px]">
+        <div className="flex justify-center items-center">
           <Box
-             onSubmit={(e) => {
+            onSubmit={(e) => {
               e.preventDefault(); // Prevent default form submission behavior
               handle(); // Call your handle function for signup
             }}
@@ -99,8 +103,9 @@ const Signin = () => {
             noValidate
             autoComplete="off"
           >
-            <div className=" rounded-2xl p-[100px] flex justify-center items-center min-h-[200px]">
-              <div>
+            <div className=" rounded-2xl   flex justify-center items-center align-middle p-[100px]">
+              <div className="shadow-[0_0_10px_gray] p-16">
+                <BsPersonCircle className="w-24 h-24 rounded-full m-auto text-white " />
                 <div className="flex justify-center">
                   <TextField
                     id="email"
@@ -128,18 +133,16 @@ const Signin = () => {
                 <div className="text-white flex justify-center hover:text-gray-300">
                   Forgot your Password?
                 </div>
-                  <Link to="/Signup">
-                <div className="text-white flex justify-center mt-3 hover:text-gray-300">
+                <Link to="/Signup">
+                  <div className="text-white flex justify-center mt-3 hover:text-gray-300">
                     Do not have an account?{" "}
                     <span className="text-[#0095F6] text-[18px] font-semibold">
                       Sign up
                     </span>
-                </div>
-                  </Link>
+                  </div>
+                </Link>
                 <div className="flex justify-center">
-                  <button
-                    className="bg-[#4CB5F9] px-[120px] py-3 rounded-xl text-white font-semibold mt-3 hover:bg-[#4c97f9]"
-                  >
+                  <button className="bg-[#4CB5F9] px-[120px] py-3 rounded-xl text-white font-semibold mt-3 hover:bg-[#4c97f9]">
                     Sign in
                   </button>
                 </div>

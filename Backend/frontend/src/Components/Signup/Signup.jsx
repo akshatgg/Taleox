@@ -4,82 +4,110 @@ import TextField from "@mui/material/TextField";
 import Axios from "axios";
 import Lottie from "lottie-react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BsPersonCircle } from "react-icons/bs"; // import { Redirect } from "react-router-dom";
 import animation from "../../assets/Animation - 1712774736687.json";
-
+import { useDispatch } from 'react-redux';
 const Signup = () => {
-  const [error, seterror] = useState("");
-  const [email, setemail] = useState("");
-  const [password, setpassword] = useState("");
-  const [username, setusername] = useState("");
-  const [name, setname] = useState("");
-  const [confirmpass, setconfirmpass] = useState("");
-  const [number, setnumber] = useState("");
-  const [divert, setdivert] = useState(false);
-  const [previewimage, setpreviewimage] = useState("");
-  const [avatar,setAvatar] =useState("")
-  sessionStorage.setItem("login", JSON.stringify(false));
+  // const [error, seterror] = useState("");
+  // const [email, setemail] = useState("");
+  // const [password, setpassword] = useState("");
+  // const [username, setusername] = useState("");
+  // const [name, setname] = useState("");
+  // const [confirmpass, setconfirmpass] = useState("");
+  // const [number, setnumber] = useState("");
+  // const [divert, setdivert] = useState(false);
+  // const [previewimage, setpreviewimage] = useState("");
+  // const [avatar,setAvatar] =useState("")
+  // sessionStorage.setItem("login", JSON.stringify(false));
  
 
 
-  const handleAvatarChange = (e) => {
-    // Update the state with the selected avatar file
-    setAvatar(e.target.files[0]);
-    // Preview the selected image
-    setpreviewimage(URL.createObjectURL(e.target.files[0]));
-  };
+  // const handleAvatarChange = (e) => {
+  //   // Update the state with the selected avatar file
+  //   setAvatar(e.target.files[0]);
+  //   // Preview the selected image
+  //   setpreviewimage(URL.createObjectURL(e.target.files[0]));
+  // };
 
-  const handle = async () => {
-    if (!email || !password || !confirmpass || !username || !number) {
-      alert("Please fill every field");
-      seterror("Please fill every field");
-      return;
-    }
+  // const handle = async () => {
+  //   if (!email || !password || !confirmpass || !username || !number) {
+  //     alert("Please fill every field");
+  //     seterror("Please fill every field");
+  //     return;
+  //   }
 
 
-      try {
-        const formData = new FormData();
-        formData.append('email', email);
-        formData.append('password', password);
-        formData.append('confirmpass', confirmpass);
-        formData.append('username', username);
-        formData.append('number', number);
-        formData.append('name', name);
-        formData.append('avatar', avatar);
+  //     try {
+  //       const formData = new FormData();
+  //       formData.append('email', email);
+  //       formData.append('password', password);
+  //       formData.append('confirmpass', confirmpass);
+  //       formData.append('username', username);
+  //       formData.append('number', number);
+  //       formData.append('name', name);
+  //       formData.append('avatar', avatar);
   
-        const response = await Axios.post(
-          "http://localhost:5000/api/auth/user/register",
-          formData,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data'
-            }
-          }
-        );
+  //       const response = await Axios.post(
+  //         "http://localhost:5000/api/auth/user/register",
+  //         formData,
+  //         {
+  //           headers: {
+  //             'Content-Type': 'multipart/form-data'
+  //           }
+  //         }
+  //       );
   
         
 
-      if (response.status === 201) {
-        alert("Sign up successful");
-        console.log("Sign up successful");
-        console.log(response);
-        console.log(formData);
+  //     if (response.status === 201) {
+  //       alert("Sign up successful");
+  //       console.log("Sign up successful");
+  //       console.log(response);
+  //       console.log(formData);
 
-        setdivert(true);
+  //       setdivert(true);
 
-      } 
-      else {
-        alert("Sign up failed");
-        console.log("Sign up failed");
-      }
+  //     } 
+  //     else {
+  //       alert("Sign up failed");
+  //       console.log("Sign up failed");
+  //     }
 
-    } catch (error) {
-      console.error("Error:", error);
-      seterror("Error during sign up");
-      alert(error);
-    }
-  };
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //     seterror("Error during sign up");
+  //     alert(error);
+  //   }
+  // };
+
+
+
+
+
+ const dispatch =useDispatch();
+ const navigate =useNavigate();
+
+
+  const {previewimage , setpreviewimage}=useState("");
+  const [signupData , setsignupData]=useState({
+    name:"",
+    username:"",
+    email:"",
+    password:"",
+    confirmpass:"",
+    number:"",
+    avatar:""
+
+  });
+
+  function handleuserInput(e){
+    const {name,value}=e.target;
+    setsignupData({
+      ...signupData,
+      [name]:value
+    })
+  }
 
 
   return (
@@ -139,7 +167,7 @@ const Signup = () => {
             noValidate
             autoComplete="off"
           >
-            <div className=" rounded-2xl p-[100px]  min-h-[200px]">
+            <div className=" rounded-2xl p-[100px]  ">
               <div className="shadow-[0_0_10px_gray] p-8">
                 <div className="">
                   <label htmlFor="image_uploads" className="curser-pointer">
@@ -157,14 +185,17 @@ const Signup = () => {
                     type="file"
                     id="image_uploads"
                     accept=".jpg,.png,.jpeg,svg"
-                    onChange={handleAvatarChange} 
+                    // onChange={handleAvatarChange} 
                   />
 
                   <TextField
                     id="full-name"
                     label="Full Name"
                     variant="standard"
-                    onChange={(e) => setname(e.target.value)}
+                    name="name"
+                    // onChange={(e) => setname(e.target.value)}
+                    onChange={handleuserInput}
+                    value={signupData.name}
                   />
                 </div>
                 <div className="">
@@ -172,7 +203,10 @@ const Signup = () => {
                     id="user-name"
                     label="User Name"
                     variant="standard"
-                    onChange={(e) => setusername(e.target.value)}
+                    name="username"
+                    // onChange={(e) => setusername(e.target.value)}
+                    onChange={handleuserInput}
+                    value={signupData.username}
                   />
                 </div>
                 <div className="">
@@ -180,7 +214,10 @@ const Signup = () => {
                     id="number"
                     label="Number"
                     variant="standard"
-                    onChange={(e) => setnumber(e.target.value)}
+                    name="number"
+                    // onChange={(e) => setnumber(e.target.value)}
+                    onChange={handleuserInput}
+                    value={signupData.number}
                   />
                 </div>
                 <div className="">
@@ -188,7 +225,10 @@ const Signup = () => {
                     id="email"
                     label="Email"
                     variant="standard"
-                    onChange={(e) => setemail(e.target.value)}
+                    name="email"
+                    // onChange={(e) => setemail(e.target.value)}
+                    onChange={handleuserInput}
+                    value={signupData.email}
                   />
                 </div>
                 <div className="">
@@ -196,7 +236,10 @@ const Signup = () => {
                     id="password"
                     label="Password"
                     variant="standard"
-                    onChange={(e) => setpassword(e.target.value)}
+                    name="password"
+                    // onChange={(e) => setpassword(e.target.value)}
+                    onChange={handleuserInput}
+                    value={signupData.password}
                   />
                 </div>
                 <div className="">
@@ -204,7 +247,10 @@ const Signup = () => {
                     id="confirm-password"
                     label="Confirm Password"
                     variant="standard"
-                    onChange={(e) => setconfirmpass(e.target.value)}
+                    name="confirmpass"
+                    // onChange={(e) => setconfirmpass(e.target.value)}
+                    onChange={handleuserInput}
+                    value={signupData.confirmpass}
                   />
                 </div>
 
