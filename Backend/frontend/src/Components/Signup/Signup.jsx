@@ -10,6 +10,8 @@ import { BsPersonCircle } from "react-icons/bs"; // import { Redirect } from "re
 import animation from "../../assets/Animation - 1712774736687.json";
 import { useDispatch } from "react-redux";
 import {toast} from "react-toast";
+import { createAccount } from "../../Redux/Slices/AuthSlice.js";
+
 const Signup = () => {
   // const [error, seterror] = useState("");
   // const [email, setemail] = useState("");
