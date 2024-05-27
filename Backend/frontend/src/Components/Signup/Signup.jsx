@@ -132,7 +132,7 @@ const Signup = () => {
       return;
     }
 
-    if (!signupData.email.match(signupData.email)) {
+    if (!signupData.email.match() {
       toast.error("Email format is not valid");
       return;
     }
@@ -158,7 +158,7 @@ const Signup = () => {
 
     const res = await dispatch(createAccount(formData));
 
-    if (res?.payload?.success) navigate("/login");
+    if (res?.payload?.success) navigate("/Signin");
 
     setsignupData({
       name: "",
