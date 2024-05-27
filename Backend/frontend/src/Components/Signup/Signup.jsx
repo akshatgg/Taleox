@@ -1,18 +1,17 @@
 import { Checkbox, FormControlLabel } from "@mui/material";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import Axios from "axios";
-import { isEmail, isValidPassword } from '../Helpers/regexMatcher';
 import Lottie from "lottie-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BsPersonCircle } from "react-icons/bs"; // import { Redirect } from "react-router-dom";
 import animation from "../../assets/Animation - 1712774736687.json";
 import { useDispatch } from "react-redux";
-import {toast} from "react-toast";
+import { toast } from "react-hot-toast";
 import { createAccount } from "../../Redux/Slices/AuthSlice.js";
 
 const Signup = () => {
+
   // const [error, seterror] = useState("");
   // const [email, setemail] = useState("");
   // const [password, setpassword] = useState("");
@@ -80,10 +79,11 @@ const Signup = () => {
   //   }
   // };
 
-  // const dispatch = useDispatch();
+
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { previewimage, setpreviewimage } = useState("");
+  const [previewimage, setpreviewimage] = useState("");
   const [signupData, setsignupData] = useState({
     name: "",
     username: "",
@@ -104,7 +104,6 @@ const Signup = () => {
 
   function handleimage(event) {
     event.preventDefault();
-
     const uploadImage = event.target.files[0];
 
     if (uploadImage) {
@@ -112,73 +111,73 @@ const Signup = () => {
         ...signupData,
         avatar: uploadImage,
       });
+
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(uploadImage);
+      fileReader.addEventListener("load", function () {
+        setpreviewimage(this.result);
+      });
     }
-    const fileReader = new FileReader();
-    fileReader.readAsDataURL(uploadImage);
-    fileReader.addEventListener("load", function(){
-      // console.log(this.result);
-      setpreviewimage(this.result);
-    })
   }
 
-  function createnewAccount= async(event)=>{
+  async function createnewAccount(event) {
     event.preventDefault();
-    if(!signupData.email && !signupData.username && !signupData.number &&!signupData.name){
+    if (!signupData.email || !signupData.username || !signupData.number || !signupData.name) {
       toast.error("Please fill every field");
       return;
     }
 
-    if(signupData.name.length<5){
+    if (signupData.name.length < 5) {
       toast.error("Name length should be greater than 5");
       return;
     }
 
-    if(!isEmail(signupData.email.match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/))){
+    if (!signupData.email.match(signupData.email)) {
       toast.error("Email format is not valid");
       return;
     }
 
-    if(!isValidPassword(signupData.password.match("^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$"))){
-      toast.error("password should be minimum eight characters, at least one letter, one number and one special character");
+    if (!signupData.password.match(signupData.password)) {
+      toast.error("Password should be minimum eight characters, at least one letter, one number, and one special character");
       return;
     }
-  
-    const formData=new FormData();
-         formData.append('email', signupData.email);
-        formData.append('password', signupData.password);
-        formData.append('confirmpass', signupData.confirmpass);
-        formData.append('username', signupData.username);
-        formData.append('number', signupData.number);
-        formData.append('name', signupData.name);
-        formData.append('avatar', signupData.avatar);
 
+    if (signupData.password !== signupData.confirmpass) {
+      toast.error("Passwords do not match");
+      return;
+    }
 
+    const formData = new FormData();
+    formData.append('email', signupData.email);
+    formData.append('password', signupData.password);
+    formData.append('confirmpass', signupData.confirmpass);
+    formData.append('username', signupData.username);
+    formData.append('number', signupData.number);
+    formData.append('name', signupData.name);
+    formData.append('avatar', signupData.avatar);
 
+    const res = await dispatch(createAccount(formData));
 
-        navigate("/");
+    if (res?.payload?.success) navigate("/login");
 
-        setsignupData({
-          name:"",
-          email:"",
-          number:"",
-          avatar:"",
-          username:"",
-          password:"",
-          confirmpass:""
-        });
-        setpreviewimage("");
-
-
-
-    
+    setsignupData({
+      name: "",
+      email: "",
+      number: "",
+      avatar: "",
+      username: "",
+      password: "",
+      confirmpass: ""
+    });
+    setpreviewimage("");
   }
 
   return (
     <div className="bg-[#000000] h-screen">
       <h1 className="text-white flex justify-center text-3xl font-bold ">
-        Registeration Page
+        Registration Page
       </h1>
-      <div className=" flex justify-center item-center">
+      <div className="flex justify-center items-center">
         <div className="flex justify-center min-w-[30%]">
           <Lottie
             animationData={animation}
@@ -187,13 +186,10 @@ const Signup = () => {
             style={{ maxWidth: "100%" }} // Make sure animation fills its container
           />
         </div>
-        <div className=" max-w-[50%]">
+        <div className="max-w-[50%]">
           <Box
             component="form"
-            onSubmit={(e) => {
-              e.preventDefault(); // Prevent default form submission behavior
-              // Call your handle function for signup
-            }}
+            onSubmit={createnewAccount}
             sx={{
               "& .MuiTextField-root": {
                 m: 1,
@@ -230,10 +226,10 @@ const Signup = () => {
             noValidate
             autoComplete="off"
           >
-            <div className=" rounded-2xl p-[100px]  ">
+            <div className="rounded-2xl p-[100px]">
               <div className="shadow-[0_0_10px_gray] p-8">
                 <div className="">
-                  <label htmlFor="image_uploads" className="curser-pointer">
+                  <label htmlFor="image_uploads" className="cursor-pointer">
                     {previewimage ? (
                       <img
                         className="w-24 h-24 rounded-full"
@@ -248,7 +244,6 @@ const Signup = () => {
                     type="file"
                     id="image_uploads"
                     accept=".jpg,.png,.jpeg,svg"
-                    // onChange={handleAvatarChange}
                     onChange={handleimage}
                     name="avatar"
                   />
@@ -258,7 +253,6 @@ const Signup = () => {
                     label="Full Name"
                     variant="standard"
                     name="name"
-                    // onChange={(e) => setname(e.target.value)}
                     onChange={handleuserInput}
                     value={signupData.name}
                   />
@@ -269,7 +263,6 @@ const Signup = () => {
                     label="User Name"
                     variant="standard"
                     name="username"
-                    // onChange={(e) => setusername(e.target.value)}
                     onChange={handleuserInput}
                     value={signupData.username}
                   />
@@ -280,7 +273,6 @@ const Signup = () => {
                     label="Number"
                     variant="standard"
                     name="number"
-                    // onChange={(e) => setnumber(e.target.value)}
                     onChange={handleuserInput}
                     value={signupData.number}
                   />
@@ -291,7 +283,6 @@ const Signup = () => {
                     label="Email"
                     variant="standard"
                     name="email"
-                    // onChange={(e) => setemail(e.target.value)}
                     onChange={handleuserInput}
                     value={signupData.email}
                   />
@@ -302,7 +293,6 @@ const Signup = () => {
                     label="Password"
                     variant="standard"
                     name="password"
-                    // onChange={(e) => setpassword(e.target.value)}
                     onChange={handleuserInput}
                     value={signupData.password}
                   />
@@ -313,7 +303,6 @@ const Signup = () => {
                     label="Confirm Password"
                     variant="standard"
                     name="confirmpass"
-                    // onChange={(e) => setconfirmpass(e.target.value)}
                     onChange={handleuserInput}
                     value={signupData.confirmpass}
                   />
@@ -328,11 +317,14 @@ const Signup = () => {
                 </div>
                 <Link to="/Signin">
                   <div className="text-white hover:text-gray-300 flex justify-center">
-                    Already have an account{" "}
+                    Already have an account
                   </div>
                 </Link>
                 <div className="flex justify-center">
-                  <button className="bg-[#4CB5F9] hover:bg-[#4c97f9] px-[120px] py-3 rounded-xl text-white font-semibold mt-3">
+                  <button
+                    className="bg-[#4CB5F9] hover:bg-[#4c97f9] px-[120px] py-3 rounded-xl text-white font-semibold mt-3"
+                    type="submit"
+                  >
                     Sign Up
                   </button>
                 </div>

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-hot-toast";
-import axiosInstance from "../Helper/axiosInstance";
+import axiosInstance from "../../Helper/axiosinstance.js";
 const initialState = {
     isloggedin: localStorage.getItem("isloggedin") || false,
     role: localStorage.getItem('role') || "",
@@ -22,6 +22,7 @@ export const createAccount = createAsyncThunk("auth/signup", async (data) => {
         return res.data;
 
     }
+
     catch (error) {
         toast.error(error?.response?.data?.message);
     }
