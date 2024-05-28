@@ -132,7 +132,7 @@ const Signup = () => {
       return;
     }
 
-    if (!signupData.email.match() {
+    if (!signupData.email.match(signupData.email)) {
       toast.error("Email format is not valid");
       return;
     }
