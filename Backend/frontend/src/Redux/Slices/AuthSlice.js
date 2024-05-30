@@ -67,38 +67,73 @@ export const logout = createAsyncThunk("auth/logout", async () => {
     }
 })
 
+
+
+export const getuser = createAsyncThunk("auth/getuser", async (data) => {
+    try {
+        let res = axiosInstance.post("user/me", data);
+        await toast.promise(res, {
+            loading: "Loading",
+            success: (data) => {
+                return data?.data.message;
+            },
+            error: "Failed to fetch your data"
+        })
+    }
+    catch (e) {
+        toast.error(e.message)
+    }
+})
+
+
 const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-      // for login
-      builder.addCase(signinAccount.fulfilled, (state, action) => {
-        const user = action?.payload?.user;
-  
-        if (user) {
-          localStorage.setItem("data", JSON.stringify(user));
-          localStorage.setItem("isloggedin", JSON.stringify(true));
-          localStorage.setItem("role", user.role);
-  
-          state.isloggedin = true;
-          state.data = user;
-          state.role = user.role;
-        } else {
-          console.error('User data is undefined');
-        }
-      });
-  
-      // for logout
-    //   here is the state is the second storage of redux 
-      builder.addCase(logout.fulfilled, (state, action) => {
-        localStorage.clear();
-        state.isloggedin = false;
-        state.data = {};
-        state.role = "";
-      });
+        // for login
+        builder.addCase(signinAccount.fulfilled, (state, action) => {
+            const user = action?.payload?.user;
+
+            if (user) {
+                localStorage.setItem("data", JSON.stringify(user));
+                localStorage.setItem("isloggedin", JSON.stringify(true));
+                localStorage.setItem("role", user.role);
+
+                state.isloggedin = true;
+                state.data = user;
+                state.role = user.role;
+            } else {
+                console.error('User data is undefined');
+            }
+        });
+
+        // for logout
+        //   here is the state is the second storage of redux 
+        builder.addCase(logout.fulfilled, (state, action) => {
+            localStorage.clear();
+            state.isloggedin = false;
+            state.data = {};
+            state.role = "";
+        });
+
+        //   for user data
+        builder.addCase(getuser.fulfilled, (state, action) => {
+            const user = action?.payload?.user;
+
+            if (user) {
+                localStorage.setItem("data", JSON.stringify(action?.payload?.user));
+                localStorage.setItem("isloggedin", true);
+                state.isloggedin = true;
+                state.data = user;
+                state.role=action?.payload?.user?.role;
+            }
+            else{
+                toast.error("user is not exist");
+            }
+        })
     }
-  });
+});
 
 
 export default authSlice.reducer;
