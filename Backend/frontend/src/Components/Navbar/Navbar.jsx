@@ -17,8 +17,11 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import OpenLMSLogo from "../../assets/351264.svg";
+import { useDispatch } from "react-redux";
+import { logout } from "../../Redux/Slices/AuthSlice";
 
 function Navbar() {
+  const dispatch=useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -52,11 +55,7 @@ function Navbar() {
   }, [loginstate]);
 
   const handle = async () => {
-    const response = await Axios.get(
-      "http://localhost:5000/api/auth/user/logout"
-    );
-    console.log(response);
-    localStorage.setItem("login", JSON.stringify(false));
+const res= await dispatch(logout());
 
     window.location.reload();
   };
