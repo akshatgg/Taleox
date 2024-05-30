@@ -28,7 +28,7 @@ function Navbar() {
     setAnchorEl(null);
   };
 
-  const loginstate = JSON.parse(sessionStorage.getItem("login") || "false");
+  const loginstate = JSON.parse(localStorage.getItem("isloggedin") || "false");
 
   const [showButtons, setShowButtons] = useState(false);
 
@@ -56,7 +56,7 @@ function Navbar() {
       "http://localhost:5000/api/auth/user/logout"
     );
     console.log(response);
-    sessionStorage.setItem("login", JSON.stringify(false));
+    localStorage.setItem("login", JSON.stringify(false));
 
     window.location.reload();
   };

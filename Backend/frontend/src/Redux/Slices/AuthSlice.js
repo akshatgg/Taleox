@@ -5,7 +5,7 @@ import axiosInstance from "../../Helper/axiosinstance.js";
 const initialState = {
     isloggedin: localStorage.getItem("isloggedin") || false,
     role: localStorage.getItem('role') || "",
-    data: localStorage.getItem('data') != undefined ? JSON.parse(localStorage.getItem('data')) :{}
+    data: localStorage.getItem('data') ||""
 };
 
 export const createAccount = createAsyncThunk("auth/signup", async (data) => {
@@ -24,7 +24,7 @@ export const createAccount = createAsyncThunk("auth/signup", async (data) => {
     }
 
     catch (error) {
-        toast.error(error?.response?.data?.message);
+        toast.error(error.message);
     }
 })
 
@@ -42,7 +42,7 @@ export const signinAccount = createAsyncThunk("auth/signin", async (data) => {
         return await (res).data;
     }
     catch (e) {
-        toast.error(e?.response?.data?.message);
+        toast.error(e.message);
     }
 })
 

@@ -30,7 +30,7 @@ function Navbar() {
     setAnchorEl(null);
   };
 
-  const loginstate = JSON.parse(sessionStorage.getItem("login") || "false");
+  const loginstate = JSON.parse(localStorage.getItem("islogged") || "false");
 
   const [showButtons, setShowButtons] = useState(false);
 
@@ -53,7 +53,7 @@ function Navbar() {
 
   const handle=async()=>{
     const response = await Axios.get('http://localhost:5000/api/auth/user/logout');
-    sessionStorage.setItem("login", JSON.stringify(false));
+    localStorage.setItem("login", JSON.stringify(false));
 
     window.location.reload();
 
