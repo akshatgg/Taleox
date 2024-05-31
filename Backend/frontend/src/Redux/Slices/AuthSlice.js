@@ -79,9 +79,52 @@ export const getuser = createAsyncThunk("auth/getuser", async (data) => {
             },
             error: "Failed to fetch your data"
         })
+        res = await res;
+        return res.data;
     }
     catch (e) {
         toast.error(e.message)
+    }
+    
+})
+
+
+
+export const changePassword=createAsyncThunk("auth/changepassword",async(userpassword)=>{
+    try{
+        let res=axiosInstance.post("user/change-password",userpassword);
+        await toast.promise(res,{
+            loading:"Loading",
+            success:(data)=>{
+                return data?.data.message;
+            },
+            error:"Failed to change password"
+        })
+        res = await res;
+        return res.data;
+    }
+    catch(e){
+        toast.error(e.message);
+    }
+})    
+
+
+
+export const forgotPassword=createAsyncThunk("auth/forgotpassword",async(email)=>{
+    try{
+    let res= axiosInstance.post("user/reset-password",{email});
+    await toast.promise(res,{
+        loading:"Loading...",
+        success:(data)=>{
+            return data?.data?.message;
+        },
+        error:"Failed to forgot your password"
+    })
+    res=await res;
+    return (await res).data;
+    }
+    catch(e){
+        toast.error(e.message);
     }
 })
 
@@ -108,6 +151,7 @@ const authSlice = createSlice({
             }
         });
 
+
         // for logout
         //   here is the state is the second storage of redux 
         builder.addCase(logout.fulfilled, (state, action) => {
@@ -116,6 +160,8 @@ const authSlice = createSlice({
             state.data = {};
             state.role = "";
         });
+
+
 
         //   for user data
         builder.addCase(getuser.fulfilled, (state, action) => {
@@ -132,6 +178,9 @@ const authSlice = createSlice({
                 toast.error("user is not exist");
             }
         })
+
+
+   
     }
 });
 
