@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { UseDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getAllCourses } from "../../Redux/Slices/CourseSlice";
 
 
@@ -15,7 +15,7 @@ import { getAllCourses } from "../../Redux/Slices/CourseSlice";
  },[] );
 
  return(
-
+screen
  )
 
 

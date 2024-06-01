@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import About from "./Components/About/About.jsx";
 import Contact from "./Components/Contact/Contact.jsx";
-import Courses from "./Components/Courses/Courses.jsx";
+import Courses from "./Components/Courses/CourseList.js";
 import Change from "./Components/Navbar/Change.jsx";
 
 import Navbar from "./Components/Navbar/Navbar.jsx";
