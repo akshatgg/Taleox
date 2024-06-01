@@ -4,28 +4,25 @@ import { getAllCourses } from "../../Redux/Slices/CourseSlice";
 
 
 
- const CoursesList=()=>{
+ const CourseList=()=>{
  const dispatch=useDispatch();
  const {coursedata}=useSelector((state)=> state.course);
  
+
+ const loadedCourses=async()=>{
+  await dispatch(getAllCourses());
+ }
+
  useEffect(()=>{
-    (async()=>{
-        await dispatch(getAllCourses());
-    })
+   loadedCourses();
+         
+  
  },[] );
 
  return(
-screen
+<div></div>
+    
  )
-
-
-
-
-
-
-
-
-
 }
 
-export default CoursesList;
+export default CourseList;

@@ -11,7 +11,6 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Tooltip from "@mui/material/Tooltip";
-import  Axios  from "axios";
 import * as React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -21,7 +20,7 @@ import { useDispatch } from "react-redux";
 import OpenLMSLogo from "../../assets/351264.svg";
 import { logout } from "../../Redux/Slices/AuthSlice";
 
-function Navbar() {
+function Change() {
   const dispatch=useDispatch();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -43,6 +42,10 @@ function Navbar() {
   };
 
   useEffect(() => {
+    if(loginstate){
+      document.getElementById('down-arrow').style.display="none";
+
+    }
     const profile = document.getElementById("profile");
 
     if (!loginstate) {
@@ -58,6 +61,7 @@ function Navbar() {
   const handle=async()=>{
 
     const res=await dispatch(logout());
+
     window.location.reload();
 
     
@@ -186,7 +190,7 @@ function Navbar() {
             )}
           </div>
           <div className="flex justify-center item-center">
-            <button onClick={toggleButtons}>
+            <button onClick={toggleButtons} id="down-arrow">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6 text-white"
@@ -209,7 +213,7 @@ function Navbar() {
   );
 }
 
-export default Navbar;
+export default Change;
 
 
 

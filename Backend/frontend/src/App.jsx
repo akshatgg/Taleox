@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import About from "./Components/About/About.jsx";
 import Contact from "./Components/Contact/Contact.jsx";
-import Courses from "./Components/Courses/CourseList.js";
+import CourseList from "./Components/Courses/CourseList.jsx";
 import Change from "./Components/Navbar/Change.jsx";
 
 import Navbar from "./Components/Navbar/Navbar.jsx";
@@ -38,7 +38,7 @@ function App() {
           <Route path="/Signup" element={<Signup />} />
           <Route path="/" element={<Execute />} />
           <Route path="/About" element={<About />} />
-          <Route path="/Courses" element={<Courses />} />
+          <Route path="/Courses" element={<CourseList />} />
           <Route path="/Contact" element={<Contact />} />
         </Routes>
 
