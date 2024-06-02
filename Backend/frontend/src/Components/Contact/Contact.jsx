@@ -1,18 +1,65 @@
 // import "./ContactStyle.css"
 import "aos/dist/aos.css";
 import "./style.css";
+import { toast } from "react-hot-toast";
 
 // import emailjs from '@emailjs/browser';
 import AOS from "aos";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRef } from "react";
 
 import World from "./World.jsx";
+import axiosInstance from "../../Helper/axiosinstance.js";
 
 // import Particlesbg from "../Particlesbg.jsx";
 // import WorldLottie from "./WorldLottie";
 function Contact() {
   const form = useRef();
+  const [userinput, setuserinput] = useState({
+    name: "",
+    email: "",
+    number: "",
+    subject: "",
+    message: "",
+  });
+
+  function handleinput(e) {
+    const { name, value } = e.target;
+    setuserinput({
+      ...userinput,
+      [name]: value,
+    });
+  }
+
+  async function handleFormSubmit(event) {
+    event.prevent.default();
+
+    if (
+      !userinput.name ||
+      !userinput.email ||
+      !userinput.number ||
+      !userinput.subject ||
+      !userinput.message
+    ) {
+      toast.error("Please fill every field");
+      return;
+    }
+
+    if (
+      !userinput.email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)
+    ) {
+      toast.error("Please Enter a valid email");
+      return;
+    }
+  }
+
+
+  try{
+    const res=axiosInstance.post("/contact")
+  }
+  catch(e){
+    toast.error(e.message);
+  }
 
   //   const sendEmail = (e) => {
   //     e.preventDefault();
@@ -39,13 +86,10 @@ function Contact() {
   return (
     <div className="bg-black">
       <br />
-
       <br />
       <br />
       <br />
-      <br />
-
- \
+      <br />\
       <div className="screenw bg-[#000000] flex items-center justify-center h-screen ">
         <div
           className="ttr text-white bg-[#100D25] p-11 rounded-3xl ml-[10%] "
@@ -61,7 +105,9 @@ function Contact() {
             <input
               type="text"
               id="name"
-              name="user_name"
+              onChange={handleinput}
+              value={userinput.name}
+              name="name"
               placeholder="Name"
               className="input h-10 mb-[10%]  rounded bg-[#151030]"
             />
@@ -73,7 +119,9 @@ function Contact() {
             <input
               type="text"
               id="email"
-              name="user_email"
+              name="email"
+              onChange={handleinput}
+              value={userinput.email}
               placeholder="Email"
               className="input h-10 mb-[10%] rounded bg-[#151030]"
               required
@@ -85,7 +133,9 @@ function Contact() {
             <input
               type="text"
               id="phone"
-              name="user_number"
+              onChange={handleinput}
+              value={userinput.number}
+              name="number"
               placeholder="Phone Number"
               className="input h-10 mb-[10%] bg-[#151030] rounded"
             />
@@ -98,6 +148,8 @@ function Contact() {
               type="text"
               id="subject"
               name="subject"
+              onChange={handleinput}
+              value={userinput.subject}
               placeholder="Subject"
               className="input h-10 mb-[10%]  bg-[#151030] rounded"
               required
@@ -110,7 +162,9 @@ function Contact() {
             <textarea
               id="message"
               name="message"
+              onChange={handleinput}
               rows="4"
+              value={userinput.message}
               placeholder="Enter your message"
               className="input mb-[10%]  bg-[#151030] rounded"
             ></textarea>
@@ -125,19 +179,15 @@ function Contact() {
           <World />
         </div>
       </div>
-
-      <br />
-
       <br />
       <br />
       <br />
       <br />
-
       <br />
       <br />
       <br />
       <br />
-
+      <br />
       <br />
       <br />
       <br />
