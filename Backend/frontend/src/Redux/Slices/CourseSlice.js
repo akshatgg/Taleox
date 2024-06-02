@@ -55,7 +55,6 @@ const courseslice = createSlice({
       builder.addCase(getAllCourses.fulfilled,(state,action)=>{
         if(action.payload){
             console.log(action.payload);
-            console.log("df");
             state.coursedata = [...action.payload]
         }
       })
