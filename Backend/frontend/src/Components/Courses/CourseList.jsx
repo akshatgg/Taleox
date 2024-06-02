@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllCourses } from "../../Redux/Slices/CourseSlice";
+import CourseCard from "./layout/CourseCard";
 
 
 
@@ -20,7 +21,17 @@ import { getAllCourses } from "../../Redux/Slices/CourseSlice";
  },[] );
 
  return(
-<div></div>
+<div className="max-w-[200vh]">
+
+  <div className="flex flex-wrap gap-14">
+  {coursedata ?.map((element) => {
+            return <CourseCard key={element._id} data={element} />;
+          })}
+
+
+  </div>
+
+</div>
     
  )
 }
