@@ -20,17 +20,20 @@ console.log(PORT)
 database()
 
 
-headers('Access-Control-Allow-Origin:  *');
-header('Access-Control-Allow-Methods:  POST,GET,PUT,OPTIONS,DELETE');
-header('Access-Control-Allow-Header:   Content-Type, X-Auth-Token, Origin, Authorization');
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', process.env.CLIENT_URL);
+    res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, OPTIONS, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, X-Auth-Token, Origin, Authorization');
+    next();
+});
 
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cors({
-    origin: [process.env.CLIENT_URL],
-    credentials: true
-}));
+// app.use(cors({
+//     origin: [process.env.CLIENT_URL],
+//     credentials: true
+// }));
 app.use(cookieParser());
 
 
