@@ -19,7 +19,13 @@ const PORT = process.env.PORT;
 console.log(PORT)
 database()
 
-app.use(express.urlencoded({extended:true}));
+
+headers('Access-Control-Allow-Origin:  *');
+header('Access-Control-Allow-Methods:  POST,GET,PUT,OPTIONS,DELETE');
+header('Access-Control-Allow-Header:   Content-Type, X-Auth-Token, Origin, Authorization');
+
+
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors({
     origin: [process.env.CLIENT_URL],
@@ -37,17 +43,17 @@ app.use('/api/auth/Payment', userpayment);
 
 
 // app.use('/ping', (req, res) => {
-    //     res.send('/pong');
-    // });
-    
-    
-    const razorpay = new Razorpay({
-        key_id: process.env.RAZORPAY_PLAN_ID,
-        key_secret: process.env.RAZORPAY_SECRET
-    });
-    
-    export default razorpay;
-    
+//     res.send('/pong');
+// });
+
+
+const razorpay = new Razorpay({
+    key_id: process.env.RAZORPAY_PLAN_ID,
+    key_secret: process.env.RAZORPAY_SECRET
+});
+
+export default razorpay;
+
 
 
 
