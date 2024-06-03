@@ -4,12 +4,12 @@ function CourseCard({ data }) {
   const navigate = useNavigate();
 
   return (
-    <div className="">
-      <div className="overflow-hidden bg-white">
+    <div className="max-w-[22rem]">
+      <div className=" bg-white">
         <div>
           <img
             src={data?.thumbnail?.secure_url}
-            className="min-w-[20rem] h-auto"
+            className="min-w-[22rem] h-auto"
             alt="course-thumbnail"
           />
         </div>
