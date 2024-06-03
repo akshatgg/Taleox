@@ -5,7 +5,7 @@ function CourseCard({ data }) {
 
   return (
     <div className="max-w-[22rem]">
-      <div className=" bg-white">
+      <div className="bg-[#383737] text-white">
         <div>
           <img
             src={data?.thumbnail?.secure_url}
@@ -13,21 +13,32 @@ function CourseCard({ data }) {
             alt="course-thumbnail"
           />
         </div>
-        <h1>{data?.title}</h1>
+        <h1 className="font-bold text-3xl text-[#EAB308]">{data?.title}</h1>
+        <br />
         <div>
           <p>
             {" "}
-            Category:<span>{data?.category}</span>
+            <span className="text-xl font-medium text-[#EAB308]">
+              Category:
+            </span>
+            <span> {data?.category}</span>
           </p>
         </div>
         <div>
           <p>
-            Description: <span>{data?.description}</span>
+            <span className="text-xl font-medium text-[#EAB308]">
+              Description:
+            </span>
+            <span> {data?.description}</span>
           </p>
         </div>
-        <div>Total lectures:</div>
+        <div>
+          <span className="text-xl font-medium text-[#EAB308]">
+            Total lectures:
+          </span>
+        </div>
         <p>
-          Instructor: <span>{data?.createdBy}</span>
+          <span className="text-xl font-medium text-[#EAB308]">Instructor:</span> <span> {data?.createdBy}</span>
         </p>
       </div>
     </div>
