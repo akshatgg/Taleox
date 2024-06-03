@@ -13,6 +13,7 @@ import axiosInstance from "../../Helper/axiosinstance.js";
 
 // import Particlesbg from "../Particlesbg.jsx";
 // import WorldLottie from "./WorldLottie";
+
 function Contact() {
   const form = useRef();
   const [userinput, setuserinput] = useState({
@@ -32,7 +33,7 @@ function Contact() {
   }
 
   async function handleFormSubmit(event) {
-    event.prevent.default();
+    event.preventDefault();
 
     if (
       !userinput.name ||
@@ -45,41 +46,37 @@ function Contact() {
       return;
     }
 
-    if (
-      !userinput.email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)
-    ) {
+    if (!userinput.email.match(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/)) {
       toast.error("Please Enter a valid email");
       return;
     }
+
+    try {
+      const res = axiosInstance.post("/contact", { ...userinput });
+      console.log(res);
+      toast.promise(res, {
+        loading: "Loading",
+        success: "Form submitted successfully",
+        error: "Some error to send an email",
+      });
+      const response = await res;
+
+      if (response?.data?.success) {
+        setuserinput({
+          name: "",
+          email: "",
+          number: "",
+          subject: "",
+          message: "",
+        });
+      }
+    } catch (e) {
+      toast.error(e.message);
+    }
   }
-
-
-  try{
-    const res=axiosInstance.post("/contact")
-  }
-  catch(e){
-    toast.error(e.message);
-  }
-
-  //   const sendEmail = (e) => {
-  //     e.preventDefault();
-
-  //     emailjs.sendForm('service_o3t5lxg', 'template_fgorclf', form.current, 'gpGpva79IfwwFH4Ql')
-  //     .then((result) => {
-  //       console.log('SUCCESS!',result.text);
-
-  //       form.current.reset();
-
-  //     })
-  //     .catch((error) => {
-  //       console.error('Error sending message:', error);
-  //       // Add code to display an error popup or message
-  //     });
-  //   };
 
   useEffect(() => {
     AOS.init({ duration: 1000 });
-
     AOS.refresh();
   }, []);
 
@@ -89,13 +86,13 @@ function Contact() {
       <br />
       <br />
       <br />
-      <br />\
+      <br />
       <div className="screenw bg-[#000000] flex items-center justify-center h-screen ">
         <div
           className="ttr text-white bg-[#100D25] p-11 rounded-3xl ml-[10%] "
           data-aos="fade-right"
         >
-          <form ref={form} className="justify-center">
+          <form ref={form} className="justify-center" onSubmit={handleFormSubmit}>
             <p>Get in Touch</p>
             <p className="text-white text-[50px] font-extrabold mb-[15%] ">
               Contact me
@@ -111,7 +108,6 @@ function Contact() {
               placeholder="Name"
               className="input h-10 mb-[10%]  rounded bg-[#151030]"
             />
-            {/* <br /><br /><br /> */}
             <div></div>
             <label htmlFor="email">Email</label>
             <span> (required)</span>
@@ -126,7 +122,6 @@ function Contact() {
               className="input h-10 mb-[10%] rounded bg-[#151030]"
               required
             />
-
             <div></div>
             <label htmlFor="phone">Phone</label>
             <br />
@@ -140,7 +135,6 @@ function Contact() {
               className="input h-10 mb-[10%] bg-[#151030] rounded"
             />
             <div></div>
-
             <label htmlFor="subject">Subject</label>
             <span> (required)</span>
             <br />
@@ -155,7 +149,6 @@ function Contact() {
               required
             />
             <div></div>
-
             <label htmlFor="message">Message</label>
             <span> (required)</span>
             <br />
@@ -169,7 +162,6 @@ function Contact() {
               className="input mb-[10%]  bg-[#151030] rounded"
             ></textarea>
             <div></div>
-
             <button type="submit" className="bg-[#151030]" id="mailButton">
               Send
             </button>
