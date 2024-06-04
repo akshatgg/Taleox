@@ -9,47 +9,43 @@ import Signin from "./Components/Signin/Signin.jsx";
 import Signup from "./Components/Signup/Signup.jsx";
 import Execute from "./Components/Home/Execute.jsx";
 import Footer from "./Components/Footer/Footer.jsx";
+import Denied from "./Components/Denied/Denied.jsx";
 
 function App() {
-
-
-
-
-
   return (
     <div>
-    <Router>
-      <div>
-        {/* Navbar */}
-        <div className="z-1000">
-        <Routes>
-          <Route path="/" element={<Navbar />} />
-          <Route path="/About" element={<Change />} />
-          <Route path="/Contact" element={<Change/>} />
-          <Route path="/Courses" element={<Change />} />
-          <Route path="/Signup" element={<Change />} />
-          <Route path="/Signin" element={<Change />} />
-        </Routes>
-        </div>
-        
-        {/* Routes */}
-        <Routes>
-          <Route path="/Signin" element={<Signin />} />
-          <Route path="/Signup" element={<Signup />} />
-          <Route path="/" element={<Execute />} />
-          <Route path="/About" element={<About />} />
-          <Route path="/Courses" element={<CourseList />} />
-          <Route path="/Contact" element={<Contact />} />
-        </Routes>
+      <Router>
+        <div>
+          {/* Navbar */}
+          <div className="z-1000">
+            <Routes>
+              <Route path="/" element={<Navbar />} />
+              <Route path="/About" element={<Change />} />
+              <Route path="/Contact" element={<Change />} />
+              <Route path="/Courses" element={<Change />} />
+              <Route path="/Signup" element={<Change />} />
+              <Route path="/Signin" element={<Change />} />
+            </Routes>
+          </div>
 
-        {/* Footer */}
-        <Routes>
-          <Route path="/About" element={<Footer/>} />
-          <Route path="/Contact" element={<Footer/>} />
-          <Route path="/Courses" element={<Footer/>} />
-        </Routes>
-      </div>
-    </Router>
+          {/* Routes */}
+          <Routes>
+            <Route path="/Signin" element={<Signin />} />
+            <Route path="/Signup" element={<Signup />} />
+            <Route path="/" element={<Execute />} />
+            <Route path="/About" element={<Denied />} />
+            <Route path="/Courses" element={<CourseList />} />
+            <Route path="/Contact" element={<Contact />} />
+          </Routes>
+
+          {/* Footer */}
+          <Routes>
+            <Route path="/About" element={<Footer />} />
+            <Route path="/Contact" element={<Footer />} />
+            <Route path="/Courses" element={<Footer />} />
+          </Routes>
+        </div>
+      </Router>
     </div>
   );
 }
