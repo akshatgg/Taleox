@@ -22,7 +22,18 @@ const CourseList = () => {
           return <CourseCard key={element._id} data={element} />;
         })}
       </div>
-      
+      <br />
+      <br />
+
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
     </div>
   );
 };
