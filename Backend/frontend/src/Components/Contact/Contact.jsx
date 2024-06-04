@@ -7,7 +7,7 @@ import { toast } from "react-hot-toast";
 import AOS from "aos";
 import { useEffect, useState } from "react";
 import { useRef } from "react";
-
+import emailjs from "@emailjs/browser";
 import World from "./World.jsx";
 import axiosInstance from "../../Helper/axiosinstance.js";
 
@@ -16,64 +16,87 @@ import axiosInstance from "../../Helper/axiosinstance.js";
 
 function Contact() {
   const form = useRef();
-  const [userinput, setuserinput] = useState({
-    name: "",
-    email: "",
-    number: "",
-    subject: "",
-    message: "",
-  });
 
-  function handleinput(e) {
-    const { name, value } = e.target;
-    setuserinput({
-      ...userinput,
-      [name]: value,
-    });
-  }
+  const sendEmail = (e) => {
+    e.preventDefault();
 
-  async function handleFormSubmit(event) {
-    event.preventDefault();
+    emailjs
+      .sendForm(
+        "service_z6j6qbl",
+        "template_fgorclf",
+        form.current,
+        "gpGpva79IfwwFH4Ql"
+      )
 
-    if (
-      !userinput.name ||
-      !userinput.email ||
-      !userinput.number ||
-      !userinput.subject ||
-      !userinput.message
-    ) {
-      toast.error("Please fill every field");
-      return;
-    }
+      .then(
+        () => {
+          toast.success("Email send successfully");
+          window.location.reload();
+        },
+        (error) => {
+          toast.error(error.text);
+        }
+      );
+  };
 
-    if (!userinput.email.match(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/)) {
-      toast.error("Please Enter a valid email");
-      return;
-    }
+  // const [userinput, setuserinput] = useState({
+  //   name: "",
+  //   email: "",
+  //   number: "",
+  //   subject: "",
+  //   message: "",
+  // });
 
-    try {
-      const res = axiosInstance.post("/contact", { ...userinput });
-      console.log(res);
-      toast.promise(res, {
-        loading: "Loading",
-        success: "Form submitted successfully",
-        error: "Some error to send an email",
-      });
-      const response = await res;
+  // function handleinput(e) {
+  //   const { name, value } = e.target;
+  //   setuserinput({
+  //     ...userinput,
+  //     [name]: value,
+  //   });
+  // }
 
-      if (response?.data?.success) {
-        setuserinput({
-          name: "",
-          email: "",
-          number: "",
-          subject: "",
-          message: "",
-        });
-      }
-    } catch (e) {
-      toast.error(e.message);
-    }
-  }
+  // async function handleFormSubmit(event) {
+  //   event.preventDefault();
+
+  //   if (
+  //     !userinput.name ||
+  //     !userinput.email ||
+  //     !userinput.number ||
+  //     !userinput.subject ||
+  //     !userinput.message
+  //   ) {
+  //     toast.error("Please fill every field");
+  //     return;
+  //   }
+
+  //   if (!userinput.email.match(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/)) {
+  //     toast.error("Please Enter a valid email");
+  //     return;
+  //   }
+
+  //   try {
+  //     // const res = axiosInstance.post("/contact", { ...userinput });
+  //     // console.log(res);
+  //     toast.promise(res, {
+  //       loading: "Loading",
+  //       success: "Form submitted successfully",
+  //       error: "Some error to send an email",
+  //     });
+  //     const response = await res;
+
+  //     if (response?.data?.success) {
+  //       setuserinput({
+  //         name: "",
+  //         email: "",
+  //         number: "",
+  //         subject: "",
+  //         message: "",
+  //       });
+  //     }
+  //   } catch (e) {
+  //     toast.error(e.message);
+  //   }
+  // }
 
   useEffect(() => {
     AOS.init({ duration: 1000 });
@@ -92,7 +115,7 @@ function Contact() {
           className="ttr text-white bg-[#100D25] p-11 rounded-3xl ml-[10%] "
           data-aos="fade-right"
         >
-          <form ref={form} className="justify-center" onSubmit={handleFormSubmit}>
+          <form ref={form} className="justify-center" onSubmit={sendEmail}>
             <p>Get in Touch</p>
             <p className="text-white text-[50px] font-extrabold mb-[15%] ">
               Contact me
@@ -102,8 +125,8 @@ function Contact() {
             <input
               type="text"
               id="name"
-              onChange={handleinput}
-              value={userinput.name}
+              // onChange={handleinput}
+              // value={userinput.name}
               name="name"
               placeholder="Name"
               className="input h-10 mb-[10%]  rounded bg-[#151030]"
@@ -116,8 +139,8 @@ function Contact() {
               type="text"
               id="email"
               name="email"
-              onChange={handleinput}
-              value={userinput.email}
+              // onChange={handleinput}
+              // value={userinput.email}
               placeholder="Email"
               className="input h-10 mb-[10%] rounded bg-[#151030]"
               required
@@ -128,8 +151,8 @@ function Contact() {
             <input
               type="text"
               id="phone"
-              onChange={handleinput}
-              value={userinput.number}
+              // onChange={handleinput}
+              // value={userinput.number}
               name="number"
               placeholder="Phone Number"
               className="input h-10 mb-[10%] bg-[#151030] rounded"
@@ -142,8 +165,8 @@ function Contact() {
               type="text"
               id="subject"
               name="subject"
-              onChange={handleinput}
-              value={userinput.subject}
+              // onChange={handleinput}
+              // value={userinput.subject}
               placeholder="Subject"
               className="input h-10 mb-[10%]  bg-[#151030] rounded"
               required
@@ -155,9 +178,9 @@ function Contact() {
             <textarea
               id="message"
               name="message"
-              onChange={handleinput}
+              // onChange={handleinput}
               rows="4"
-              value={userinput.message}
+              // value={userinput.message}
               placeholder="Enter your message"
               className="input mb-[10%]  bg-[#151030] rounded"
             ></textarea>

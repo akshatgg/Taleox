@@ -1,11 +1,19 @@
 import { useNavigate } from "react-router-dom";
+import AOS from "aos";
+import { useEffect, useState } from "react";
 
 function CourseCard({ data }) {
   const navigate = useNavigate();
 
+
+  useEffect(() => {
+    AOS.init({ duration: 1000 });
+    AOS.refresh();
+  }, []);
+
   return (
     <div className="max-w-[20rem] ml-6 ">
-      <div className="bg-[#383737] text-white shadow-[#44433B] shadow-xl">
+      <div className="bg-[#383737] text-white shadow-[#44433B] shadow-xl " data-aos="zoom-in-up">
         <div className="transition-all hover:scale-105 duration-300">
           <img
             src={data?.thumbnail?.secure_url}
