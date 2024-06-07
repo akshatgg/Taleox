@@ -2,19 +2,20 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllCourses } from "../../Redux/Slices/CourseSlice";
 import CourseCard from "./layout/CourseCard";
-
-const CourseList = () => {
+   
+  const CourseList = () => {
   const dispatch = useDispatch();
   const { coursedata } = useSelector((state) => state.course);
-console.log(coursedata);
+  console.log(coursedata);
   const loadedCourses = async () => {
-    await dispatch(getAllCourses());
+  await dispatch(getAllCourses());
   };
-
+  
+  
   useEffect(() => {
-    loadedCourses();
+  loadedCourses();
   }, []);
-
+  
   
   return (
     <div className="bg-black">

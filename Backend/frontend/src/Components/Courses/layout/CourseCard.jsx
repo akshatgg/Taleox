@@ -14,6 +14,7 @@ function CourseCard({ data }) {
     navigate("/Course-Description", { state: { message: data } });
   }
 
+  
   return (
     <div className="max-w-[20rem] ml-6 ">
       <div
