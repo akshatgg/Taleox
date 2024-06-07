@@ -13,7 +13,7 @@ function CourseCard({ data }) {
 
   return (
     <div className="max-w-[20rem] ml-6 ">
-      <div className="bg-[#383737] text-white shadow-[#44433B] shadow-xl " data-aos="zoom-in-up">
+      <div className="bg-[#383737] text-white shadow-[#44433B] shadow-xl " data-aos="zoom-in-up" onClick={navigate()}>
         <div className="transition-all hover:scale-105 duration-300">
           <img
             src={data?.thumbnail?.secure_url}

@@ -10,6 +10,7 @@ import Signup from "./Components/Signup/Signup.jsx";
 import Execute from "./Components/Home/Execute.jsx";
 import Footer from "./Components/Footer/Footer.jsx";
 import Denied from "./Components/Denied/Denied.jsx";
+import CourseDescription from "./Components/Courses/layout/CourseDescription.jsx";
 
 function App() {
   return (
@@ -25,11 +26,13 @@ function App() {
               <Route path="/Courses" element={<Change />} />
               <Route path="/Signup" element={<Change />} />
               <Route path="/Signin" element={<Change />} />
+              <Route path="/Course-Description" element={<Change />} />
             </Routes>
           </div>
 
           {/* Routes */}
           <Routes>
+            <Route path="/Course-Description" element={<CourseDescription />} />
             <Route path="/Signin" element={<Signin />} />
             <Route path="/Signup" element={<Signup />} />
             <Route path="/" element={<Execute />} />
@@ -40,6 +43,7 @@ function App() {
 
           {/* Footer */}
           <Routes>
+            <Route path="/Course-Description" element={<Footer />} />
             <Route path="/About" element={<Footer />} />
             <Route path="/Contact" element={<Footer />} />
             <Route path="/Courses" element={<Footer />} />
