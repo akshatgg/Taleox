@@ -11,7 +11,7 @@ function CourseDescription() {
   const { role, data } = useSelector((state) => state.auth);
   console.log(state);
   return (
-    <div className="h-[100vh]  flex justify-center items-center align-middle bg-black">
+    <div className="h-[80vh]  flex justify-center items-center align-middle bg-black">
       <div className="flex flex-row space-x-6">
         <div className="flex flex-col space-y-4">
           <div className="">
@@ -24,6 +24,7 @@ function CourseDescription() {
           <div>
             <div className=" font-bold flex justify-center text-[#EAB308] text-2xl">
               Total lectures:{" "}
+              <span>{state?.message?.numbersOfLectures}</span>
               {/* <span className="text-white ml-2">{state?.message?.createdBy}</span> */}
             </div>
             <div className=" font-bold flex justify-center text-[#EAB308] text-2xl">
