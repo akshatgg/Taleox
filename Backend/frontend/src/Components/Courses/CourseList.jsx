@@ -27,7 +27,7 @@ import CourseCard from "./layout/CourseCard";
       <br />
       <br />
 
-      <br />
+      <br />  
       <br />
       <br />
       <br />

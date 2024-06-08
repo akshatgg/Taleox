@@ -11,12 +11,15 @@ import Execute from "./Components/Home/Execute.jsx";
 import Footer from "./Components/Footer/Footer.jsx";
 import Denied from "./Components/Denied/Denied.jsx";
 import CourseDescription from "./Components/Courses/layout/CourseDescription.jsx";
+import NotRequireAuth from "./Components/Auth/NotRequireAuth.jsx";
+import RequireAuth from "./Components/Auth/RequireAuth.jsx";
 
 function App() {
   return (
     <div>
       <Router>
         <div>
+
           {/* Navbar */}
           <div className="z-1000">
             <Routes>
@@ -30,17 +33,28 @@ function App() {
             </Routes>
           </div>
 
+
           {/* Routes */}
           <Routes>
-            <Route path="/Course-Description" element={<CourseDescription />} />
-            <Route path="/Signin" element={<Signin />} />
-            <Route path="/Signup" element={<Signup />} />
             <Route path="/" element={<Execute />} />
             <Route path="/About" element={<About />} />
             <Route path="/Courses" element={<CourseList />} />
             <Route path="/Contact" element={<Contact />} />
           </Routes>
 
+
+          <Routes element={<NotRequireAuth/>}>
+            <Route path="/Signin" element={<Signin />} />
+            <Route path="/Signup" element={<Signup />} />
+          </Routes>
+
+
+
+          <Routes element={<RequireAuth allowedRoles={["USER","ADMIN"]}/>}>
+            <Route path="/Course-Description" element={<CourseDescription />} />
+          </Routes>
+
+          
           {/* Footer */}
           <Routes>
             <Route path="/Course-Description" element={<Footer />} />

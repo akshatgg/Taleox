@@ -4,11 +4,11 @@ import Layout from "./Layout.jsx";
 import { useSelector } from "react-redux";
 
 function CourseDescription() {
-  const { coursedata } = useSelector((state) => state.course);
-  const navigate = useNavigate();
+  // const { coursedata } = useSelector((state) => state.course);
+  // const navigate = useNavigate();
   const location = useLocation();
   const { state } = location;
-  const { role, data } = useSelector((state) => state.auth);
+  // const { role, data } = useSelector((state) => state.auth);
   console.log(state);
   return (
     <div className="h-[80vh]  flex justify-center items-center align-middle bg-black">
