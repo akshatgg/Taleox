@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Layout from "./Layout.jsx";
 import { useSelector } from "react-redux";
+import { Button } from "react-scroll";
 
 function CourseDescription() {
   // const { coursedata } = useSelector((state) => state.course);
@@ -23,8 +24,7 @@ function CourseDescription() {
           </div>
           <div>
             <div className=" font-bold flex justify-center text-[#EAB308] text-2xl">
-              Total lectures:{" "}
-              <span>{state?.message?.numbersOfLectures}</span>
+              Total lectures: <span>{state?.message?.numbersOfLectures}</span>
               {/* <span className="text-white ml-2">{state?.message?.createdBy}</span> */}
             </div>
             <div className=" font-bold flex justify-center text-[#EAB308] text-2xl">
@@ -34,9 +34,15 @@ function CourseDescription() {
               </span>
             </div>
           </div>
+          <div className="flex justify-center">
+            <Button className="bg-[#EAB308] pl-11 pr-11 text-xl pt-1 pb-1 hover:bg-[#f7c531ef]">
+              Subscribe
+            </Button>
+          </div>
         </div>
         <div>
           <div className="flex flex-col space-y-3">
+            
             <div className="flex flex-col space-y-5">
               <h1 className="text-[#EAB308] text-4xl font-semibold">
                 {state?.message?.title}

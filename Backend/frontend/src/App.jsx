@@ -49,7 +49,7 @@ function App() {
           {/* <Routes element={<NotRequireAuth />}>
           </Routes> */}
 
-          <Route element={<RequireAuth allowedRoles={["USER", "ADMIN"]} />}>
+          <Route >
             <Route path="/Course-Description" element={<CourseDescription />} />
           </Route>
 
