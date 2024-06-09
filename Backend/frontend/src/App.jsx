@@ -13,15 +13,15 @@ import Denied from "./Components/Denied/Denied.jsx";
 import CourseDescription from "./Components/Courses/layout/CourseDescription.jsx";
 import NotRequireAuth from "./Components/Auth/NotRequireAuth.jsx";
 import RequireAuth from "./Components/Auth/RequireAuth.jsx";
+import CreateCourses from "./Components/Courses/CreateCourses.jsx";
 
 function App() {
   return (
     <div>
       <Router>
-        <div>
-
+      
           {/* Navbar */}
-          <div className="z-1000">
+          
             <Routes>
               <Route path="/" element={<Navbar />} />
               <Route path="/About" element={<Change />} />
@@ -31,40 +31,47 @@ function App() {
               <Route path="/Signin" element={<Change />} />
               <Route path="/Course-Description" element={<Change />} />
             </Routes>
-          </div>
-
+       
+       
+         <Routes>
 
           {/* Routes */}
-          <Routes>
+          <Route>
             <Route path="/" element={<Execute />} />
             <Route path="/About" element={<About />} />
             <Route path="/Courses" element={<CourseList />} />
             <Route path="/Contact" element={<Contact />} />
-          </Routes>
-
-
-          <Routes element={<NotRequireAuth/>}>
             <Route path="/Signin" element={<Signin />} />
             <Route path="/Signup" element={<Signup />} />
-          </Routes>
+            <Route path="/Denied" element={<Denied/>}/>
+          </Route>
 
+          {/* <Routes element={<NotRequireAuth />}>
+          </Routes> */}
 
-
-          <Routes element={<RequireAuth allowedRoles={["USER","ADMIN"]}/>}>
+          <Route element={<RequireAuth allowedRoles={["USER", "ADMIN"]} />}>
             <Route path="/Course-Description" element={<CourseDescription />} />
-          </Routes>
+          </Route>
 
-          
+
+          <Route element={<RequireAuth allowedRoles={["ADMIN"]} />}>
+            <Route path="/course/create" element={<CreateCourses/>} />
+          </Route>
+       </Routes>
+
+
+       
+<Routes>
           {/* Footer */}
-          <Routes>
+          <Route>
             <Route path="/Course-Description" element={<Footer />} />
             <Route path="/About" element={<Footer />} />
             <Route path="/Contact" element={<Footer />} />
             <Route path="/Courses" element={<Footer />} />
+          </Route>
           </Routes>
-        </div>
       </Router>
-    </div>
+      </div>
   );
 }
 
