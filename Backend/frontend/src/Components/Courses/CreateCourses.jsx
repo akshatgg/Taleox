@@ -45,9 +45,9 @@ function CreateCourses() {
 
   return (
     <div className="flex justify-center items-center h-[90vh] bg-black">
-      <form className="border border-white max-w-[700px] text-white p-4">
-        <div className="flex items-center mb-4">
-          <div className="mr-2">
+      <form className=" max-w-[1000px] text-white p-8 shadow-[#44433B] shadow-2xl">
+        <div className="flex mb-4">
+          <div className="mr-2 flex justify-start cursor-pointer">
             <svg
               width="32"
               height="32"
@@ -64,12 +64,14 @@ function CreateCourses() {
               />
             </svg>
           </div>
-          <div className="font-semibold text-3xl">Create New Courses</div>
+          <div className="font-semibold text-3xl flex justify-center items-center">
+            Create New Courses
+          </div>
         </div>
 
         <div className="flex">
           <div className="flex flex-col mr-4">
-            <div className="mb-4">
+            <div className="mb-4 max-w-[600px]">
               <label htmlFor="image_uploads" className="cursor-pointer">
                 {previewimage ? (
                   <img className="" src={previewimage} alt="Preview" />
@@ -114,13 +116,12 @@ function CreateCourses() {
 
             <div className="flex flex-col">
               <h1 className="mb-2">Description</h1>
-              <input
+              <textarea
                 className="bg-black text-white border border-gray-600 rounded p-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Description"
-              />
-              
+                rows="5"
+              ></textarea>
             </div>
-
           </div>
         </div>
       </form>
