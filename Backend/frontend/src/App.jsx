@@ -68,6 +68,7 @@ function App() {
           {/* Footer */}
           <Route>
             <Route path="/Course-Description" element={<Footer />} />
+            
             <Route path="/About" element={<Footer />} />
             <Route path="/Contact" element={<Footer />} />
             <Route path="/Courses" element={<Footer />} />
