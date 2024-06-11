@@ -31,6 +31,7 @@ function CreateCourses() {
         setpreviewimage(this.result);
       });
     }
+    
   }
 
   function handleuserInput(e) {
