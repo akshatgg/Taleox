@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import black from "../../assets/black.png";
+import toast from "react-hot-toast";
+import {createcourse} from "../../Redux/Slices/CourseSlice.js"
 function CreateCourses() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -39,14 +41,39 @@ function CreateCourses() {
     });
   }
 
-  function handleformSubmit(e) {
+  async function handleformSubmit(e) {
     e.preventDefault();
-    
+
+    if(!userinput.title || !userinput.description || !userinput.category || !userinput.createdBy ){
+      toast.error("Please fill every field")
+      return;
+    }
+
+    const formData= new FormData();
+    formData.append('title',userinput.title);
+    formData.append('description',userinput.description);
+    formData.append('category', userinput.category);
+    formData.append('createdBy',userinput.createdBy);
+    formData.append('thumbnail',userinput.thumbnail);
+
+    const res=await dispatch(createcourse(formData));
+
+    if(res?.payload?.success) navigate ("/Courses");
+
+    setuserinput({
+      title:"",
+      description:"",
+      thumbnail:"",
+      createdBy:"",
+      category:""
+      
+    })
+    setpreviewimage("");
   }
 
   return (
     <div className="flex justify-center items-center h-[90vh] bg-black">
-      <form className=" max-w-[1000px] text-white p-8 shadow-[#44433B] shadow-2xl">
+      <form className=" max-w-[1000px] text-white p-8 shadow-[#44433B] shadow-2xl" onSubmit={handleformSubmit}>
         <div className="flex mb-4">
           <div className="mr-2 flex justify-start cursor-pointer">
             <svg
@@ -95,6 +122,9 @@ function CreateCourses() {
               <input
                 className="bg-black text-white border border-gray-600 rounded p-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Title"
+                onChange={handleuserInput}
+                name="title"
+                value={userinput.title}
               />
             </div>
           </div>
@@ -104,6 +134,9 @@ function CreateCourses() {
               <input
                 className="bg-black text-white border border-gray-600 rounded p-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Instructor"
+                onChange={handleuserInput}
+                name="createdBy"
+                value={userinput.createdBy}
               />
             </div>
 
@@ -112,6 +145,9 @@ function CreateCourses() {
               <input
                 className="bg-black text-white border border-gray-600 rounded p-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Category"
+                onChange={handleuserInput}
+                name="category"
+                value={userinput.category}
               />
             </div>
 
@@ -121,7 +157,14 @@ function CreateCourses() {
                 className="bg-black text-white border border-gray-600 rounded p-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Description"
                 rows="5"
+                onChange={handleuserInput}
+                name="description"
+                value={userinput.description}
               ></textarea>
+            </div>
+
+            <div>
+              <button onClick={handleformSubmit}>Create</button>
             </div>
           </div>
         </div>
