@@ -52,12 +52,12 @@ function App() {
           {/* <Routes element={<NotRequireAuth />}>
           </Routes> */}
 
-          <Route >
+          <Route element={<RequireAuth allowedRoles={["USER","ADMIN"]}/>} >
             <Route path="/Course-Description" element={<CourseDescription />} />
           </Route>
 
 
-          <Route >
+          <Route element={<RequireAuth allowedRoles={["ADMIN"]}/>}>
             <Route path="/course/create" element={<CreateCourses/>} />
           </Route>
        </Routes>
