@@ -188,9 +188,10 @@ const addLecturesToCourse = async (req, res, next) => {
 
                     // Remove the file from server after uploading to Cloudinary
                     await fs.rm(req.file.path);
-                }
-            } catch (e) {
-                return next(new apperror(e.message, 500));
+            1                   }
+            }
+             catch (e) {
+             return next(new apperror(e.message, 500));
             }
         }
 

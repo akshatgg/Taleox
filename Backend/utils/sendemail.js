@@ -1,7 +1,8 @@
 import nodemailer from "nodemailer";
 
+
 // async..await is not allowed in global scope, must use a wrapper
-const sendEmail = async function (email, subject, message,number,name) {
+const sendEmail = async function (email, subject, message) {
   // create reusable transporter object using the default SMTP transport
   let transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
@@ -12,6 +13,7 @@ const sendEmail = async function (email, subject, message,number,name) {
       pass: process.env.SMTP_PASSWORD,
     },
   });
+
 
   // send mail with defined transport object
   await transporter.sendMail({

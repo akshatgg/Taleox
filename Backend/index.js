@@ -15,6 +15,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 import Razorpay from 'razorpay';
 const app = express();
+import misscel from "./routes/misellanious.routes.js"
 const PORT = process.env.PORT;
 console.log(PORT)
 database()
@@ -39,7 +40,7 @@ app.use(morgan('dev'));
 app.use('/api/auth/user', userRoutes);
 app.use('/api/auth/courses', courseRoutes);
 app.use('/api/auth/Payment', userpayment);
-
+app.use('api/auth/',misscel);
 
 
 // app.use('/ping', (req, res) => {

@@ -161,8 +161,8 @@ const authSlice = createSlice({
             state.role = "";
         });
 
-
-
+      
+        
         //   for user data
         builder.addCase(getuser.fulfilled, (state, action) => {
             const user = action?.payload?.user;
@@ -179,7 +179,7 @@ const authSlice = createSlice({
             }
         })
 
-
+          
    
     }
 });

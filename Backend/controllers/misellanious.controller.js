@@ -17,6 +17,7 @@ export const contactUs = asyncHandler(async (req, res, next) => {
     return next(new AppError('Name, Email, Message, Number, and Subject are required', 400));
   }
 
+  
   try {
     const emailSubject = `Contact Us Form: ${subject}`;
     const textMessage = `

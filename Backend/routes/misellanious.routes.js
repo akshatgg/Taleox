@@ -2,15 +2,15 @@ import { Router } from 'express';
 import {
   contactUs,
   userStats,
-} from '../controllers/miscellaneous.controller.js';
-import { authorizeRoles, isLoggedIn } from '../middleware/auth.middleware';
+} from '../controllers/misellanious.controller.js';
+import { authorizedRoles, isloggedIn } from '../middleware/auth.middleware.js';
 
 const router = Router();
 
-// {{URL}}/api/v1/
-router.route('/contact').post(contactUs);
+
+router.post('/contact',contactUs);
 router
   .route('/admin/stats/users')
-  .get(isLoggedIn, authorizeRoles('ADMIN'), userStats);
+  .get(isloggedIn, authorizedRoles('ADMIN'), userStats);
 
 export default router;

@@ -8,9 +8,9 @@ const RequireAuth = ({ allowedRoles }) => {
   return isloggedin && allowedRoles.find((myRole) => myRole === role) ? (
     <Outlet />
   ) : isloggedin ? (
-      <Navigate to={"/Signin"} state={{ from: location }} replace />
-      ) : (
-      <Navigate to={"/Denied"} state={{ from: location }} replace />
+    <Navigate to={"/Denied"} state={{ from: location }} replace />
+    ) : (
+        <Navigate to={"/Signin"} state={{ from: location }} replace />
   );
 };
 
