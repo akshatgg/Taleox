@@ -33,7 +33,7 @@ function Change() {
     setAnchorEl(null);
   };
 
-  const loginstate = JSON.parse(localStorage.getItem("islogged") || "false");
+  const loginstate = JSON.parse(localStorage.getItem("isloggedin") || "false");
 
   const [showButtons, setShowButtons] = useState(false);
 
@@ -148,9 +148,11 @@ function Change() {
                   transformOrigin={{ horizontal: "right", vertical: "top" }}
                   anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
                 >
+                      <Link to="/course/create">
                   <MenuItem onClick={handleClose}>
                     <Avatar /> Profile
                   </MenuItem>
+                  </Link>
                   <MenuItem onClick={handleClose}>
                     <Avatar /> My account
                   </MenuItem>

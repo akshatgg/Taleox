@@ -141,9 +141,11 @@ const res= await dispatch(logout());
                   transformOrigin={{ horizontal: "right", vertical: "top" }}
                   anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
                 >
+                  <Link to="/course/create">
                   <MenuItem onClick={handleClose}>
                     <Avatar /> Profile
                   </MenuItem>
+                  </Link>
                   <MenuItem onClick={handleClose}>
                     <Avatar /> My account
                   </MenuItem>

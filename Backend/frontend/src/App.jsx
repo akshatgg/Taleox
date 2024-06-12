@@ -14,6 +14,7 @@ import CourseDescription from "./Components/Courses/layout/CourseDescription.jsx
 import NotRequireAuth from "./Components/Auth/NotRequireAuth.jsx";
 import RequireAuth from "./Components/Auth/RequireAuth.jsx";
 import CreateCourses from "./Components/Courses/CreateCourses.jsx";
+import Profile from "./Components/User/Profile.jsx";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
               <Route path="/Signin" element={<Change />} />
               <Route path="/Course-Description" element={<Change />} />
               <Route path="/course/create" element={<Change />} />
+              <Route path="/Profile" element={<Change/>} />
 
             </Routes>
        
@@ -46,7 +48,7 @@ function App() {
             <Route path="/Signin" element={<Signin />} />
             <Route path="/Signup" element={<Signup />} />
             <Route path="/Denied" element={<Denied/>}/>
-
+            
           </Route>
 
           {/* <Routes element={<NotRequireAuth />}>
@@ -54,6 +56,8 @@ function App() {
 
           <Route element={<RequireAuth allowedRoles={["USER","ADMIN"]}/>} >
             <Route path="/Course-Description" element={<CourseDescription />} />
+            <Route path="/Profile" element={<Profile/>} />
+
           </Route>
 
 
