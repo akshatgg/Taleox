@@ -21,7 +21,7 @@ import { useDispatch } from "react-redux";
 import { logout } from "../../Redux/Slices/AuthSlice";
 
 function Navbar() {
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -37,13 +37,11 @@ function Navbar() {
 
   const toggleButtons = () => {
     setShowButtons(!showButtons);
-    
   };
 
   useEffect(() => {
-    if(loginstate){
-      document.getElementById('down-arrow').style.display="none";
-
+    if (loginstate) {
+      document.getElementById("down-arrow").style.display = "none";
     }
     const profile = document.getElementById("profile");
 
@@ -51,11 +49,11 @@ function Navbar() {
       profile.style.display = "none";
     } else {
       profile.style.display = "block";
-    }  
+    }
   }, [loginstate]);
 
   const handle = async () => {
-const res= await dispatch(logout());
+    const res = await dispatch(logout());
 
     window.location.reload();
   };
@@ -141,14 +139,16 @@ const res= await dispatch(logout());
                   transformOrigin={{ horizontal: "right", vertical: "top" }}
                   anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
                 >
+                  <Link to="/Profile">
+                    <MenuItem onClick={handleClose}>
+                      <Avatar /> Profile
+                    </MenuItem>
+                  </Link>
                   <Link to="/course/create">
                   <MenuItem onClick={handleClose}>
-                    <Avatar /> Profile
+                    <Avatar /> Create Courses
                   </MenuItem>
                   </Link>
-                  <MenuItem onClick={handleClose}>
-                    <Avatar /> My account
-                  </MenuItem>
                   <Divider />
                   <MenuItem onClick={handleClose}>
                     <ListItemIcon>

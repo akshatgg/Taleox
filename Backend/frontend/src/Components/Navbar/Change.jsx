@@ -148,14 +148,16 @@ function Change() {
                   transformOrigin={{ horizontal: "right", vertical: "top" }}
                   anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
                 >
-                      <Link to="/course/create">
+                          <Link to="/Profile">
+                    <MenuItem onClick={handleClose}>
+                      <Avatar /> Profile
+                    </MenuItem>
+                  </Link>
+                  <Link to="/course/create">
                   <MenuItem onClick={handleClose}>
-                    <Avatar /> Profile
+                    <Avatar /> Create Courses
                   </MenuItem>
                   </Link>
-                  <MenuItem onClick={handleClose}>
-                    <Avatar /> My account
-                  </MenuItem>
                   <Divider />
                   <MenuItem onClick={handleClose}>
                     <ListItemIcon>
