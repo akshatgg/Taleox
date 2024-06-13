@@ -15,45 +15,37 @@ function Profile() {
 
   return (
     <div className="h-[90vh] bg-black flex justify-center items-center">
-      <div className="max-h-[1000px] border p-8 flex flex-col space-y-3  shadow-[#44433B] shadow-2xl ">
+      <div className="max-h-[1000px]  p-8 flex flex-col space-y-3  shadow-[#44433B] shadow-2xl ">
         <div className="flex justify-center">
           <img
-            className="max-w-[200px] rounded-full"
+            className="max-w-[300px] rounded-full"
             src={userData?.avatar?.secure_url}
           />
         </div>
-        <h1 className="text-white flex justify-center">{userData?.name}</h1>
+        <h1 className="text-white flex justify-center text-2xl">
+          {userData?.name}
+        </h1>
 
-        <div className="grid grid-cols-2 border p-1 text-white">
-        <div className="col-span-1 p-1">
-          Email
+        <div className="grid grid-cols-2 p-1  text-white">
+          <div className="col-span-1 p-1">Email</div>
+          <div className="col-span-1 p-1">{userData?.email}</div>
+
+          <div className="col-span-1 p-1">Contact no.</div>
+          <div className="col-span-1 p-1">{userData?.number}</div>
+
+          <div className="col-span-1 p-1">Role</div>
+          <div className="col-span-1 p-1">{userData?.role}</div>
+
+          <div className="col-span-1 p-1">Username</div>
+          <div className="col-span-1 p-1">{userData?.username}</div>
+
+          <div className="col-span-1 p-2 bg-[#C08C2F] flex justify-center items-center hover:bg-[#e0b943]">
+            <button>Change Password</button>
+          </div>
+          <div className="col-span-1 p-2 bg-[#C08C2F] ml-2 flex justify-center items-center hover:bg-[#DCB643]">
+            <button>Edit Profile</button>
+          </div>
         </div>
-        <div className="col-span-1 p-1">
-            {userData?.email}
-        </div>
-
-        <div className="col-span-1 p-1">
-          Contact no.
-          </div>
-          <div className="col-span-1 p-1">
-              {userData?.number}
-          </div>
-
-          <div className="col-span-1 p-1">
-          Role
-          </div>
-          <div className="col-span-1 p-1">
-              {userData?.role}
-          </div>
-
-          <div className="col-span-1 p-1">
-          Username
-          </div>
-          <div className="col-span-1 p-1">
-              {userData?.username}
-          </div>
-
-    </div>
       </div>
     </div>
   );
