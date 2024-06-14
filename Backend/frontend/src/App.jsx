@@ -19,6 +19,7 @@ import Profile from "./Components/User/Profile.jsx";
 function App() {
   return (
     <div>
+      
       <Router>
       
           {/* Navbar */}
