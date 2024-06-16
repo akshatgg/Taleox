@@ -122,6 +122,7 @@ function Editprofile(){
                     variant="standard"
                     name="number"
                     value={number}
+                    
                     onChange={handlegetuser}
           
                   />
