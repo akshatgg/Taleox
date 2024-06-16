@@ -14,8 +14,8 @@ function Profile() {
   }, []);
 
   return (
-    <div className="h-[90vh] bg-black flex justify-center items-center">
-      <div className="max-h-[1000px]  p-8 flex flex-col space-y-3  shadow-[#44433B] shadow-2xl ">
+    <div className="h-[90vh]  flex justify-center items-center bg-black">
+      <div className="max-h-[1000px]   p-8 flex flex-col space-y-3  shadow-[#44433B] shadow-2xl bg-black">
         <div className="flex justify-center">
           <img
             className="max-w-[300px] rounded-full"
@@ -40,10 +40,14 @@ function Profile() {
           <div className="col-span-1 p-1">{userData?.username}</div>
 
           <div className="col-span-1 p-2 bg-[#C08C2F] flex justify-center items-center hover:bg-[#e0b943]">
+            <Link to="change-password">
             <button>Change Password</button>
+            </Link>
           </div>
           <div className="col-span-1 p-2 bg-[#C08C2F] ml-2 flex justify-center items-center hover:bg-[#DCB643]">
-            <button>Edit Profile</button>
+          <Link to="/editprofile">
+        <button>Edit Profile</button>
+      </Link>
           </div>
         </div>
       </div>

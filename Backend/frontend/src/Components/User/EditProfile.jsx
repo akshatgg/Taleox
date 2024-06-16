@@ -1,9 +1,10 @@
+
 import { useState } from "react";
-import toast from "react-hot-toast";
+// import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 
 
-function EditProfile(){
+function Editprofile(){
  const dispatch=useDispatch()
  const [previewImage,setImagePreview]=useState("");
 
@@ -47,15 +48,17 @@ function EditProfile(){
    
 
 }
-
+ 
 
     return (
-        <div>
+        <div className="h-[90vh] bg-black">
+            <div className="">
 
+            </div>
         </div>
     )
 }
 
 
 
-export default EditProfile;
+export default Editprofile;

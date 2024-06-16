@@ -13,7 +13,18 @@ export default defineConfig({
         target: "http://localhost:5000",
         changeOrigin: true
       }
+    },
+        watch: {
+      usePolling: true
     }
   }
 
 })
+// export default defineConfig({
+//   plugins: [react()],
+//   server: {
+//     watch: {
+//       usePolling: true
+//     }
+//   }
+// })
