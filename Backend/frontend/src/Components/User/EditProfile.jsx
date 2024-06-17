@@ -5,13 +5,15 @@ import TextField from "@mui/material/TextField";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { BsPersonCircle } from "react-icons/bs";
+import toast from "react-hot-toast";
+import { updateprofile } from "../../Redux/Slices/AuthSlice";
 
 function Editprofile() {
   const dispatch = useDispatch();
-  // const [previewImage, setImagePreview] = useState("");
+  const [previewImage, setImagePreview] = useState("");
 
   const [data, setData] = useState({
-    previewImage:"",
+    // previewImage:"",
     name: "",
     number: "",
     avatar: undefined,
@@ -42,6 +44,18 @@ function Editprofile() {
     };
     setData(newUserData);
   };
+
+
+  const fomsubmit=(e)=>{
+    if(!data.name || !data.number ){
+      toast.error("please fill every field")
+      return
+    }
+    const res=dispatch(updateprofile);
+    if(res.data.payload.success){
+      
+    }
+  }
 
   return (
     <div className="bg-black h-[90vh] overflow-hidden">
@@ -90,7 +104,27 @@ function Editprofile() {
         >
           <div className="rounded-2xl flex justify-center items-center align-middle p-[100px]">
             <div className="shadow-[0_0_10px_gray] p-16">
-              <BsPersonCircle className="w-24 h-24 rounded-full m-auto text-white" />
+              <label htmlFor="image_uploads" className="cursor-pointer">
+                {
+                  previewImage ?(
+                    <img 
+                    className="w-24 h-24 rounded-full"
+                    src={previewImage}
+                    />
+                  ):(
+                    <BsPersonCircle className="w-24 h-24 rounded-full m-auto text-white" />
+                  )
+                }
+              </label>
+
+              <input
+              className="hidden"
+              type="file"
+              id="image_uploads"
+              accept=".jpg,.png,.jpeg,.svg"
+              onChange={handleGetImage}
+              name="avatar"
+              />
               <div className="flex justify-center">
                 <TextField
                   id="name"
