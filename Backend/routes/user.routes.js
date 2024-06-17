@@ -16,7 +16,7 @@ router.get('/', isloggedIn , getAllIds);
 router.post('/reset-password' , forgotPassword);
 router.post('/reset-password/:resetToken',resetPassword);
 router.post('/change-password',isloggedIn, changePassword);
-router.put('/update',isloggedIn,upload.single("avatar"), updateuser);
+router.put('/update/:id',isloggedIn,upload.single("avatar"), updateuser);
 
 
  

@@ -279,53 +279,60 @@ res.status(200).json({
 
 
 
-const updateuser =async (req,res,next)=>{
-const {fullName}=req.body;
-const {id}=req.user.id;
+const updateuser = async (req, res, next) => {
+    const {name} = req.body;
+    const {id} = req.params; // Destructure `id` directly from `req.user`
+  
+    const user = await User.findById(id);
+    if (!user) {
+      return next(new apperror("Token expiry time reached", 400));
+    }
+  
+    if (name ) {
+      user.name = name;
+    //   user.number = number;
+    }
+  
 
-const user= await User.findById(id);
-if(!user){
-    return next(new apperror("Token expiry time reached",400));
-
-}
-if(req.fullName){
-    user.fullName=fullName;
-}
-if(req.file){
-    await cloudinary.v2.uploader.destroy(user.avatar.public_id);
-
-    try{
-        const result = await cloudinary.v2.uploader.upload(req.file.path,{
-           folder:'LMS',
-           width:250,
-           height:250,
-           gravity:'faces',
-           crop:'fill',
-           role: ADMIN || role,
+    if (req.file) {
+      // Destroy the old avatar if it exists
+      if (user.avatar && user.avatar.public_id) {
+        await cloudinary.v2.uploader.destroy(user.avatar.public_id);
+      }
+  
+      try {
+        const result = await cloudinary.v2.uploader.upload(req.file.path, {
+          folder: 'LMS',
+          width: 250,
+          height: 250,
+          gravity: 'faces',
+          crop: 'fill',
+          role: req.user.role, // Use the user's role
         });
-        if(result){
-           user.avatar.public_id =result.public_id;
-           user.avatar.secure_url=result.secure_url;
-    
-    
-        //    remove the file from server aftyer uplaoding in the clloudinary
-           fs.rm(`uploads/${req.file.filename}`)
+  
+        if (result) {
+          user.avatar.public_id = result.public_id;
+          user.avatar.secure_url = result.secure_url;
+  
+          // Remove the file from server after uploading to cloudinary
+          fs.unlink(`uploads/${req.file.filename}`, (err) => {
+            if (err) {
+              console.error("Failed to remove file", err);
+            }
+          });
         }
-       }
-    
-    
-       catch(e){
+      } catch (e) {
         console.log(e.message);
-        return next(new apperror(error || 'File not uploaded ,please try again'));
-       }
-}
-
-await user.save();
-res.status(200).json({
-    success:true,
-    message:"Profile updated successfully"
-})
-}
+        return next(new apperror('File not uploaded, please try again'));
+      }
+    }
+  
+    await user.save();
+    res.status(200).json({
+      success: true,
+      message: "Yippp Profile updated successfully"
+    });
+  };
 
 
 
