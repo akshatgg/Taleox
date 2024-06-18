@@ -5,7 +5,7 @@ import axiosInstance from "../../Helper/axiosinstance.js";
 const initialState = {
     isloggedin: localStorage.getItem("isloggedin") || false,
     role: localStorage.getItem('role') || "",
-    data: localStorage.getItem('data') || ""
+    data: JSON.parse(localStorage.getItem("data")) || {},
 };
 
 export const createAccount = createAsyncThunk("auth/signup", async (data) => {
@@ -71,31 +71,69 @@ export const logout = createAsyncThunk("auth/logout", async () => {
 
 
 
-export const updateprofile = createAsyncThunk("auth/updateprofile", async () => {
-    try {
-        let res = axiosInstance.post("user/update/${id}",data);
-        await toast.promise(res, {
-            loading: "Wait profile update in progress",
-            success: (data) => {
-                return data?.data?.message;
-            },
-            error: "Failed to update profile"
-        })
 
+// export const updateprofile = createAsyncThunk(
+//     "/user/update/profile",
+//     async (data) => {
+//       try {
+//         let res = axiosInstance.put(`/user/update/${data[0]}`, data[1]);
+  
+//         toast.promise(res, {
+//           loading: "Updating...",
+//           success: (data) => {
+//             return data?.data?.message;
+//           },
+//           error: "Failed to update profile",
+//         });
+//         // getting response resolved here
+//         res = await res;
+//         return res.data;
+//       } catch (error) {
+//         toast.error(error?.response?.data?.message);
+//       }
+//     }
+//   );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+export const updateprofile = createAsyncThunk("auth/updateprofile", async ({ id, data }) => {
+    try {
+      let res = axiosInstance.put(`user/update/${id}`, data);
+      await toast.promise(res, {
+          loading: "Wait profile update in progress",
+          success: (response) => {
+              return response?.data?.message;
+            },
+            error: "Failed to update profile",
+        });
+        
         res = await res;
         return res.data;
+    } catch (e) {
+        log.console({id})
+      toast.error(e.message);
+      throw e;
     }
-
-    catch (e) {
-        toast.error(e.message);
-    }
-})
+  });
+  
 
 
 
-export const getuser = createAsyncThunk("auth/getuser", async (data) => {
+export const getuser = createAsyncThunk("auth/getuser", async () => {
     try {
-        let res = axiosInstance.get("user/me", data);
+        let res = axiosInstance.get("user/me");
         await toast.promise(res, {
             loading: "Loading",
             success: (data) => {
@@ -156,7 +194,7 @@ export const forgotPassword = createAsyncThunk("auth/forgotpassword", async (ema
 const authSlice = createSlice({
     name: 'auth',
     initialState,
-    reducers: {},
+    reducers: {}, 
     extraReducers: (builder) => {
         // for login
         builder.addCase(signinAccount.fulfilled, (state, action) => {
@@ -202,7 +240,12 @@ const authSlice = createSlice({
                 toast.error("user is not exist");
             }
         })
+        
 
+        builder
+        .addCase(updateprofile.fulfilled, (state, action) => {
+          state.data = action.payload;
+        })
 
 
     }

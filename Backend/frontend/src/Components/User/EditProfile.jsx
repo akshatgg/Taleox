@@ -3,21 +3,18 @@ import { Checkbox, FormControlLabel } from "@mui/material";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { BsPersonCircle } from "react-icons/bs";
 import toast from "react-hot-toast";
-import { updateprofile } from "../../Redux/Slices/AuthSlice";
+import { getuser, updateprofile } from "../../Redux/Slices/AuthSlice";
 
-function Editprofile() {
+function EditProfile() {
   const dispatch = useDispatch();
+  const userID = useSelector((state) => state?.auth?.data?.__id);
   const [previewImage, setImagePreview] = useState("");
-
   const [data, setData] = useState({
-    // previewImage:"",
     name: "",
     number: "",
     avatar: undefined,
-    userID: useSelector((state) => state?.auth?.data?.__id),
   });
 
   const handleGetImage = (event) => {
@@ -45,27 +42,35 @@ function Editprofile() {
     setData(newUserData);
   };
 
+  const formSubmit = async (event) => {
+    event.preventDefault();
+    if (!data.name || !data.number) {
+      toast.error("Please fill every field");
+      return;
+    }
+    console.log('User ID from Redux:', userID);
 
-  const fomsubmit=(e)=>{
-    if(!data.name || !data.number ){
-      toast.error("please fill every field")
-      return
-    }
-    const res=dispatch(updateprofile);
-    if(res.data.payload.success){
-      
-    }
-  }
+
+    const formData = new FormData();
+    formData.append('name', data.name);
+    formData.append('number', data.number);
+    formData.append('avatar', data.avatar);
+
+    const newUserData = {
+      id: userID,
+      data: formData,
+    };
+
+    await dispatch(updateprofile(newUserData));
+    await dispatch(getuser());
+  };
 
   return (
     <div className="bg-black h-[90vh] overflow-hidden">
       <div className="flex justify-center items-center">
         <Box
-          onSubmit={(e) => {
-            e.preventDefault();
-            // handle();
-          }}
           component="form"
+          onSubmit={formSubmit}
           sx={{
             "& .MuiTextField-root": {
               m: 1,
@@ -106,24 +111,24 @@ function Editprofile() {
             <div className="shadow-[0_0_10px_gray] p-16">
               <label htmlFor="image_uploads" className="cursor-pointer">
                 {
-                  previewImage ?(
-                    <img 
-                    className="w-24 h-24 rounded-full"
-                    src={previewImage}
+                  previewImage ? (
+                    <img
+                      className="w-24 h-24 rounded-full"
+                      src={previewImage}
+                      alt="Preview"
                     />
-                  ):(
+                  ) : (
                     <BsPersonCircle className="w-24 h-24 rounded-full m-auto text-white" />
                   )
                 }
               </label>
-
               <input
-              className="hidden"
-              type="file"
-              id="image_uploads"
-              accept=".jpg,.png,.jpeg,.svg"
-              onChange={handleGetImage}
-              name="avatar"
+                className="hidden"
+                type="file"
+                id="image_uploads"
+                accept=".jpg,.png,.jpeg,.svg"
+                onChange={handleGetImage}
+                name="avatar"
               />
               <div className="flex justify-center">
                 <TextField
@@ -135,7 +140,6 @@ function Editprofile() {
                   onChange={handleGetUser}
                 />
               </div>
-
               <div className="flex justify-center">
                 <TextField
                   id="number"
@@ -146,7 +150,6 @@ function Editprofile() {
                   onChange={handleGetUser}
                 />
               </div>
-
               <div className="flex justify-center">
                 <FormControlLabel
                   control={<Checkbox defaultChecked />}
@@ -154,10 +157,12 @@ function Editprofile() {
                   className="text-white"
                 />
               </div>
-
               <div className="flex justify-center">
-                <button className="bg-[#4CB5F9] px-[120px] py-3 rounded-xl text-white font-semibold mt-3 hover:bg-[#4c97f9]">
-                  Sign in
+                <button
+                  type="submit"
+                  className="bg-[#4CB5F9] px-[120px] py-3 rounded-xl text-white font-semibold mt-3 hover:bg-[#4c97f9]"
+                >
+                  Submit
                 </button>
               </div>
             </div>
@@ -168,4 +173,4 @@ function Editprofile() {
   );
 }
 
-export default Editprofile;
+export default EditProfile;
