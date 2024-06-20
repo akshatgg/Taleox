@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector,useNavigate } from "react-redux";
 import { Checkbox, FormControlLabel } from "@mui/material";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -9,7 +9,8 @@ import { getuser, updateprofile } from "../../Redux/Slices/AuthSlice";
 
 function EditProfile() {
   const dispatch = useDispatch();
-  const userID = useSelector((state) => state?.auth?.data?.__id);
+  const navigate = useNavigate();
+  const userID = useSelector((state) => state?.auth?.data?._id);
   const [previewImage, setImagePreview] = useState("");
   const [data, setData] = useState({
     name: "",
@@ -63,6 +64,7 @@ function EditProfile() {
 
     await dispatch(updateprofile(newUserData));
     await dispatch(getuser());
+    navigate('/Profile')
   };
 
   return (
