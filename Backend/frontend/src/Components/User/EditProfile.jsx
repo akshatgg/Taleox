@@ -1,4 +1,4 @@
-import { useDispatch, useSelector,useNavigate } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Checkbox, FormControlLabel } from "@mui/material";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -6,6 +6,8 @@ import { useState } from "react";
 import { BsPersonCircle } from "react-icons/bs";
 import toast from "react-hot-toast";
 import { getuser, updateprofile } from "../../Redux/Slices/AuthSlice";
+import { useNavigate } from "react-router-dom";
+
 
 function EditProfile() {
   const dispatch = useDispatch();
