@@ -11,7 +11,8 @@ import { toast } from "react-hot-toast";
 import { createAccount } from "../../Redux/Slices/AuthSlice.js";
 
 const Signup = () => {
-
+  
+  
   // const [error, seterror] = useState("");
   // const [email, setemail] = useState("");
   // const [password, setpassword] = useState("");
@@ -23,7 +24,7 @@ const Signup = () => {
   // const [previewimage, setpreviewimage] = useState("");
   // const [avatar,setAvatar] =useState("")
   // sessionStorage.setItem("login", JSON.stringify(false));
-
+  
   // const handleAvatarChange = (e) => {
   //   // Update the state with the selected avatar file
   //   setAvatar(e.target.files[0]);
