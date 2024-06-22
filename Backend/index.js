@@ -35,7 +35,7 @@ app.use(cors({
 app.use(cookieParser());
 
 
-app.use(morgan('dev'));
+app.use(morgan('dev')); 
 
 app.use('/api/auth/user', userRoutes);
 app.use('/api/auth/courses', courseRoutes);

@@ -278,28 +278,26 @@ res.status(200).json({
 
 
 
-
 const updateuser = async (req, res, next) => {
-    const {name} = req.body;
-    const {id} = req.params; // Destructure `id` directly from `req.user`
-  
+  try {
+    const { name, number } = req.body;
+    const { id } = req.params; // Destructure `id` from `req.params`
     const user = await User.findById(id);
+    
     if (!user) {
-      return next(new apperror("Token expiry time reached", 400));
+      return next(new apperror("User not found", 404));
     }
-  
-    if (name ) {
-      user.name = name;
-    //   user.number = number;
-    }
-  
+
+    // Update user details if provided
+    if (name) user.name = name;
+    if (number) user.number = number;
 
     if (req.file) {
       // Destroy the old avatar if it exists
       if (user.avatar && user.avatar.public_id) {
         await cloudinary.v2.uploader.destroy(user.avatar.public_id);
       }
-  
+
       try {
         const result = await cloudinary.v2.uploader.upload(req.file.path, {
           folder: 'LMS',
@@ -309,13 +307,13 @@ const updateuser = async (req, res, next) => {
           crop: 'fill',
           role: req.user.role, // Use the user's role
         });
-  
+
         if (result) {
           user.avatar.public_id = result.public_id;
           user.avatar.secure_url = result.secure_url;
-  
+
           // Remove the file from server after uploading to cloudinary
-          fs.unlink(`uploads/${req.file.filename}`, (err) => {
+          fs.unlink(req.file.path, (err) => {
             if (err) {
               console.error("Failed to remove file", err);
             }
@@ -323,16 +321,21 @@ const updateuser = async (req, res, next) => {
         }
       } catch (e) {
         console.log(e.message);
-        return next(new apperror('File not uploaded, please try again'));
+        return next(new apperror('File not uploaded, please try again', 500));
       }
     }
-  
+
     await user.save();
     res.status(200).json({
       success: true,
-      message: "Yippp Profile updated successfully"
+      message: "Yippp Profile updated successfully",
     });
-  };
+  } catch (error) {
+    next(error);
+  }
+};
+
+
 
 
 
