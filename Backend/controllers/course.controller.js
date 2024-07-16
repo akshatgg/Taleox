@@ -14,6 +14,7 @@ const getAllCourses=async(req,res,next)=>{
             message:"All courses",
             courses,
         });
+
     }
 
     catch(e){

@@ -82,6 +82,7 @@ if(req.file){
             success: true,
             message: "User registered successfully",
             user,
+
         });
     } catch (error) {
         console.error('User registration error:', error);

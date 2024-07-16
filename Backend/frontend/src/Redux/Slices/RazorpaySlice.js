@@ -12,7 +12,6 @@ const initialState={
     monthlySalesRecord:[]
 }
 
-
 export const getrazorpayId=createAsyncThunk("razorpay/payment-key",async()=>{
     try{
        let res = await axiosInstance.get("Payment/payment-key");
