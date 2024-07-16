@@ -9,6 +9,14 @@ function Profile() {
   async function loadprofile() {
     await dispatch(getuser());
   }
+
+  const capitalizeFirstLetters = (str) => {
+    return str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+};
+
+const name = userData?.name ? capitalizeFirstLetters(userData.name) : ''; 
+
+console.log(name);
   useEffect(() => {
     loadprofile();
   }, []);
@@ -23,7 +31,7 @@ function Profile() {
           />
         </div>
         <h1 className="text-white flex justify-center text-2xl">
-          {userData?.name}
+          {name}
         </h1>
 
         <div className="grid grid-cols-2 p-1  text-white">
