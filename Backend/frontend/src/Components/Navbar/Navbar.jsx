@@ -17,7 +17,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import OpenLMSLogo from "../../assets/351264.svg";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../Redux/Slices/AuthSlice";
 
 function Navbar() {
@@ -30,31 +30,32 @@ function Navbar() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+  
   const loginstate = JSON.parse(localStorage.getItem("isloggedin") || "false");
-
+  
   const [showButtons, setShowButtons] = useState(false);
-
+  
   const toggleButtons = () => {
     setShowButtons(!showButtons);
   };
-
+  
+  const userData = useSelector((state) => state?.auth?.data);
   useEffect(() => {
     if (loginstate) {
       document.getElementById("down-arrow").style.display = "none";
     }
     const profile = document.getElementById("profile");
-
+    
     if (!loginstate) {
       profile.style.display = "none";
     } else {
       profile.style.display = "block";
     }
   }, [loginstate]);
-
+  
   const handle = async () => {
     const res = await dispatch(logout());
-
+    
     window.location.reload();
   };
   return (
@@ -65,7 +66,7 @@ function Navbar() {
             src={OpenLMSLogo}
             alt="Open LMS Logo"
             className="w-auto h-20 text-white"
-          />
+            />
         </div>
         <div>
           <div className="flex justify-between text-white items-center mr-7 mt-2">
@@ -100,7 +101,10 @@ function Navbar() {
                       aria-haspopup="true"
                       aria-expanded={open ? "true" : undefined}
                     >
-                      <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+                      <Avatar sx={{ width: 32, height: 32 }}>   <img
+            className="rounded-full"
+            src={userData?.avatar?.secure_url}
+          />   </Avatar>
                     </IconButton>
                   </Tooltip>
                 </Box>
