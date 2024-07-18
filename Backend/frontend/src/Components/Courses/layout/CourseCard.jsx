@@ -9,12 +9,12 @@ function CourseCard({ data }) {
     AOS.init({ duration: 1000 });
     AOS.refresh();
   }, []);
-
+   
   const handleclick=()=>{
     navigate("/Course-Description", { state: { message: data } });
-  }
-
-  
+  }  
+      
+     
   return (
     <div className="max-w-[20rem] ml-6 ">
       <div

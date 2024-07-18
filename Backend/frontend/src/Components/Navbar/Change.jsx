@@ -14,13 +14,14 @@ import Tooltip from "@mui/material/Tooltip";
 import * as React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 import OpenLMSLogo from "../../assets/351264.svg";
 import { logout } from "../../Redux/Slices/AuthSlice";
 
 function Change() {
+
   const dispatch=useDispatch();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -33,7 +34,7 @@ function Change() {
     setAnchorEl(null);
   };
 
-  
+ 
   const loginstate = JSON.parse(localStorage.getItem("isloggedin") || "false");
 
   const [showButtons, setShowButtons] = useState(false);
@@ -42,10 +43,11 @@ function Change() {
     setShowButtons(!showButtons);
   };
 
+  const userData = useSelector((state) => state?.auth?.data);
   useEffect(() => {
     if(loginstate){
       document.getElementById('down-arrow').style.display="none";
-
+      
     }
     const profile = document.getElementById("profile");
 
@@ -54,7 +56,6 @@ function Change() {
     }
     else{
       profile.style.display = "block";
-
     }
   }, [loginstate]);
 
@@ -110,7 +111,10 @@ function Change() {
                       aria-haspopup="true"
                       aria-expanded={open ? "true" : undefined}
                     >
-                      <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+                      <Avatar sx={{ width: 32, height: 32 }}>   <img
+            className="rounded-full"
+            src={userData?.avatar?.secure_url}
+          />   </Avatar>
                     </IconButton>
                   </Tooltip>
                 </Box>

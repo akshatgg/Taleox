@@ -73,7 +73,7 @@ setsigninData({
    
    const res= await dispatch(signinAccount(signinData))
    
-   if(res?.payload?.success) navigate("/")
+   if(res?.payload?.success) navigate("/");
   
    setsigninData({
     email:"",
