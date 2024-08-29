@@ -103,6 +103,7 @@ const Signup = () => {
     });
   }
 
+  
   function handleimage(event) {
     event.preventDefault();
     const uploadImage = event.target.files[0];

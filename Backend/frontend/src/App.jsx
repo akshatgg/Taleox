@@ -3,7 +3,6 @@ import About from "./Components/About/About.jsx";
 import Contact from "./Components/Contact/Contact.jsx";
 import CourseList from "./Components/Courses/CourseList.jsx";
 import Change from "./Components/Navbar/Change.jsx";
-
 import Navbar from "./Components/Navbar/Navbar.jsx";
 import Signin from "./Components/Signin/Signin.jsx";
 import Signup from "./Components/Signup/Signup.jsx";
@@ -20,7 +19,6 @@ import EditProfile from "./Components/User/Editprofile.jsx";
 function App() {
   return (
     <div>
-      
       <Router>
       
           {/* Navbar */}
