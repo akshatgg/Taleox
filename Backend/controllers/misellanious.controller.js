@@ -19,6 +19,7 @@ export const contactUs = asyncHandler(async (req, res, next) => {
 
   
   try {
+
     const emailSubject = `Contact Us Form: ${subject}`;
     const textMessage = `
       Name: ${name} <br />

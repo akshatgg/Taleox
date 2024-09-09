@@ -12,84 +12,82 @@ const cookieOptions = {
 };
 
 
-
 const register = async (req, res, next) => {
-    try {
-        const { name, email, password, confirmpass,username,number ,role} = req.body;
+  try {
+      const { name, email, password, confirmpass, username, number, role } = req.body;
 
-        if (!name || !email || !password || !confirmpass || !username || !number) {
-            return next(new apperror('All fields are required', 400));
-        }
-        if (password !== confirmpass) {
-            return next(new apperror("Password and confirm password should be the same",400));
-        }
-        const userExist = await User.findOne({ email }); 
-        if (userExist) {
-            return next(new apperror('Email already exists', 400));
-        }
-    
-        const user = await User.create({
-            name,
-            email,
-            password,
-            number,
-            confirmpass,
-            username,
-            avatar: { public_id: "olympic_flag" , secure_url: 'https://upload.wikimedia.org/wikipedia/commons/a/ae/Olympic_flag.jpg' },
-            role
-        });
+      if (!name || !email || !password || !confirmpass || !username || !number) {
+          return next(new apperror('All fields are required', 400));
+      }
+      if (password !== confirmpass) {
+          return next(new apperror("Password and confirm password should be the same", 400));
+      }
+      const userExist = await User.findOne({ email }); 
+      if (userExist) {
+          return next(new apperror('Email already exists', 400));
+      }
 
-        if (!user) {
-            return next(new apperror('Failed to create user', 400));
-        }
+      // Capitalize the first letter of each word in the name
+      const capitalizeFirstLetters = (str) => {
+          return str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+      };
 
-        console.log("File Details=>"+JSON.stringify(req.file));
-if(req.file){
-   try{
-    const result = await cloudinary.v2.uploader.upload(req.file.path,{
-       folder:'LMS',
-       width:250,
-       height:250,
-       gravity:'faces',
-       crop:'fill'
-    });
-    if(result){
-       user.avatar.public_id =result.public_id;
-       user.avatar.secure_url=result.secure_url;
+      const capitalizedName = capitalizeFirstLetters(name);
 
+      const user = await User.create({
+          name: capitalizedName,
+          email,
+          password,
+          number,
+          confirmpass,
+          username,
+          avatar: { public_id: "olympic_flag", secure_url: 'https://upload.wikimedia.org/wikipedia/commons/a/ae/Olympic_flag.jpg' },
+          role
+      });
 
-    //    remove the file from server aftyer uplaoding in the clloudinary
-       fs.rm(`uploads/${req.file.filename}`)
-    }
-   }
+      if (!user) {
+          return next(new apperror('Failed to create user', 400));
+      }
 
+      console.log("File Details=>" + JSON.stringify(req.file));
+      if (req.file) {
+          try {
+              const result = await cloudinary.v2.uploader.upload(req.file.path, {
+                  folder: 'LMS',
+                  width: 250,
+                  height: 250,
+                  gravity: 'faces',
+                  crop: 'fill'
+              });
+              if (result) {
+                  user.avatar.public_id = result.public_id;
+                  user.avatar.secure_url = result.secure_url;
 
-   catch(e){
-    console.log(e.message);
-    return next(new apperror(error || 'File not uploaded ,please try again'));
-   }
-}
+                  // Remove the file from server after uploading to Cloudinary
+                  fs.rm(`uploads/${req.file.filename}`, () => {});
+              }
+          } catch (e) {
+              console.log(e.message);
+              return next(new apperror(e.message || 'File not uploaded, please try again'));
+          }
+      }
 
+      await user.save();
+      console.log(capitalizedName, password, email, username);
 
-        await user.save();
-        console.log(name,password,email,username);
-        // user.password=undefined;
+      const token = await user.generateJWTToken();
+      res.cookie('token', token, cookieOptions);
 
-        const token = await user.generateJWTToken();
-        res.cookie('token', token, cookieOptions);
-
-        res.status(201).json({
-            success: true,
-            message: "User registered successfully",
-            user,
-
-        });
-    } catch (error) {
-        console.error('User registration error:', error);
-        return next(new apperror('User registration failed',500));
-    }
+      res.status(201).json({
+          success: true,
+          message: "User registered successfully",
+          user,
+      });
+  } catch (error) {
+      console.error('User registration error:', error);
+      return next(new apperror('User registration failed', 500));
+  }
 };
-
 
 
 
