@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Layout from "./Layout.jsx";
 import { useSelector } from "react-redux";
 import { Button } from "react-scroll";
@@ -8,6 +8,8 @@ function CourseDescription() {
   // const { coursedata } = useSelector((state) => state.course);
   // const navigate = useNavigate();
   const location = useLocation();
+  const {id} =useParams();
+  console.log(id); 
   const { state } = location;
   // const { role, data } = useSelector((state) => state.auth);
   console.log(state);
@@ -34,10 +36,16 @@ function CourseDescription() {
               </span>
             </div>
           </div>
-          <div className="flex justify-center">
-            <Button className="bg-[#EAB308] pl-11 pr-11 text-xl pt-1 pb-1 hover:bg-[#f7c531ef]">
+          <div className="flex justify-center space-x-6">
+            <Button className="bg-[#EAB308] pl-4 pr-4 text-xl pt-1 pb-1 hover:bg-[#f7c531ef]">
               Subscribe
             </Button>
+            <Link to={`/course/lecture/create`}>
+  <Button className="bg-[#EAB308] pl-4 pr-4 text-lg pt-1 pb-1 hover:bg-[#f7c531ef]">
+    Add lectures
+  </Button>
+</Link>
+
           </div>
         </div>
         <div>
@@ -54,6 +62,9 @@ function CourseDescription() {
 
             <div className="text-white text-lg">
               {state?.message?.description}
+            </div>
+            <div className="text-center flex justify-center">
+            
             </div>
           </div>
         </div>

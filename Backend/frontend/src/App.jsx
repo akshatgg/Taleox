@@ -15,6 +15,7 @@ import RequireAuth from "./Components/Auth/RequireAuth.jsx";
 import CreateCourses from "./Components/Courses/CreateCourses.jsx";
 import Profile from "./Components/User/Profile.jsx";
 import EditProfile from "./Components/User/Editprofile.jsx";
+import CreateLectures from "./Components/Courses/lectures/CreateLectures.jsx";
 
 function App() {
   return (
@@ -63,7 +64,8 @@ function App() {
 
           <Route element={<RequireAuth allowedRoles={["ADMIN"]}/>}>
             <Route path="/course/create" element={<CreateCourses/>} />
-          </Route>
+            <Route path="/course/lecture/create" element={<CreateLectures />} />
+            </Route>
        </Routes>
 
 
