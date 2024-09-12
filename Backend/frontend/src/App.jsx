@@ -35,6 +35,8 @@ function App() {
               <Route path="/course/create" element={<Change />} />
               <Route path="/Profile" element={<Change/>} />
               <Route path="/editprofile" element={<Change/>}  />
+              <Route path="/course/lecture/create/:id" element={<Change />} />
+
             </Routes>
         
        
@@ -64,7 +66,7 @@ function App() {
 
           <Route element={<RequireAuth allowedRoles={["ADMIN"]}/>}>
             <Route path="/course/create" element={<CreateCourses/>} />
-            <Route path="/course/lecture/create" element={<CreateLectures />} />
+            <Route path="/course/lecture/create/:id" element={<CreateLectures />} />
             </Route>
        </Routes>
 

@@ -8,9 +8,8 @@ function CourseDescription() {
   // const { coursedata } = useSelector((state) => state.course);
   // const navigate = useNavigate();
   const location = useLocation();
-  const {id} =useParams();
-  console.log(id); 
   const { state } = location;
+  console.log(state.message._id); 
   // const { role, data } = useSelector((state) => state.auth);
   console.log(state);
   return (
@@ -40,11 +39,12 @@ function CourseDescription() {
             <Button className="bg-[#EAB308] pl-4 pr-4 text-xl pt-1 pb-1 hover:bg-[#f7c531ef]">
               Subscribe
             </Button>
-            <Link to={`/course/lecture/create`}>
-  <Button className="bg-[#EAB308] pl-4 pr-4 text-lg pt-1 pb-1 hover:bg-[#f7c531ef]">
-    Add lectures
-  </Button>
+             <Button className="bg-[#EAB308] pl-4 pr-4 text-lg pt-1 pb-1 hover:bg-[#f7c531ef]">
+             <Link to={`/course/lecture/create/${state?.message?._id}`}>
+  Add lectures
 </Link>
+
+             </Button>
 
           </div>
         </div>

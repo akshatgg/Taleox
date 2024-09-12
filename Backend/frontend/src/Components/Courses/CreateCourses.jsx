@@ -53,7 +53,7 @@ function CreateCourses() {
       toast.error("Please fill every field");
       return;
     }
-
+  
     const formData = new FormData();
     formData.append("title", userinput.title);
     formData.append("description", userinput.description);
