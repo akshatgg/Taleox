@@ -14,7 +14,7 @@ function CreateLectures() {
     category: "",
     description: "",
     thumbnail: null,
-    createdBy: "",
+    
   });
 
   function handleImageupload(e) {
@@ -56,7 +56,6 @@ function CreateLectures() {
     formData.append("description", userinput.description);
     formData.append("category", userinput.category);
     formData.append("thumbnail", userinput.thumbnail);
-    formData.append("createdBy", userinput.createdBy);
 
     const res = await dispatch(createlecture(formData));
 

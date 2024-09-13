@@ -32,7 +32,7 @@ function CreateCourses() {
       });
     }
   }
-
+ 
   function handleuserInput(e) {
     const { name, value } = e.target;
     setuserinput({

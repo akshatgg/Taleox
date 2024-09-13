@@ -46,6 +46,15 @@ const courseSchema= new Schema({
             secure_url: {
                 type: String,
             }
+        },
+        thumbnail:{
+            public_id: {
+                type: String,
+                
+            },
+            secure_url: {
+                type: String,
+            }
         }
     },
 

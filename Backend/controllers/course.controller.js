@@ -168,6 +168,15 @@ const addLecturesToCourse = async (req, res, next) => {
         const lectureData = {
             title,
             description,
+            thumbnail:{
+                public_id: 'dummy',
+                    
+                    
+                
+                secure_url: 'dummy',
+                 
+            
+             },
             lecture:{}
         };
 
