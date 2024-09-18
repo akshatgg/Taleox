@@ -16,6 +16,7 @@ function CreateCourses() {
     thumbnail: null,
   });
 
+  
   function handleImageupload(e) {
     const uploadImage = e.target.files[0];
 
@@ -64,7 +65,7 @@ function CreateCourses() {
     const res = await dispatch(createcourse(formData));
 
     if (res?.payload?.success) navigate("/Courses");
-
+    
     setuserinput({
       title: "",
       description: "",

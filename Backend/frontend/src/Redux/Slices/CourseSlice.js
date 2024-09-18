@@ -44,41 +44,28 @@ return response.data;
     catch(e){
         toast.error(e.message)
     }
-
 })
 
 
 
 
-export const createlecture =createAsyncThunk("get/lectures",async(data)=>{
-    try{
-        const res=axiosInstance.post("/courses/:id",data);
-toast.promise(res,{
-    loading:"Loading",
-    success:(data)=>{
-        return data?.data?.message;
-    },
-    error:"Failed to create course"
-})
-const response=await res;
-return response.data;
-    }
-    catch(e){
-        toast.error(e.message)
-    }
-})
+
+
+
 
 const courseslice = createSlice({
     name: 'course',
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-      builder.addCase(getAllCourses.fulfilled,(state,action)=>{
+      builder
+      .addCase(getAllCourses.fulfilled,(state,action)=>{
         if(action.payload){
             console.log(action.payload);
             state.coursedata = [...action.payload]
         }
       })
+
     }
 })
 

@@ -14,6 +14,8 @@ import CourseCard from "./layout/CourseCard";
   
   useEffect(() => {
   loadedCourses();
+  console.log(coursedata);
+  
   }, []);
   
   
