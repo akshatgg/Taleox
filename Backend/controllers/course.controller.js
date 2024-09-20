@@ -155,71 +155,82 @@ const removeCourse=async(req,res,next)=>{
 
 
 
+// Controller for adding lectures to a course
 const addLecturesToCourse = async (req, res, next) => {
     try {
-        const { title, description } = req.body;
-        const { id } = req.params;
-
-        const course = await Course.findById(id);
-        if (!course) {
-            return next(new apperror("Did not find any courses", 400));
+      const { title, description } = req.body;
+      const { id } = req.params;
+  
+      // Find the course by ID
+      const course = await Course.findById(id);
+      if (!course) {
+        return next(new apperror("Did not find any courses", 400));
+      }
+  
+      const lectureData = {
+        title,
+        description,
+        thumbnail: {
+          public_id: 'dummy',
+          secure_url: 'dummy',
+        },
+        lecture: {},
+      };
+  
+      // If a file is uploaded, process the Cloudinary upload
+      if (req.file) {
+        try {
+          console.log("File details:", req.file); // Debug: log file details
+  
+          // Use absolute path to avoid issues
+          const filePath = path.resolve(req.file.path);
+  
+          // Upload the thumbnail (image) to Cloudinary
+          const result = await cloudinary.v2.uploader.upload(filePath, {
+            folder: 'LMS',
+            transformation: [{ width: 250, height: 250, gravity: 'faces', crop: 'fill' }],
+          });
+  
+          console.log("Cloudinary upload result:", result); // Debug: log Cloudinary result
+  
+          // If the file was uploaded to Cloudinary successfully
+          if (result) {
+            lectureData.thumbnail = {
+              public_id: result.public_id,
+              secure_url: result.secure_url,
+            };
+  
+            // Remove the file from server after uploading to Cloudinary
+            await fs.rm(req.file.path);
+          }
+        } catch (e) {
+          console.error("Error uploading to Cloudinary:", e.message); // Debug: log Cloudinary errors
+          return next(new apperror(`Cloudinary error: ${e.message}`, 500));
         }
-
-        const lectureData = {
-            title,
-            description,
-            thumbnail:{
-                public_id: 'dummy',
-                    
-                    
-                
-                secure_url: 'dummy',
-                 
-            
-             },
-            lecture:{}
-        };
-
-        if (req.file) {
-            try {
-                const result = await cloudinary.v2.uploader.upload(req.file.path, {
-                    folder: 'LMS',
-                    width: 250,
-                    height: 250,
-                    gravity: 'faces',
-                    crop: 'fill'
-                });
-
-                if (result) {
-                    lectureData.lecture = {
-                        public_id: result.public_id,
-                        secure_url: result.secure_url
-                    };
-
-                    // Remove the file from server after uploading to Cloudinary
-                    await fs.rm(req.file.path);
-            1                   }
-            }
-             catch (e) {
-             return next(new apperror(e.message, 500));
-            }
-        }
-
-
-        course.lectures.push(lectureData);
-        course.numbersOfLectures = course.lectures.length;
-
-        await course.save();
-
-        res.status(200).json({
-            success: true,
-            message: "lectures uploaded successfully",
-            course,
-        });
+      } else {
+        console.error("No file was uploaded.");
+        return next(new apperror("No file uploaded", 400)); // Handle case where no file is present
+      }
+  
+      // Add the lecture data to the course
+      course.lectures.push(lectureData);
+      course.numbersOfLectures = course.lectures.length;
+  
+      // Save the updated course
+      await course.save();
+  
+      // Send response
+      res.status(200).json({
+        success: true,
+        message: "Lectures uploaded successfully",
+        course,
+      });
     } catch (e) {
-        return next(new apperror(e.message, 500));
+      console.error("Error adding lecture:", e.message); // Debug: log general errors
+      return next(new apperror(`Server error: ${e.message}`, 500));
     }
-};
+  };
+
 
 
 

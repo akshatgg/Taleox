@@ -7,7 +7,7 @@ const router = Router();
 
 
 router.route('/')
-.get(getAllCourses)
+.get(getAllCourses)  
 .post(
     isloggedIn,
     upload.single('thumbnail'),
@@ -16,7 +16,7 @@ router.route('/')
     )
    
    
-   
+ 
 router.route('/:courseId/lectures/:lectureId')
         .delete(
         isloggedIn,
@@ -27,7 +27,7 @@ router.route('/:courseId/lectures/:lectureId')
 
 
 router.route('/:id')
-.get(isloggedIn,authorizedSubscriber, getLecturesByCourseId)
+.get(isloggedIn, getLecturesByCourseId)
 .put(isloggedIn,authorizedRoles('ADMIN'), updateCourse)
 .delete(isloggedIn,authorizedRoles('ADMIN'), removeCourse)
 .post(isloggedIn,authorizedRoles('ADMIN'),upload.single('lecture'), addLecturesToCourse)

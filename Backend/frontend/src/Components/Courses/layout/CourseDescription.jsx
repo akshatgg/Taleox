@@ -11,6 +11,7 @@ function CourseDescription() {
   const { state } = location;
   console.log(state.message._id); 
   // const { role, data } = useSelector((state) => state.auth);
+  const {id} =useParams();
   console.log(state);
   return (
     <div className="h-[80vh]  flex justify-center items-center align-middle bg-black">
@@ -64,7 +65,11 @@ function CourseDescription() {
               {state?.message?.description}
             </div>
             <div className="text-center flex justify-center">
-            
+            <Button className="bg-[#EAB308] pl-4 pr-4 text-xl pt-1 pb-1 hover:bg-[#f7c531ef]">
+              <Link to={`/course/${state?.message?._id}/lectures`}>
+              Lectures ->
+            </Link>
+            </Button>
             </div>
           </div>
         </div>

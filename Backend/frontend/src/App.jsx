@@ -16,7 +16,7 @@ import CreateCourses from "./Components/Courses/CreateCourses.jsx";
 import Profile from "./Components/User/Profile.jsx";
 import EditProfile from "./Components/User/Editprofile.jsx";
 import CreateLectures from "./Components/Courses/lectures/CreateLectures.jsx";
-
+import LectureCard from "./Components/Lectures/LectureCard.jsx"
 function App() {
   return (
     <div>
@@ -36,6 +36,8 @@ function App() {
               <Route path="/Profile" element={<Change/>} />
               <Route path="/editprofile" element={<Change/>}  />
               <Route path="/course/lecture/create/:id" element={<Change />} />
+              <Route path="/course/:id/lectures" element={<Change/>} />
+
 
             </Routes>
         
@@ -61,6 +63,7 @@ function App() {
             <Route path="/Course-Description" element={<CourseDescription />} />
             <Route path="/Profile" element={<Profile/>} />
             <Route path="/editprofile" element={<EditProfile/>} />
+            <Route path="/course/:id/lectures" element={<LectureCard/>} />
           </Route>
 
 

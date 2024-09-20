@@ -8,14 +8,28 @@ const initialState = {
     error: null
 };
 
+// Create a lecture
 export const createlecture = createAsyncThunk("lectures/create", async ({ data, id }, { rejectWithValue }) => {
     try {
         const response = await axiosInstance.post(`/courses/${id}`, data);
         return response.data;
     } catch (error) {
-        return rejectWithValue(error.response.data);
+        return rejectWithValue(error.response?.data || "Something went wrong");
     }
 });
+
+// Get all lectures by course ID
+export const getAllLectures = createAsyncThunk(
+    "lectures/fetchAll", 
+    async (id, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.get(`/courses/${id}`);
+            return response.data; // Return the lecture data
+        } catch (error) {
+            return rejectWithValue(error.response?.data || "Something went wrong");
+        }
+    }
+);
 
 const lectureSlice = createSlice({
     name: 'lecture',
@@ -34,6 +48,15 @@ const lectureSlice = createSlice({
                 state.status = 'failed';
                 state.error = action.payload;
                 toast.error('Failed to create lecture');
+            })
+            .addCase(getAllLectures.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.lecturedata = action.payload; // Overwrite with fetched data
+            })
+            .addCase(getAllLectures.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
+                toast.error('Failed to fetch lectures');
             });
     }
 });
