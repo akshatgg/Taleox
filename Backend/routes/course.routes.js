@@ -14,16 +14,16 @@ router.route('/')
     authorizedRoles('ADMIN'),
     createCourse
     )
-   
-   
- 
-router.route('/:courseId/lectures/:lectureId')
-        .delete(
-        isloggedIn,
-        authorizedRoles('ADMIN'),
-        removeLecture
+    
+    
+    
+    router.route('/:courseId/lectures/:lectureId')
+    .delete(
+      isloggedIn,
+      authorizedRoles('ADMIN'),
+      removeLecture
     );
-
+  
 
 
 router.route('/:id')

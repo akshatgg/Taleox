@@ -24,13 +24,13 @@ export const getAllLectures = createAsyncThunk(
     async (id, { rejectWithValue }) => {
         try {
             const response = await axiosInstance.get(`/courses/${id}`);
-            return response.data; // Return the lecture data
+            const res = response.data;
+            return Array.isArray(res.lectures) ? res.lectures : [];  // Ensure it's an array
         } catch (error) {
             return rejectWithValue(error.response?.data || "Something went wrong");
         }
     }
 );
-
 const lectureSlice = createSlice({
     name: 'lecture',
     initialState,

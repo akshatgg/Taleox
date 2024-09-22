@@ -236,61 +236,76 @@ const addLecturesToCourse = async (req, res, next) => {
 
 
 
-const removeLecture = async (req, res, next) => {
-    const { courseId, lectureId } = req.query;
 
-    console.log(courseId);
-  
-    // Checking if both courseId and lectureId are present
+// Remove Lecture Function
+const removeLecture = async (req, res, next) => {
+  console.log("Params: ", req.params);  // Log params for debugging
+
+  try {
+    // Extract courseId and lectureId from the route parameters
+    const { courseId, lectureId } = req.params; 
+
+    // Validate if courseId and lectureId are provided
     if (!courseId) {
       return next(new apperror('Course ID is required', 400));
     }
-  
+
     if (!lectureId) {
       return next(new apperror('Lecture ID is required', 400));
     }
-  
-    // Find the course uding the courseId
+
+    // Find the course by courseId
     const course = await Course.findById(courseId);
-  
-    // If no course send custom message
+
     if (!course) {
-      return next(new apperror('Invalid ID or Course does not exist.', 404));
+      return next(new apperror('Invalid Course ID or Course does not exist.', 404));
     }
-  
-    // Find the index of the lecture using the lectureId
+
+    // Find the lecture index using the lectureId
     const lectureIndex = course.lectures.findIndex(
       (lecture) => lecture._id.toString() === lectureId.toString()
     );
-  
-    // If returned index is -1 then send error as mentioned below
+
     if (lectureIndex === -1) {
       return next(new apperror('Lecture does not exist.', 404));
     }
-  
-    // Delete the lecture from cloudinary
-    await cloudinary.v2.uploader.destroy(
-      course.lectures[lectureIndex].lecture.public_id,
-      {
-        resource_type: 'video',
+
+    // Check if the lecture has a valid Cloudinary public_id and delete it
+    const lectureToDelete = course.lectures[lectureIndex]?.lecture;
+
+    if (lectureToDelete?.public_id) {
+      try {
+        // Delete the lecture video from Cloudinary
+        await cloudinary.v2.uploader.destroy(lectureToDelete.public_id, {
+          resource_type: 'video',
+        });
+      } catch (cloudinaryError) {
+        return next(new apperror('Error removing the video from Cloudinary.', 500));
       }
-    );
-  
-    // Remove the lecture from the array
+    }
+
+    // Remove the lecture from the course's lectures array
     course.lectures.splice(lectureIndex, 1);
-  
-    // update the number of lectures based on lectres array length
+
+    // Update the number of lectures
     course.numbersOfLectures = course.lectures.length;
-  
-    // Save the course object
+
+    // Save the updated course
     await course.save();
-  
-    // Return response
+
+    // Return a success response
     res.status(200).json({
       success: true,
       message: 'Course lecture removed successfully',
     });
+
+  } catch (error) {
+    console.error("Error: ", error); // Log unexpected errors for debugging
+    return next(new apperror('An error occurred while removing the lecture.', 500));
+  }
 };
+  
+  
 
 
 
