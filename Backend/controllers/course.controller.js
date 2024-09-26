@@ -290,6 +290,8 @@ const removeLecture = async (req, res, next) => {
     // Update the number of lectures
     course.numbersOfLectures = course.lectures.length;
 
+    
+
     // Save the updated course
     await course.save();
 
