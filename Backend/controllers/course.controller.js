@@ -3,6 +3,7 @@ import Course from "../models/course.model.js";
 import cloudinary from 'cloudinary';
 import fs from "fs/promises";
 import mongoose from 'mongoose';
+import { type } from "os";
 
 const getAllCourses=async(req,res,next)=>{
 
@@ -169,7 +170,7 @@ const addLecturesToCourse = async (req, res, next) => {
 
     // Find the course by ID
     const course = await Course.findById(id);
-    
+
     if (!course) {
       return res.status(404).json({ success: false, message: "Course not found" });
     }
@@ -182,54 +183,70 @@ const addLecturesToCourse = async (req, res, next) => {
         public_id: 'dummy',
         secure_url: 'dummy',
       },
+      video: {
+        public_id: 'dummy',
+        secure_url: 'dummy',
+      },
     };
+
     console.log('Lecture data:', lectureData);
 
     // Add the lecture data to the course's lectures array
     course.lectures.push(lectureData);
 
-    // Check for thumbnail file in req.files
-    if (req.files && req.files.thumbnail && req.files.thumbnail[0]) {
+    // Check if both thumbnail and video files are present in req.files
+    if (req.files && req.files.thumbnail && req.files.thumbnail[0] && req.files.video && req.files.video[0]) {
       const thumbnailFile = req.files.thumbnail[0];
-      console.log('Thumbnail file:', thumbnailFile);
+      const videoFile = req.files.video[0];
+      console.log('Thumbnail file:', thumbnailFile, 'Video file:', videoFile);
 
       try {
-        // Cloudinary upload options
+        // Cloudinary upload options for the thumbnail
         const uploadOptions = {
           folder: 'LMS/Lectures/Image',
           transformation: [{ width: 250, height: 250, gravity: 'faces', crop: 'fill' }],
         };
 
+        // Cloudinary upload options for the video
+        const uploadVideoOptions = {
+          folder: "LMS/Lectures/Video",
+          resource_type: "video", // Ensure Cloudinary treats it as a video
+        };
+
         // Upload thumbnail to Cloudinary
         const thumbnailUploadResult = await cloudinary.v2.uploader.upload(thumbnailFile.path, uploadOptions);
+        const videoUploadResult = await cloudinary.v2.uploader.upload(videoFile.path, uploadVideoOptions);
 
-        // Update thumbnail information after successful upload
+        // Update thumbnail and video information after successful upload
         const lastLecture = course.lectures[course.lectures.length - 1];
         lastLecture.thumbnail = {
           public_id: thumbnailUploadResult.public_id,
           secure_url: thumbnailUploadResult.secure_url,
         };
-        console.log('Updated last lecture thumbnail:', lastLecture);
+        lastLecture.video = {
+          public_id: videoUploadResult.public_id,
+          secure_url: videoUploadResult.secure_url,
+        };
 
-        // Remove the uploaded file from the server
+        console.log('Updated last lecture with thumbnail and video:', lastLecture);
+
+        // Remove the uploaded files from the server
         await fs.unlink(thumbnailFile.path);
-        console.log("1");
+        await fs.unlink(videoFile.path);
         
       } catch (uploadError) {
-        return next(new Error(`Thumbnail upload failed: ${uploadError.message}`));
+        console.error("Error uploading files to Cloudinary:", uploadError);
+        return next(new Error(`File upload failed: ${uploadError.message}`));
       }
     } else {
-      console.log('No thumbnail file uploaded');
+      console.log('No thumbnail or video file uploaded');
     }
-console.log("3");
 
     // Update the number of lectures in the course
     course.numbersOfLectures = course.lectures.length;
-console.log("2");
 
     // Save the updated course
     await course.save();
-console.log("4");
 
     // Send success response
     res.status(200).json({

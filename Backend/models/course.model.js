@@ -9,16 +9,16 @@ const lectureSchema = new Schema({
     type: String,
     required: [true, 'Lecture description is required'],
   },
-  // video: {
-  //   public_id: {
-  //     type: String,
-  //     required: [true, 'Video public_id is required'],
-  //   },
-  //   secure_url: {
-  //     type: String,
-  //     required: [true, 'Video URL is required'],
-  //   },
-  // },
+  video: {
+    public_id: {
+      type: String,
+      required: [true, 'Video public_id is required'],
+    },
+    secure_url: {
+      type: String,
+      required: [true, 'Video URL is required'],
+    },
+  },
   thumbnail: {
     public_id: {
       type: String,
