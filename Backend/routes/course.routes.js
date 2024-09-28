@@ -30,7 +30,10 @@ router.route('/:id')
 .get(isloggedIn, getLecturesByCourseId)
 .put(isloggedIn,authorizedRoles('ADMIN'), updateCourse)
 .delete(isloggedIn,authorizedRoles('ADMIN'), removeCourse)
-.post(isloggedIn,authorizedRoles('ADMIN'),upload.single('lecture'), addLecturesToCourse)
+.post(isloggedIn, authorizedRoles('ADMIN'), upload.fields([
+  // { name: 'lecture', maxCount: 1 },  // For video
+  { name: 'thumbnail', maxCount: 1 } // For thumbnail image
+]), addLecturesToCourse);
 
 
 

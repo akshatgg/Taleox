@@ -2,7 +2,7 @@ import apperror from "../utils/error.util.js";
 import Course from "../models/course.model.js";
 import cloudinary from 'cloudinary';
 import fs from "fs/promises";
-
+import mongoose from 'mongoose';
 
 const getAllCourses=async(req,res,next)=>{
 
@@ -98,6 +98,10 @@ res.status(200).json({
 
 }
 
+
+
+
+
 const updateCourse=async(req,res,next)=>{
 try{
       const {id}=req.params;
@@ -156,80 +160,100 @@ const removeCourse=async(req,res,next)=>{
 
 
 // Controller for adding lectures to a course
+
+
 const addLecturesToCourse = async (req, res, next) => {
-    try {
-      const { title, description } = req.body;
-      const { id } = req.params;
-  
-      // Find the course by ID
-      const course = await Course.findById(id);
-      if (!course) {
-        return next(new apperror("Did not find any courses", 400));
-      }
-  
-      const lectureData = {
-        title,
-        description,
-        thumbnail: {
-          public_id: 'dummy',
-          secure_url: 'dummy',
-        },
-        lecture: {},
-      };
-  
-      // If a file is uploaded, process the Cloudinary upload
-      if (req.file) {
-        try {
-          console.log("File details:", req.file); // Debug: log file details
-  
-          // Use absolute path to avoid issues
-          const filePath = path.resolve(req.file.path);
-  
-          // Upload the thumbnail (image) to Cloudinary
-          const result = await cloudinary.v2.uploader.upload(filePath, {
-            folder: 'LMS',
-            transformation: [{ width: 250, height: 250, gravity: 'faces', crop: 'fill' }],
-          });
-  
-          console.log("Cloudinary upload result:", result); // Debug: log Cloudinary result
-  
-          // If the file was uploaded to Cloudinary successfully
-          if (result) {
-            lectureData.thumbnail = {
-              public_id: result.public_id,
-              secure_url: result.secure_url,
-            };
-  
-            // Remove the file from server after uploading to Cloudinary
-            await fs.rm(req.file.path);
-          }
-        } catch (e) {
-          console.error("Error uploading to Cloudinary:", e.message); // Debug: log Cloudinary errors
-          return next(new apperror(`Cloudinary error: ${e.message}`, 500));
-        }
-      } else {
-        console.error("No file was uploaded.");
-        return next(new apperror("No file uploaded", 400)); // Handle case where no file is present
-      }
-  
-      // Add the lecture data to the course
-      course.lectures.push(lectureData);
-      course.numbersOfLectures = course.lectures.length;
-  
-      // Save the updated course
-      await course.save();
-  
-      // Send response
-      res.status(200).json({
-        success: true,
-        message: "Lectures uploaded successfully",
-        course,
-      });
-    } catch (e) {
-      console.error("Error adding lecture:", e.message); // Debug: log general errors
-      return next(new apperror(`Server error: ${e.message}`, 500));
+  try {
+    const { title, description } = req.body;
+    const { id } = req.params;
+
+    // Find the course by ID
+    const course = await Course.findById(id);
+    
+    if (!course) {
+      return res.status(404).json({ success: false, message: "Course not found" });
     }
-  };
+
+    // Create the lecture object
+    const lectureData = {
+      title,
+      description,
+      thumbnail: {
+        public_id: 'dummy',
+        secure_url: 'dummy',
+      },
+    };
+    console.log('Lecture data:', lectureData);
+
+    // Add the lecture data to the course's lectures array
+    course.lectures.push(lectureData);
+
+    // Check for thumbnail file in req.files
+    if (req.files && req.files.thumbnail && req.files.thumbnail[0]) {
+      const thumbnailFile = req.files.thumbnail[0];
+      console.log('Thumbnail file:', thumbnailFile);
+
+      try {
+        // Cloudinary upload options
+        const uploadOptions = {
+          folder: 'LMS/Lectures/Image',
+          transformation: [{ width: 250, height: 250, gravity: 'faces', crop: 'fill' }],
+        };
+
+        // Upload thumbnail to Cloudinary
+        const thumbnailUploadResult = await cloudinary.v2.uploader.upload(thumbnailFile.path, uploadOptions);
+
+        // Update thumbnail information after successful upload
+        const lastLecture = course.lectures[course.lectures.length - 1];
+        lastLecture.thumbnail = {
+          public_id: thumbnailUploadResult.public_id,
+          secure_url: thumbnailUploadResult.secure_url,
+        };
+        console.log('Updated last lecture thumbnail:', lastLecture);
+
+        // Remove the uploaded file from the server
+        await fs.unlink(thumbnailFile.path);
+        console.log("1");
+        
+      } catch (uploadError) {
+        return next(new Error(`Thumbnail upload failed: ${uploadError.message}`));
+      }
+    } else {
+      console.log('No thumbnail file uploaded');
+    }
+console.log("3");
+
+    // Update the number of lectures in the course
+    course.numbersOfLectures = course.lectures.length;
+console.log("2");
+
+    // Save the updated course
+    await course.save();
+console.log("4");
+
+    // Send success response
+    res.status(200).json({
+      success: true,
+      message: "Lecture added successfully",
+      course,
+    });
+
+  } catch (e) {
+    console.error("Error adding lecture:", e.message);
+    return res.status(500).json({ success: false, message: `Server error: ${e.message}` });
+  }
+};
+
+
+
+
+
+
+
+
+export default addLecturesToCourse;
+
+
 
 
 
@@ -238,30 +262,34 @@ const addLecturesToCourse = async (req, res, next) => {
 
 
 // Remove Lecture Function
+
 const removeLecture = async (req, res, next) => {
   console.log("Params: ", req.params);  // Log params for debugging
 
   try {
-    // Extract courseId and lectureId from the route parameters
-    const { courseId, lectureId } = req.params; 
+    const { courseId, lectureId } = req.params;
 
-    // Validate if courseId and lectureId are provided
-    if (!courseId) {
-      return next(new apperror('Course ID is required', 400));
+    // Validate IDs
+    if (!courseId || !lectureId) {
+      return next(new apperror('Both Course ID and Lecture ID are required', 400));
     }
 
-    if (!lectureId) {
-      return next(new apperror('Lecture ID is required', 400));
+    // Check if the provided IDs are valid MongoDB ObjectIDs
+    if (!mongoose.Types.ObjectId.isValid(courseId)) {
+      return next(new apperror('Invalid Course ID format.', 400));
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(lectureId)) {
+      return next(new apperror('Invalid Lecture ID format.', 400));
     }
 
     // Find the course by courseId
     const course = await Course.findById(courseId);
-
     if (!course) {
       return next(new apperror('Invalid Course ID or Course does not exist.', 404));
     }
 
-    // Find the lecture index using the lectureId
+    // Find the index of the lecture to be deleted
     const lectureIndex = course.lectures.findIndex(
       (lecture) => lecture._id.toString() === lectureId.toString()
     );
@@ -270,16 +298,17 @@ const removeLecture = async (req, res, next) => {
       return next(new apperror('Lecture does not exist.', 404));
     }
 
-    // Check if the lecture has a valid Cloudinary public_id and delete it
-    const lectureToDelete = course.lectures[lectureIndex]?.lecture;
+    // Retrieve the lecture to be deleted
+    const { lecture } = course.lectures[lectureIndex];
 
-    if (lectureToDelete?.public_id) {
+    // Check if the lecture has a valid Cloudinary public_id and delete it
+    if (lecture?.public_id) {
       try {
-        // Delete the lecture video from Cloudinary
-        await cloudinary.v2.uploader.destroy(lectureToDelete.public_id, {
+        await cloudinary.v2.uploader.destroy(lecture.public_id, {
           resource_type: 'video',
         });
       } catch (cloudinaryError) {
+        console.error("Cloudinary Error:", cloudinaryError);
         return next(new apperror('Error removing the video from Cloudinary.', 500));
       }
     }
@@ -290,7 +319,14 @@ const removeLecture = async (req, res, next) => {
     // Update the number of lectures
     course.numbersOfLectures = course.lectures.length;
 
-    
+    // Validate remaining lectures to ensure they have required fields
+    const invalidLectures = course.lectures.filter(
+      (lecture) => !lecture.title || !lecture.description
+    );
+
+    if (invalidLectures.length > 0) {
+      return next(new apperror('All remaining lectures must have a title and description.', 400));
+    }
 
     // Save the updated course
     await course.save();
@@ -302,10 +338,13 @@ const removeLecture = async (req, res, next) => {
     });
 
   } catch (error) {
-    console.error("Error: ", error); // Log unexpected errors for debugging
+    console.error("Error occurred while removing the lecture:", error);
     return next(new apperror('An error occurred while removing the lecture.', 500));
   }
 };
+
+
+
   
   
 

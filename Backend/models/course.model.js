@@ -1,76 +1,64 @@
-import { Schema,model } from "mongoose";
-const courseSchema= new Schema({
- title:{
-    type:String,
-    required:[true,'Title is required'],
-    // minLength:[8,"Title must be atleast 8 character"],
-    maxLength:[59,'Title should be less than 60 characters'],
-    trim:true,
- },
+import { Schema, model } from "mongoose";
 
-
- description:{
-    type:String,
-    required:[true,'Title is required'],
-    // minLength:[8,"Title must be atleast 8 character"],
-    maxLength:[200,'Title should be less than 200 characters'],
- },
-
-
- category:{
-    type:String,
-    required:[true,'Title is required'],
-
- },
-
-
- thumbnail:{
+const lectureSchema = new Schema({
+  title: {
+    type: String,
+    required: [true, 'Lecture title is required'],
+  },
+  description: {
+    type: String,
+    required: [true, 'Lecture description is required'],
+  },
+  // video: {
+  //   public_id: {
+  //     type: String,
+  //     required: [true, 'Video public_id is required'],
+  //   },
+  //   secure_url: {
+  //     type: String,
+  //     required: [true, 'Video URL is required'],
+  //   },
+  // },
+  thumbnail: {
     public_id: {
-        type: String,
-        
+      type: String,
+      required: [true, 'Thumbnail public_id is required'],
     },
     secure_url: {
-        type: String,
-    }
- },
-
-
- lectures:[
-    {
-        title:String,
-        description:String,
-        lecture:{
-            public_id: {
-                type: String,
-            },
-            secure_url: {
-                type: String,
-            }
-        },
-        thumbnail:{
-            public_id: {
-                type: String,
-                
-            },
-            secure_url: {
-                type: String,
-            }
-        }
+      type: String,
+      required: [true, 'Thumbnail URL is required'],
     },
+  }
+});
 
- ],
- numbersOfLectures:{
+const courseSchema = new Schema({
+  title: {
     type: String,
+    required: [true, 'Course title is required'],
+    maxLength: [59, 'Title should be less than 60 characters'],
+  },
+  description: {
+    type: String,
+    required: [true, 'Course description is required'],
+    maxLength: [200, 'Description should be less than 200 characters'],
+  },
+  category: {
+    type: String,
+    required: [true, 'Category is required'],
+  },
+  lectures: [lectureSchema],
+  numbersOfLectures: {
+    type: Number,
+    default: 0,
+  },
+  createdBy: {
+    type: String,
+    required: [true, 'Creator is required'],
+  }
+}, {
+  timestamps: true,
+});
 
- },
- createdBy:{
-    type:String,
-    required:[true,'Title is required'],
- }
+const Course = model('Course', courseSchema);
 
-},{
-    timestamps:true
-})
-
-const Course=model('Course',courseSchema);
 export default Course;

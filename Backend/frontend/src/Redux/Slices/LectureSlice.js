@@ -51,7 +51,7 @@ const lectureSlice = createSlice({
             })
             .addCase(getAllLectures.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                state.lecturedata = action.payload; // Overwrite with fetched data
+                state.lecturedata = [...action.payload]; // Overwrite with fetched data
             })
             .addCase(getAllLectures.rejected, (state, action) => {
                 state.status = 'failed';

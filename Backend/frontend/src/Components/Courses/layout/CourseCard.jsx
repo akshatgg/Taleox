@@ -12,7 +12,7 @@ function CourseCard({ data }) {
    
   const handleclick=()=>{
     navigate("/Course-Description", { state: { message: data } });
-  }  
+  }   
       
      
   return (

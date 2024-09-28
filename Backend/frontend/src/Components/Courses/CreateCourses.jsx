@@ -68,7 +68,7 @@ function CreateCourses() {
     
     setuserinput({
       title: "",
-      description: "",
+      description: "", 
       thumbnail: "",
       createdBy: "",
       category: "",
