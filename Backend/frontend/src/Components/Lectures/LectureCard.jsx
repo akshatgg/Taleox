@@ -54,7 +54,7 @@ function LectureCard() {
       <div className="flex flex-grow overflow-y-auto">
         {/* Left section: Course details */}
         <div className="w-3/10 m-5" data-aos="fade-right" data-aos-duration="1200">
-          <div className="bg-gray-700 p-5 rounded-lg shadow-lg transform transition duration-500 hover:scale-105 hover:shadow-2xl hover:bg-gray-600">
+          <div className="bg-gray-700 p-6 rounded-lg shadow-lg transform transition duration-500 hover:scale-105 hover:shadow-2xl hover:bg-gray-600">
             {course ? (
               <div>
                 {/* Course Thumbnail */}
@@ -105,13 +105,21 @@ function LectureCard() {
         <div className="w-7/10 m-5 overflow-y-auto flex flex-col">
           {Array.isArray(lecture) && lecture.length > 0 ? (
             lecture.map((lect) => (
-              <div key={lect._id} className="flex items-center p-3 bg-gray-800 rounded-lg mb-2 hover:bg-gray-700 transition">
-                {/* Customize the lecture data display as needed */}
-                <div className="flex flex-col">
-                  <h2 className="text-xl font-semibold">{lect.title}</h2>
-                  <p className="text-gray-400">{lect.description}</p>
-                </div>
+              <div key={lect._id} className="flex items-start p-3 bg-gray-800 rounded-lg mb-2 hover:bg-gray-700 transition">
+              {/* Thumbnail Image */}
+              <img 
+                src={lect.thumbnail.secure_url} 
+                alt="Lecture Thumbnail" 
+                className="w-24 h-24 object-cover mr-4 rounded-lg" // Adjust size and spacing
+              />
+              
+              {/* Lecture Data */}
+              <div className="flex flex-col items-start">
+                <h2 className="text-xl font-semibold">{lect.title}</h2>
+                <p className="text-gray-400">{lect.description}</p>
               </div>
+            </div>
+            
             ))
           ) : (
             <p>No lectures available.</p>

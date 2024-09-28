@@ -345,7 +345,7 @@ const removeLecture = async (req, res, next) => {
       return next(new apperror('All remaining lectures must have a title and description.', 400));
     }
 
-    // Save the updated course
+    // Save the updated course  
     await course.save();
 
     // Return a success response
