@@ -1,4 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
+import "./LectureCard.css";
 import AOS from "aos";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -102,29 +103,32 @@ function LectureCard() {
         </div>
 
         {/* Right section: Lecture list */}
-        <div className="w-7/10 m-5 overflow-y-auto flex flex-col">
-          {Array.isArray(lecture) && lecture.length > 0 ? (
-            lecture.map((lect) => (
-              <div key={lect._id} className="flex items-start p-3 bg-gray-800 rounded-lg mb-2 hover:bg-gray-700 transition">
-              {/* Thumbnail Image */}
-              <img 
-                src={lect.thumbnail.secure_url} 
-                alt="Lecture Thumbnail" 
-                className="w-24 h-24 object-cover mr-4 rounded-lg" // Adjust size and spacing
-              />
-              
-              {/* Lecture Data */}
-              <div className="flex flex-col items-start">
-                <h2 className="text-xl font-semibold">{lect.title}</h2>
-                <p className="text-gray-400">{lect.description}</p>
-              </div>
-            </div>
-            
-            ))
-          ) : (
-            <p>No lectures available.</p>
-          )}
+        <div className="w-7/10 m-5 overflow-y-auto flex flex-col scrollbar-none">
+  {Array.isArray(lecture) && lecture.length > 0 ? (
+    lecture.map((lect) => (
+      <div key={lect._id} className="flex items-start p-7 bg-gray-800 rounded-lg mb-2 hover:bg-gray-700 transition">
+        {/* Thumbnail Image */}
+        <img 
+          src={lect.thumbnail.secure_url} 
+          alt="Lecture Thumbnail" 
+          className="w-full h-auto max-w-[300px] aspect-video object-contain mr-4 rounded-lg bg-black" // Adjust to rectangle shape without cropping
+        />
+        
+        {/* Lecture Data */}
+        <div className="flex flex-col items-start">
+          <h2 className="text-xl font-semibold">{lect.title}</h2>
+          <p className="text-gray-400">{lect.description}</p>
         </div>
+      </div>
+    ))
+  ) : (
+    <p>No lectures available.</p>
+  )}
+</div>
+
+
+
+
       </div>
     </div>
   );
