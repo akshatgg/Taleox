@@ -4,11 +4,12 @@ import { useNavigate } from "react-router-dom";
 import black from "../../assets/black.png";
 import toast from "react-hot-toast";
 import { createcourse } from "../../Redux/Slices/CourseSlice.js";
+
 function CreateCourses() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [previewimage, setpreviewimage] = useState("");
-  const [userinput, setuserinput] = useState({
+  const [previewImage, setPreviewImage] = useState("");
+  const [userInput, setUserInput] = useState({
     title: "",
     category: "",
     createdBy: "",
@@ -16,74 +17,72 @@ function CreateCourses() {
     thumbnail: null,
   });
 
-  
-  function handleImageupload(e) {
+  function handleImageUpload(e) {
     const uploadImage = e.target.files[0];
-
     if (uploadImage) {
-      setuserinput({
-        ...userinput,
+      setUserInput({
+        ...userInput,
         thumbnail: uploadImage,
       });
 
       const fileReader = new FileReader();
       fileReader.readAsDataURL(uploadImage);
       fileReader.addEventListener("load", function () {
-        setpreviewimage(this.result);
+        setPreviewImage(this.result);
       });
     }
   }
- 
-  function handleuserInput(e) {
+
+  function handleUserInput(e) {
     const { name, value } = e.target;
-    setuserinput({
-      ...userinput,
+    setUserInput({
+      ...userInput,
       [name]: value,
     });
   }
 
-  async function handleformSubmit(e) {
+  async function handleFormSubmit(e) {
     e.preventDefault();
 
     if (
-      !userinput.title ||
-      !userinput.description ||
-      !userinput.category ||
-      !userinput.createdBy
+      !userInput.title ||
+      !userInput.description ||
+      !userInput.category ||
+      !userInput.createdBy
     ) {
       toast.error("Please fill every field");
       return;
     }
-  
+
     const formData = new FormData();
-    formData.append("title", userinput.title);
-    formData.append("description", userinput.description);
-    formData.append("category", userinput.category);
-    formData.append("createdBy", userinput.createdBy);
-    formData.append("thumbnail", userinput.thumbnail);
+    formData.append("title", userInput.title);
+    formData.append("description", userInput.description);
+    formData.append("category", userInput.category);
+    formData.append("createdBy", userInput.createdBy);
+    formData.append("thumbnail", userInput.thumbnail);
 
     const res = await dispatch(createcourse(formData));
-
     if (res?.payload?.success) navigate("/Courses");
-    
-    setuserinput({
+
+    setUserInput({
       title: "",
-      description: "", 
+      description: "",
       thumbnail: "",
       createdBy: "",
       category: "",
     });
-    setpreviewimage("");
+    setPreviewImage("");
   }
 
   return (
     <div className="flex justify-center items-center h-[90vh] bg-black">
       <form
-        className=" max-w-[1000px] text-white p-8 shadow-[#44433B] shadow-2xl"
-        onSubmit={handleformSubmit}
+        className="max-w-[1000px] w-full bg-[#1C1C1C] text-white p-8 shadow-2xl rounded-lg space-y-8"
+        onSubmit={handleFormSubmit}
       >
-        <div className="flex mb-4">
-          <div className="mr-2 flex justify-start cursor-pointer">
+        {/* Header Section */}
+        <div className="flex items-center mb-6 space-x-3">
+          <div className="mr-2 cursor-pointer">
             <svg
               width="32"
               height="32"
@@ -100,19 +99,18 @@ function CreateCourses() {
               />
             </svg>
           </div>
-          <div className="font-semibold text-3xl flex justify-center items-center">
-            Create New Courses
-          </div>
+          <h1 className="text-3xl font-semibold">Create New Course</h1>
         </div>
 
-        <div className="flex">
-          <div className="flex flex-col mr-4">
-            <div className="mb-4 max-w-[600px]">
+        <div className="grid grid-cols-2 gap-6">
+          {/* Left Section: Image Upload */}
+          <div className="space-y-6">
+            <div className="relative max-w-[600px] p-4 rounded-lg bg-[#2C2C2C]">
               <label htmlFor="image_uploads" className="cursor-pointer">
-                {previewimage ? (
-                  <img className="" src={previewimage} alt="Preview" />
+                {previewImage ? (
+                  <img src={previewImage} alt="Preview" className="rounded-lg" />
                 ) : (
-                  <img src={black} alt="Default" />
+                  <img src={black} alt="Default" className="rounded-lg" />
                 )}
               </label>
               <input
@@ -120,67 +118,73 @@ function CreateCourses() {
                 type="file"
                 id="image_uploads"
                 accept=".jpg,.png,.svg,.jpeg"
-                onChange={handleImageupload}
+                onChange={handleImageUpload}
                 name="thumbnail"
               />
             </div>
 
-            <div className="flex flex-col">
-              <h1 className="mb-2">Course Title</h1>
+            {/* Course Title */}
+            <div>
+              <label htmlFor="title" className="block mb-2 text-lg font-semibold">Course Title</label>
               <input
-                className="bg-black text-white border border-gray-600 rounded p-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Title"
-                onChange={handleuserInput}
+                className="w-full bg-[#1C1C1C] text-white border border-gray-600 rounded-lg p-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter course title"
+                onChange={handleUserInput}
                 name="title"
-                value={userinput.title}
+                value={userInput.title}
               />
             </div>
           </div>
-          <div className="flex flex-col space-y-3">
-            <div className="flex flex-col">
-              <h1 className="mb-2">Course Instructor</h1>
+
+          {/* Right Section: Input Fields */}
+          <div className="space-y-6">
+            {/* Instructor Name */}
+            <div>
+              <label htmlFor="createdBy" className="block mb-2 text-lg font-semibold">Course Instructor</label>
               <input
-                className="bg-black text-white border border-gray-600 rounded p-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Instructor"
-                onChange={handleuserInput}
+                className="w-full bg-[#1C1C1C] text-white border border-gray-600 rounded-lg p-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter instructor name"
+                onChange={handleUserInput}
                 name="createdBy"
-                value={userinput.createdBy}
+                value={userInput.createdBy}
               />
             </div>
 
-            <div className="flex flex-col">
-              <h1 className="mb-2">Category</h1>
+            {/* Category */}
+            <div>
+              <label htmlFor="category" className="block mb-2 text-lg font-semibold">Category</label>
               <input
-                className="bg-black text-white border border-gray-600 rounded p-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Category"
-                onChange={handleuserInput}
+                className="w-full bg-[#1C1C1C] text-white border border-gray-600 rounded-lg p-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter category"
+                onChange={handleUserInput}
                 name="category"
-                value={userinput.category}
+                value={userInput.category}
               />
             </div>
 
-            <div className="flex flex-col">
-              <h1 className="mb-2">Description</h1>
+            {/* Description */}
+            <div>
+              <label htmlFor="description" className="block mb-2 text-lg font-semibold">Description</label>
               <textarea
-                className="bg-black text-white border border-gray-600 rounded p-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Description"
-                rows="5"
-                onChange={handleuserInput}
+                className="w-full bg-[#1C1C1C] text-white border border-gray-600 rounded-lg p-3 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter course description"
+                rows="4"
+                onChange={handleUserInput}
                 name="description"
-                value={userinput.description}
+                value={userInput.description}
               ></textarea>
             </div>
-
-            <div className="flex justify-center transition-none">
-            <button
-  onClick={handleformSubmit}
-  className="bg-[#313131] p-2 transition-none transform-none hover:scale-100 focus:scale-100 active:scale-100 hover:bg-[#242323]"
->
-  Create
-</button>
-
-            </div>
           </div>
+        </div>
+
+        {/* Centered Submit Button */}
+        <div className="flex justify-center mt-6">
+          <button
+            type="submit"
+            className="bg-[#313131] px-8 py-3 text-lg rounded-lg hover:bg-[#242323] transition ease-in-out duration-200"
+          >
+            Create Course
+          </button>
         </div>
       </form>
     </div>
@@ -188,29 +192,3 @@ function CreateCourses() {
 }
 
 export default CreateCourses;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
