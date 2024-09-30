@@ -118,13 +118,15 @@ function CreateLectures() {
         <div className="flex justify-center items-center h-[90vh] bg-black">
             {loading ? (
                 <div className="flex justify-center items-center h-full">
-                    <Audio
-                        visible={true}
-                        height="80"
-                        width="80"
-                        color="#4fa94d"
-                        ariaLabel="audio-loading"
-                    />
+                 <Triangle
+  visible={true}
+  height="80"
+  width="80"
+  color="#4fa94d"
+  ariaLabel="triangle-loading"
+  wrapperStyle={{}}
+  wrapperClass=""
+  />
                 </div>
             ) : (
                 <form
