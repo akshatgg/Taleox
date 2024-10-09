@@ -60,6 +60,7 @@ function LectureCard() {
               <div>
                 {/* Course Thumbnail */}
                 <img
+                
                   src={course?.thumbnail?.secure_url}
                   alt="Course Thumbnail"
                   className="w-full h-auto mb-6 rounded-lg transform transition duration-500 ease-in-out hover:scale-110 hover:shadow-2xl hover:blur-none blur-sm"
